@@ -3,22 +3,82 @@ import React from 'react'
 import { Container, Card, Button, Row, Col } from 'react-bootstrap'
 import { useState } from 'react'
 import ReactCardFlip from 'react-card-flip'
-import worlcupQuatar from '../../assets/worlcupQuatar.png'
-import euro2021 from '../../assets/euro2021.png'
 import { useNavigate } from 'react-router-dom'
-import ReactCardCarousel from 'react-card-carousel'
+
+import worldCup2022 from '../../assets/worldCup2022.png'
+import worldCup2018 from '../../assets/worldCup2018.png'
+import worldCup2014 from '../../assets/worldCup2014.png'
+import euro2012 from '../../assets/euro2012.png'
+import euro2016 from '../../assets/euro2016.png'
+import euro2020 from '../../assets/euro2020.png'
 
 export default function League() {
   return (
-    <Container id="test">
+    <Container id="league">
       <Row>
         <Col>
           <OneCardLeague
             id="OneCardLeague"
-            years={'2022'}
+            years={'2012'}
+            Name={'Coupe du Monde'}
+            img={euro2012}
+            backgroungColor={'#ffffff'}
+            StartDate={'21/09/2022'}
+            EndDate={'19/10/2022'}
+            NbLeague={'12'}
+            NbNFT={'20'}
+          />
+        </Col>
+        <Col>
+          <OneCardLeague
+            id="OneCardLeague"
+            years={'2014'}
+            Name={'Coupe du Monde'}
+            img={worldCup2014}
+            backgroungColor={'#f4f4cd'}
+            StartDate={'21/09/2022'}
+            EndDate={'19/10/2022'}
+            NbLeague={'12'}
+            NbNFT={'20'}
+          />
+        </Col>
+        <Col>
+          <OneCardLeague
+            id="OneCardLeague"
+            years={'2016'}
+            Name={'Coupe du Monde'}
+            img={euro2016}
+            backgroungColor={'#bec4c9'}
+            StartDate={'21/09/2022'}
+            EndDate={'19/10/2022'}
+            NbLeague={'12'}
+            NbNFT={'20'}
+          />
+        </Col>
+        <Col>
+          <OneCardLeague
+            id="OneCardLeague"
+            years={'2018'}
+            Name={'Coupe du Monde'}
+            img={worldCup2018}
+            backgroungColor={'#0e7ab8'}
+            StartDate={'21/09/2022'}
+            EndDate={'19/10/2022'}
+            NbLeague={'12'}
+            NbNFT={'20'}
+          />
+        </Col>
+        <Col>
+          <OneCardLeague
+            id="OneCardLeague"
+            years={'2020'}
             Name={"Coupe d'Europe"}
-            img={euro2021}
-            backgroungColor={'#23548B'}
+            img={euro2020}
+            backgroungColor={'#bcf0fb'}
+            StartDate={'21/06/2022'}
+            EndDate={'19/07/2022'}
+            NbLeague={'11'}
+            NbNFT={'15'}
           />
         </Col>
         <Col>
@@ -26,8 +86,12 @@ export default function League() {
             id="OneCardLeague"
             years={'2022'}
             Name={'Coupe du Monde'}
-            img={worlcupQuatar}
+            img={worldCup2022}
             backgroungColor={'#980b33'}
+            StartDate={'21/09/2022'}
+            EndDate={'19/10/2022'}
+            NbLeague={'12'}
+            NbNFT={'20'}
           />
         </Col>
       </Row>
@@ -35,7 +99,16 @@ export default function League() {
   )
 }
 
-function OneCardLeague({ years, Name, img, backgroungColor }) {
+function OneCardLeague({
+  StartDate,
+  EndDate,
+  NbLeague,
+  NbNFT,
+  years,
+  Name,
+  img,
+  backgroungColor,
+}) {
   const [flip, setFlip] = useState(false)
   const naviguate = useNavigate()
   const handle = () => {
@@ -46,7 +119,7 @@ function OneCardLeague({ years, Name, img, backgroungColor }) {
     <ReactCardFlip isFlipped={flip} flipDirection="horizontal">
       <Card
         id="cardLeagueFront"
-        onMouseEnter={() => setFlip(!flip)}
+        onClick={() => setFlip(!flip)}
         style={{ backgroundColor: backgroungColor }}
       >
         <img src={img} alt="League immage" />
@@ -58,8 +131,18 @@ function OneCardLeague({ years, Name, img, backgroungColor }) {
       >
         <h1>{Name}</h1>
         <h3>- {years} -</h3>
-        <Container>
-          <h2></h2>
+        <Container id="infos">
+          <h2>Start Date: </h2>
+          <h3>{StartDate}</h3>
+          <br />
+          <h2>End Date: </h2>
+          <h3>{EndDate}</h3>
+          <br />
+          <h2>Nb of League: </h2>
+          <h3>{NbLeague}</h3>
+          <br />
+          <h2>NFT to Win: </h2>
+          <h3>{NbNFT}</h3>
         </Container>
         <Button onClick={handle}>Join Competition</Button>
       </Card>

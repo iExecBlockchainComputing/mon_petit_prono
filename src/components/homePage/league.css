@@ -1,12 +1,18 @@
+#league {
+  margin-bottom: 200px;
+}
+
 #cardLeagueFront {
   cursor: pointer;
-  color: white;
+  color: #1d1d24;
   height: 400px;
-  width: 250px;
+  width: 270px;
   margin: auto;
   margin-right: 20px;
   vertical-align: middle;
   margin: auto;
+  margin-bottom: 40px;
+  margin-top: 40px;
 }
 
 #cardLeagueFront img {
@@ -20,23 +26,33 @@
   font-family: 'mulish';
   font-weight: 400;
   cursor: pointer;
-  color: white;
+  color: #1d1d24;
   height: 400px;
-  width: 250px;
+  width: 270px;
   background-color: beige;
   margin: auto;
+  margin-bottom: 40px;
+  margin-top: 40px;
   text-align: center;
-  margin: auto;
 }
 
 #cardLeagueBack h3 {
-  font-size: 20px;
+  display: inline;
+  font-family: 'Mulish Regular';
+  font-size: 18px;
   font-style: italic;
+  line-height: 40px;
+}
+
+#cardLeagueBack h1 {
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 #cardLeagueBack h2 {
-  font-size: 20px;
-  font-style: italic;
+  display: inline;
+  font-size: 22px;
+  font-weight: 500;
 }
 
 #cardLeagueBack button {
@@ -44,4 +60,9 @@
   width: 70%;
   border-color: #1d1d24;
   background-color: #1d1d24;
+}
+
+#infos {
+  text-align: start;
+  margin: auto;
 }

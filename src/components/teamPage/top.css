@@ -1,25 +1,14 @@
-#mainTitle h2 {
+#topPage h2 {
   font-family: 'Mulish', Sans-serif;
   font-size: 104px;
   font-weight: 800;
-  line-height: 130px;
-  margin-bottom: 80px;
   background: linear-gradient(to right, #fcd15a, #ef5454, #6dc7ff);
   background-clip: border-box;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-#subTitle p {
-  text-align: center;
-  color: #ffffff;
-  font-family: 'Mulish', Sans-serif;
-  font-size: 40px;
-  font-weight: 400;
-  line-height: 60px;
-}
-
-#titles {
+#topPage {
   margin-top: 150px;
   margin-bottom: 120px;
 }

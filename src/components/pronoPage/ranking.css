@@ -1,11 +1,11 @@
-.container {
+#ranking .container {
   max-width: 70%;
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 200px;
 }
 
-.table {
+#ranking .table {
   color: white;
   --bs-table-striped-color: none;
   text-align: center;

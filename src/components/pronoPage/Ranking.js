@@ -5,7 +5,7 @@ import React from 'react'
 
 export default function Ranking() {
   return (
-    <Container>
+    <Container id='ranking'>
       <Table striped >
         <thead>
           <tr>
