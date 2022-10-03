@@ -6,7 +6,7 @@ function Home() {
       <div className="row" id="topPage">
         <h2>Join</h2>
         <h2>&</h2>
-        <h2>Create Your Yeam</h2>
+        <h2>Create Your Team</h2>
       </div>
     </div>
   )
