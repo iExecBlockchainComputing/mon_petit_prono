@@ -1,0 +1,31 @@
+#CreationFormTeam {
+  margin: auto;
+  margin-top: 100px;
+  max-width: 30%;
+}
+
+#button {
+  text-align: center;
+  margin-top: 35px;
+}
+
+#button Button {
+  text-align: center;
+  width: 40%;
+  background-image: linear-gradient(to right, #fcd15a, #ef5454, #6dc7ff);
+  border: none;
+}
+
+#notif {
+  margin-top: 5%;
+  margin-right: 0.5%;
+  font-family: 'Mulish';
+  width:20% ;
+}
+
+.toast {
+  --bs-toast-bg: white;
+  --bs-toast-color: black;
+  --bs-toast-header-bg: #fcd15a;
+  --bs-toast-header-color: black;
+}

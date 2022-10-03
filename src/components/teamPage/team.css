@@ -1,0 +1,13 @@
+#TeamCard {
+  width: 30%;
+  color: black;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: #fcd15a;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  --bs-card-border-width: 0px;
+  text-align: center;
+  cursor: pointer;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+}

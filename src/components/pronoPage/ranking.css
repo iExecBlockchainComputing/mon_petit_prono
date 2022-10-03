@@ -1,0 +1,22 @@
+.container {
+  max-width: 70%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 200px;
+}
+
+.table {
+  color: white;
+  --bs-table-striped-color: none;
+  text-align: center;
+  font-family: 'Mulish', Sans-serif;
+  font-size: 18px;
+  line-height: 40px;
+  border-color: white;
+  max-height: 100px;
+}
+
+#walletID {
+  font-style: italic;
+  font-family: 'Mulish Regular';
+}

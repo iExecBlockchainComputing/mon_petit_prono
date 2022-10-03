@@ -1,0 +1,47 @@
+#cardLeagueFront {
+  cursor: pointer;
+  color: white;
+  height: 400px;
+  width: 250px;
+  margin: auto;
+  margin-right: 20px;
+  vertical-align: middle;
+  margin: auto;
+}
+
+#cardLeagueFront img {
+  height: auto;
+  width: 250px;
+  text-align: center;
+  margin: auto;
+}
+
+#cardLeagueBack {
+  font-family: 'mulish';
+  font-weight: 400;
+  cursor: pointer;
+  color: white;
+  height: 400px;
+  width: 250px;
+  background-color: beige;
+  margin: auto;
+  text-align: center;
+  margin: auto;
+}
+
+#cardLeagueBack h3 {
+  font-size: 20px;
+  font-style: italic;
+}
+
+#cardLeagueBack h2 {
+  font-size: 20px;
+  font-style: italic;
+}
+
+#cardLeagueBack button {
+  margin: auto;
+  width: 70%;
+  border-color: #1d1d24;
+  background-color: #1d1d24;
+}

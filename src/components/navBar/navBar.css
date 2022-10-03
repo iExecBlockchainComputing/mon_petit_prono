@@ -1,0 +1,28 @@
+#navbar {
+  text-align: center;
+  height: 70px;
+  background-image: linear-gradient(to right, #fcd15a, #ef5454, #6dc7ff);
+}
+
+#logo {
+  position: relative;
+  width: 100px;
+  height: auto;
+  margin-left: 3%;
+  text-align: center;
+  cursor: pointer;
+}
+
+#wallet {
+  margin: auto;
+  text-align: center;
+}
+
+#innerRow {
+  width: 100%;
+  --bs-gutter-x: none;
+}
+
+#iexecIcon {
+  margin: auto;
+}

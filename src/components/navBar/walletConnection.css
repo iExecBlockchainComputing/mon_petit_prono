@@ -1,0 +1,31 @@
+#walletCard {
+  top: 90%;
+  right: 0.5%;
+  width: 10rem;
+  position: absolute;
+  border: none;
+}
+
+#walletItems {
+  background-color: #1d1d24;
+  color: white;
+}
+
+#blurBackground {
+  position: absolute;
+  height: 3000px;
+  width: 12200px;
+  top: 0%;
+  left: -10000%;
+  margin-top: 0px;
+  backdrop-filter: blur(4px);
+  z-index: 4;
+}
+
+#father {
+  position: relative;
+}
+
+
+
+

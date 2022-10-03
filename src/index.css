@@ -1,0 +1,11 @@
+body {
+  background-color: #1d1d24;
+  min-height: 100vh;
+  color: rgb(255, 255, 255);
+}
+
+p{
+  font-family: 'Mulish';
+  font-size: 18px;
+  font-weight: 400;
+}
