@@ -10,7 +10,6 @@
   width: 55%;
   height: 170px;
   margin-top: 50px;
-  padding-bottom: 10%;
   border-radius: 15px;
 }
 
@@ -67,4 +66,8 @@ input::-webkit-inner-spin-button {
 /* Firefox */
 input[type='number'] {
   -moz-appearance: textfield;
+}
+
+#saveButton{
+  margin-top: 60px;
 }

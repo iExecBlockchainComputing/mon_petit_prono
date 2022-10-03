@@ -1,7 +1,7 @@
 import './forecast.css'
 
 import React from 'react'
-import { Container, Row, Col, Card, Form } from 'react-bootstrap'
+import { Container, Row, Col, Card, Form, Button } from 'react-bootstrap'
 
 export default function Forecast() {
   return (
@@ -13,6 +13,7 @@ export default function Forecast() {
       <OneForecast j1={'al'} j2={'fr'} />
       <OneForecast j1={'de'} j2={'br'} />
       <OneForecast j1={'gb'} j2={'gr'} />
+      <Button id='saveButton'>Save Your Forecast</Button>
     </Container>
   )
 }

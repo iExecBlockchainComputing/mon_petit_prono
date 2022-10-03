@@ -1,7 +1,8 @@
 #CreationFormTeam {
   margin: auto;
   margin-top: 100px;
-  max-width: 30%;
+  margin-bottom: 270px;
+  width: 25%;
 }
 
 #button {
@@ -20,7 +21,7 @@
   margin-top: 5%;
   margin-right: 0.5%;
   font-family: 'Mulish';
-  width:20% ;
+  width: 20%;
 }
 
 .toast {

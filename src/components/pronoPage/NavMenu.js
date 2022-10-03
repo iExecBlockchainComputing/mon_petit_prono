@@ -27,7 +27,7 @@ export default function NavMenu() {
         <Col>
           <Card onClick={() => handler('forecast')}>
             <Card.Body>
-              <Card.Title>Forecast</Card.Title>
+              <Card.Title>Match Forecast</Card.Title>
             </Card.Body>
           </Card>
         </Col>
@@ -36,7 +36,7 @@ export default function NavMenu() {
             <Card.Body>
               <Card.Title>
                 <Row id="badge">
-                  <Col>Ranking</Col>
+                  <Col>Player Ranking</Col>
                   <Col md={3}>
                     <Badge>
                       <BsFillTrophyFill

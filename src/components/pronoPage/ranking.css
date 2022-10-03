@@ -1,5 +1,6 @@
-#ranking .container {
-  max-width: 70%;
+#ranking {
+  max-width: none;
+  width: 70%;
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 200px;
