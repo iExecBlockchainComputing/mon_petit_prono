@@ -1,8 +1,21 @@
 import './connectionModal.css'
 import { BsPersonCircle } from 'react-icons/bs'
-import { Card, ListGroup, Container,Modal, Row, Col, Badge } from 'react-bootstrap'
+import { useEffect } from 'react'
+import {
+  Card,
+  ListGroup,
+  Container,
+  Modal,
+  Row,
+  Col,
+  Badge,
+} from 'react-bootstrap'
+import { ConnectProvider } from './WebProvider'
 
 function ConnectionModal(props) {
+  {
+    /**const [isClicked, setIsClicked] = useEffect(false)*/
+  }
   return (
     <Modal
       id="modalPopup"
@@ -104,6 +117,7 @@ function ConnectionModal(props) {
           </Card>
         </Container>
       </Modal.Body>
+      {/**{isClicked ? <ConnectProvider /> : console.log('not clicked yet')}*/}
     </Modal>
   )
 }

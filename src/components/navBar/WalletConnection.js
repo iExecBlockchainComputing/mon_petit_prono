@@ -1,6 +1,6 @@
 import './walletConnection.css'
 import { useState } from 'react'
-import { Card, ListGroup, Container} from 'react-bootstrap'
+import { Card, ListGroup, Container } from 'react-bootstrap'
 import { BsPersonCircle } from 'react-icons/bs'
 import ConnectionModal from '../modal/ConnectionModal'
 
@@ -27,12 +27,17 @@ function WalletConnection() {
           <ListGroup id="walletItems">
             <ListGroup.Item
               id="walletItems"
-              onClick={() => setModalShow(true)}
+              onClick={() => {
+                setModalShow(true)
+              }}
               action
             >
               Connexion
             </ListGroup.Item>
-            <ListGroup.Item id="walletItems" action>
+            <ListGroup.Item
+              id="walletItems"
+              action
+            >
               Deconnexion
             </ListGroup.Item>
           </ListGroup>
