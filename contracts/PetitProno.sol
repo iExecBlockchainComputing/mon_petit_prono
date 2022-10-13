@@ -3,12 +3,7 @@ pragma solidity ^0.8.9;
 
 contract PetitProno {
     address public owner;
-<<<<<<< HEAD
-    string public League;
-    mapping(string => string) LeaguePool;
-=======
     mapping(string => League) Leagues;
->>>>>>> 162e867 (upgarde Smart-Contract)
 
     constructor() {
         owner = msg.sender;
@@ -19,27 +14,6 @@ contract PetitProno {
         _;
     }
 
-<<<<<<< HEAD
-    function get(string memory league_addr)
-        public
-        view
-        returns (string memory)
-    {
-        return LeaguePool[league_addr];
-    }
-
-    function set(string memory league_addr, string memory ipfs_link)
-        public
-        OnlyOwner
-    {
-        LeaguePool[league_addr] = ipfs_link;
-    }
-
-    function remove(string memory league_addr) public OnlyOwner {
-        delete LeaguePool[league_addr];
-    }
-}
-=======
     function addLeague (string memory _name) public OnlyOwner {
         Leagues[_name] = new League(_name);
     }
@@ -145,4 +119,3 @@ abstract contract League is Equipe{
         delete Equipes[_name_Equipe];
     }
 } 
->>>>>>> 162e867 (upgarde Smart-Contract)
