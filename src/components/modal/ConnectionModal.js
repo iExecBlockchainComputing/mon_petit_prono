@@ -1,6 +1,6 @@
 import './connectionModal.css'
 import { BsPersonCircle } from 'react-icons/bs'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import {
   Card,
   ListGroup,
@@ -10,12 +10,11 @@ import {
   Col,
   Badge,
 } from 'react-bootstrap'
-import { ConnectProvider } from './WebProvider'
+import WebProvider from './WebProvider'
 
 function ConnectionModal(props) {
-  {
-    /**const [isClicked, setIsClicked] = useEffect(false)*/
-  }
+  const [isClicked, setIsClicked] = useState(false)
+
   return (
     <Modal
       id="modalPopup"
@@ -40,7 +39,7 @@ function ConnectionModal(props) {
         <Container id="cardContainer">
           <Card id="selectItem">
             <ListGroup variant="flush">
-              <ListGroup.Item action>
+              <ListGroup.Item action onClick={() => setIsClicked(!isClicked)}>
                 <Row>
                   <Col md={2}>
                     <img
@@ -117,7 +116,7 @@ function ConnectionModal(props) {
           </Card>
         </Container>
       </Modal.Body>
-      {/**{isClicked ? <ConnectProvider /> : console.log('not clicked yet')}*/}
+      {isClicked ? <WebProvider /> : console.log('not clicked yet')}
     </Modal>
   )
 }
