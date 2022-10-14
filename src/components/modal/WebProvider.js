@@ -1,18 +1,18 @@
 import { useEffect, useState } from 'react'
 import { ethers } from 'ethers'
-const MyContract = require('./artifacts/contracts/PetitProno.sol/MonPetitProno.json')
+import MyContract from '../../artifacts/contracts/PetitProno.sol/PetitProno.json'
+import { useSelector, useDispatch } from 'react-redux'
 
 export default function WebProvider() {
-  const [haveMetamask, sethaveMetamask] = useState(true)
-  const [accountAddress, setAccountAddress] = useState('')
-  const [isConnected, setIsConnected] = useState(false)
+  const wallet = useSelector((state) => state.wallet)
+  const dispatch = useDispatch()
   const { ethereum } = window
   const ethProvider = new ethers.providers.Web3Provider(window.ethereum)
   const contractAddress = '0xa1B1CAbE3FF10B0e08B95F74BF7A374A4A9f85d6'
   const contract = new ethers.Contract(
     contractAddress,
     MyContract.abi,
-    provider,
+    ethProvider,
   )
 
   useEffect(() => {
@@ -23,17 +23,17 @@ export default function WebProvider() {
   const connectWallet = async () => {
     try {
       if (!ethereum) {
-        sethaveMetamask(false)
+        dispatch({type:"wallet/haveMetamask",payload :false})
       }
       const accounts = await ethereum.request({
         method: 'eth_requestAccounts',
       })
 
       console.log('account address : ', accounts[0])
-      setAccountAddress(accounts[0])
-      setIsConnected(true)
+      dispatch({type:"wallet/accountAddress",payload :accounts[0]})
+      dispatch({type:"wallet/isConnected",payload :true})
     } catch (error) {
-      setIsConnected(false)
+      dispatch({type:"wallet/isConnected",payload :false})
     }
   }
 
@@ -61,11 +61,11 @@ export default function WebProvider() {
   }
 
   async function DisconnectProvider() {
-    if (isConnected) {
+    if (wallet.isConnected) {
       const accounts = await ethereum.on(
         'disconnect',
-        setAccountAddress(''),
-        setIsConnected(false),
+        dispatch({type:"wallet/accountAddress",payload :''}),
+        dispatch({type:"wallet/isConnected",payload :false}),
       )
     } else {
       console.log('your are not connected to MetaMask')

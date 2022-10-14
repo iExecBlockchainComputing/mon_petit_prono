@@ -1,6 +1,6 @@
 import './connectionModal.css'
 import { BsPersonCircle } from 'react-icons/bs'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import {
   Card,
   ListGroup,
@@ -44,7 +44,7 @@ function ConnectionModal(props) {
                   <Col md={2}>
                     <img
                       src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/MetaMask_Fox.svg/800px-MetaMask_Fox.svg.png"
-                      alt="can't load the image"
+                      alt="can't load the MetaMask icon"
                       style={{ width: '30px' }}
                     />
                   </Col>
@@ -59,7 +59,7 @@ function ConnectionModal(props) {
                   <Col md={2}>
                     <img
                       src="https://avatars.githubusercontent.com/u/18060234?s=280&v=4"
-                      alt="can't load the image"
+                      alt="can't load the CoinBase Wallet icon"
                       style={{ width: '30px' }}
                     />
                   </Col>
@@ -71,7 +71,7 @@ function ConnectionModal(props) {
                   <Col md={2}>
                     <img
                       src="https://1000logos.net/wp-content/uploads/2022/05/WalletConnect-Logo.png"
-                      alt="can't load the image"
+                      alt="can't load the WalletConnect icon"
                       style={{ width: '30px' }}
                     />
                   </Col>
@@ -83,7 +83,7 @@ function ConnectionModal(props) {
                   <Col md={2}>
                     <img
                       src="https://3632261023-files.gitbook.io/~/files/v0/b/gitbook-legacy-files/o/spaces%2F-MVOiF6Zqit57q_hxJYp%2Favatar-1615495356537.png?generation=1615495356841399&alt=media"
-                      alt="can't load the image"
+                      alt="can't load the Phantom icon"
                       style={{ width: '30px' }}
                     />
                   </Col>
@@ -100,7 +100,7 @@ function ConnectionModal(props) {
                   <Col md={2}>
                     <img
                       src="https://www.xdefi.io/wp-content/uploads/2022/05/logo-4.png"
-                      alt="can't load the image"
+                      alt="can't load the Binance Wallet icon"
                       style={{ width: '30px' }}
                     />
                   </Col>

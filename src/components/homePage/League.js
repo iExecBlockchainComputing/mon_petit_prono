@@ -1,7 +1,7 @@
 import './league.css'
 import React from 'react'
 import { Container, Card, Button, Row, Col } from 'react-bootstrap'
-import { useState, useEffect, useRef } from 'react'
+import { useState } from 'react'
 import ReactCardFlip from 'react-card-flip'
 import { useNavigate } from 'react-router-dom'
 
@@ -14,8 +14,8 @@ import euro2020 from '../../assets/euro2020.png'
 
 export default function League() {
   return (
-    <Container id="league" >
-      <Row >
+    <Container id="league">
+      <Row>
         <Col>
           <OneCardLeague
             id="OneCardLeague"
@@ -149,4 +149,3 @@ function OneCardLeague({
     </ReactCardFlip>
   )
 }
-
