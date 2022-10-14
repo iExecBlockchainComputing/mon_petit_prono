@@ -8,8 +8,12 @@ export default function WebProvider() {
   const [isConnected, setIsConnected] = useState(false)
   const { ethereum } = window
   const ethProvider = new ethers.providers.Web3Provider(window.ethereum)
-  const contractAddress = '0x2bD9aAa2953F988153c8629926D22A6a5F69b14E'
-  const contract = new ethers.Contract(contractAddress, MyContract.abi, provider)
+  const contractAddress = '0xa1B1CAbE3FF10B0e08B95F74BF7A374A4A9f85d6'
+  const contract = new ethers.Contract(
+    contractAddress,
+    MyContract.abi,
+    provider,
+  )
 
   useEffect(() => {
     connectWallet()
