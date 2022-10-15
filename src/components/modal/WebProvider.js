@@ -36,8 +36,6 @@ export default function WebProvider() {
       const accounts = await ethereum.request({
         method: 'eth_requestAccounts',
       })
-
-      console.log('account address : ', accounts[0])
       dispatch({ type: 'wallet/accountAddress', payload: accounts[0] })
       dispatch({ type: 'wallet/isConnected', payload: true })
     } catch (error) {

@@ -1,9 +1,10 @@
 import './league.css'
 import React from 'react'
 import { Container, Card, Button, Row, Col } from 'react-bootstrap'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import ReactCardFlip from 'react-card-flip'
 import { useNavigate } from 'react-router-dom'
+import {useSelector} from 'react-redux'
 
 import worldCup2022 from '../../assets/worldCup2022.png'
 import worldCup2018 from '../../assets/worldCup2018.png'
@@ -13,6 +14,13 @@ import euro2016 from '../../assets/euro2016.png'
 import euro2020 from '../../assets/euro2020.png'
 
 export default function League() {
+  const wallet = useSelector((state) => state.wallet)
+  
+  useEffect(() => {
+    console.log(wallet.contract)
+  }, [])
+
+
   return (
     <Container id="league">
       <Row>

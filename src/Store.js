@@ -1,4 +1,5 @@
 import { createSlice, configureStore } from '@reduxjs/toolkit'
+import { getDefaultMiddleware } from '@reduxjs/toolkit';
 
 const walletSlice = createSlice({
   name: 'wallet',
@@ -28,8 +29,13 @@ const walletSlice = createSlice({
   },
 })
 
+
 export const store = configureStore({
   reducer: {
     wallet: walletSlice.reducer,
   },
+  middleware: getDefaultMiddleware =>
+  getDefaultMiddleware({
+    serializableCheck: false,
+  })
 })

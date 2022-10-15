@@ -12,7 +12,7 @@ export default function AddTeam() {
   return (
     <Card onClick={CreateTeam} id="addCard">
       <CgAdd color="white" size={100} id='addIcon'/>
-      <div class="explanation">
+      <div className="explanation">
         <p>Create your own team with your friends</p>
       </div>
     </Card>

@@ -50,14 +50,14 @@ export default function NavMenu() {
                 </Row>
               </Card.Title>
               <Card.Text>
-                <h9>
+                <>
                   <BsArrowUpShort color="green" size={25} /> Nelly Cornejo
-                </h9>
+                </>
                 <br />
-                <h9>
+                <>
                   <BsArrowDownShort color="red" size={25} />
                   Robin Le Caignec
-                </h9>
+                </>
               </Card.Text>
             </Card.Body>
           </Card>
