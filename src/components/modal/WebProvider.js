@@ -14,28 +14,34 @@ export default function WebProvider() {
     MyContract.abi,
     ethProvider,
   )
-  dispatch({ type: 'wallet/setContract', payload: contract })
-  dispatch({ type: 'wallet/setProvider', payload: ethProvider })
+  
 
   useEffect(() => {
     connectWallet()
     changeNetwork()
+    updateStore()
   }, [])
+
+  const updateStore =() => {
+    dispatch({ type: 'wallet/accountAddress', payload: wallet.accountAddress })
+    dispatch({ type: 'wallet/setContract', payload: contract })
+    dispatch({ type: 'wallet/setProvider', payload: ethProvider })
+  }
 
   const connectWallet = async () => {
     try {
       if (!ethereum) {
-        dispatch({type:"wallet/haveMetamask",payload :false})
+        dispatch({ type: 'wallet/haveMetamask', payload: false })
       }
       const accounts = await ethereum.request({
         method: 'eth_requestAccounts',
       })
 
       console.log('account address : ', accounts[0])
-      dispatch({type:"wallet/accountAddress",payload :accounts[0]})
-      dispatch({type:"wallet/isConnected",payload :true})
+      dispatch({ type: 'wallet/accountAddress', payload: accounts[0] })
+      dispatch({ type: 'wallet/isConnected', payload: true })
     } catch (error) {
-      dispatch({type:"wallet/isConnected",payload :false})
+      dispatch({ type: 'wallet/isConnected', payload: false })
     }
   }
 
@@ -66,8 +72,8 @@ export default function WebProvider() {
     if (wallet.isConnected) {
       await ethereum.on(
         'disconnect',
-        dispatch({type:"wallet/accountAddress",payload :''}),
-        dispatch({type:"wallet/isConnected",payload :false}),
+        dispatch({ type: 'wallet/accountAddress', payload: '' }),
+        dispatch({ type: 'wallet/isConnected', payload: false }),
       )
     } else {
       console.log('your are not connected to MetaMask')
