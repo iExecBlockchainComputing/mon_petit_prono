@@ -9,16 +9,12 @@ import TeamPage from './pages/TeamPage'
 import TeamCreation from './pages/TeamCreation'
 import Forecast from './components/pronoPage/Forecast'
 import Ranking from './components/pronoPage/Ranking'
-import { ethers } from 'ethers'
 import WebProvider from './components/modal/WebProvider'
 
 function App() {
-  const ethProvider = new ethers.providers.Web3Provider(window.ethereum)
-  ethProvider.on('chainChanged', (_chainId) => window.location.reload())
-  ethProvider.on('accountsChanged', (_accounts) => window.location.reload())
   return (
     <div className="app">
-      <WebProvider/>
+      <WebProvider />
       <ToolBar />
       <Routes>
         <Route path="/" element={<HomePage />} />

@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { ethers } from 'ethers'
-import MyContract from '../../artifacts/contracts/PetitProno.sol/PetitProno.json'
+import MyContract from '../../assets/abi.json'
 import { useSelector, useDispatch } from 'react-redux'
 
 export default function WebProvider() {
@@ -14,6 +14,8 @@ export default function WebProvider() {
     MyContract.abi,
     ethProvider,
   )
+  dispatch({ type: 'wallet/setContract', payload: contract })
+  dispatch({ type: 'wallet/setProvider', payload: ethProvider })
 
   useEffect(() => {
     connectWallet()
@@ -62,7 +64,7 @@ export default function WebProvider() {
 
   async function DisconnectProvider() {
     if (wallet.isConnected) {
-      const accounts = await ethereum.on(
+      await ethereum.on(
         'disconnect',
         dispatch({type:"wallet/accountAddress",payload :''}),
         dispatch({type:"wallet/isConnected",payload :false}),
