@@ -1,0 +1,65 @@
+#cardLeagueFront {
+    cursor: pointer;
+    color: #1d1d24;
+    height: 400px;
+    width: 270px;
+    margin: auto;
+    margin-right: 20px;
+    vertical-align: middle;
+    margin: auto;
+    margin-bottom: 40px;
+    margin-top: 40px;
+  }
+  
+  #cardLeagueFront img {
+    height: auto;
+    width: 250px;
+    text-align: center;
+    margin: auto;
+  }
+  
+  #cardLeagueBack {
+    font-family: 'mulish';
+    font-weight: 400;
+    cursor: pointer;
+    color: #1d1d24;
+    height: 400px;
+    width: 270px;
+    background-color: beige;
+    margin: auto;
+    margin-bottom: 40px;
+    margin-top: 40px;
+    text-align: center;
+  }
+  
+  #cardLeagueBack h3 {
+    display: inline;
+    font-family: 'Mulish Regular';
+    font-size: 18px;
+    font-style: italic;
+    line-height: 40px;
+  }
+  
+  #cardLeagueBack h1 {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  
+  #cardLeagueBack h2 {
+    display: inline;
+    font-size: 22px;
+    font-weight: 500;
+  }
+  
+  #cardLeagueBack button {
+    margin: auto;
+    width: 70%;
+    border-color: #1d1d24;
+    background-color: #1d1d24;
+  }
+  
+  #infos {
+    text-align: start;
+    margin: auto;
+  }
+  

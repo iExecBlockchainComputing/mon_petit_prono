@@ -9,12 +9,10 @@ import TeamPage from './pages/TeamPage'
 import TeamCreation from './pages/TeamCreation'
 import Forecast from './components/pronoPage/Forecast'
 import Ranking from './components/pronoPage/Ranking'
-import WebProvider from './components/modal/WebProvider'
 
 function App() {
   return (
     <div className="app">
-      <WebProvider />
       <ToolBar />
       <Routes>
         <Route path="/" element={<HomePage />} />

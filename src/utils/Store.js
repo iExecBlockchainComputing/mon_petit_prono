@@ -6,8 +6,6 @@ const walletSlice = createSlice({
     haveMetaMask: false,
     isConnected: false,
     accountAddress: '',
-    contract: null,
-    provider: null
   },
   reducers: {
     haveMetamask: (state, action) => {
@@ -18,12 +16,6 @@ const walletSlice = createSlice({
     },
     accountAddress: (state, action) => {
       state.accountAddress = action.payload
-    },
-    setContract: (state, action) => {
-      state.contract = action.payload
-    },
-    setProvider: (state, action) => {
-      state.provider = action.payload
     }
   },
 })

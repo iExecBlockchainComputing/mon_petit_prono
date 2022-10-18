@@ -61,7 +61,7 @@ contract MonPetitProno{
         Leagues[_LeagueId].ipfs = _ipfs;
         keyMappingLeague.push(_LeagueId);
     }  
-    uint s = keyMappingLeague.length;
+
     // get all leagues id
     function getLeaguesID() public view returns(string[] memory){
         return keyMappingLeague;

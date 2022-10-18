@@ -10,7 +10,6 @@ import {
   Col,
   Badge,
 } from 'react-bootstrap'
-import WebProvider from './WebProvider'
 
 function ConnectionModal(props) {
   const [isClicked, setIsClicked] = useState(false)
@@ -116,7 +115,7 @@ function ConnectionModal(props) {
           </Card>
         </Container>
       </Modal.Body>
-      {isClicked ? <WebProvider /> : console.log('not clicked yet')}
+      {isClicked ? console.log('your clicked') : console.log('not clicked yet')}
     </Modal>
   )
 }
