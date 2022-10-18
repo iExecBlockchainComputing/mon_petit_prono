@@ -25,6 +25,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "fill-contract": "hardhat run test/fillContract.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "deploy": "hardhat compile && hardhat run scripts/deploy.js --network goerli"

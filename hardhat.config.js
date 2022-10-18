@@ -2,7 +2,7 @@ require('@nomicfoundation/hardhat-toolbox')
 require('dotenv').config()
 
 const ALCHEMY_API_KEY = process.env.REACT_APP_ALCHEMY_API_KEY
-const GOERLI_PRIVATE_KEY = process.env.REACT_APP_GOERLI_PRIVATE_KEY
+const GOERLI_PRIVATE_KEY = process.env.REACT_APP_WALLET_PRIVATE_KEY
 
 module.exports = {
   defaultNetwork: 'hardhat',

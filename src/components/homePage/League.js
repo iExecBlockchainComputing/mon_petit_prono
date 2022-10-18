@@ -35,6 +35,7 @@ export default function League() {
         <Col>
           {leaguesInfo.map((e) => (
             <OneCardLeague
+              key={e[0]}
               id={e[0]}
               years={'2012'}
               Name={e[1]}
