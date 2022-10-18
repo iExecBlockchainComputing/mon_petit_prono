@@ -1,5 +1,4 @@
 import { createSlice, configureStore } from '@reduxjs/toolkit'
-import { getDefaultMiddleware } from '@reduxjs/toolkit';
 
 const walletSlice = createSlice({
   name: 'wallet',

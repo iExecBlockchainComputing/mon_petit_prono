@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.9; 
+import "hardhat/console.sol";
 
 contract MonPetitProno{
 
@@ -60,16 +61,17 @@ contract MonPetitProno{
         Leagues[_LeagueId].ipfs = _ipfs;
         keyMappingLeague.push(_LeagueId);
     }  
+    uint s = keyMappingLeague.length;
+    // get all leagues id
+    function getLeaguesID() public view returns(string[] memory){
+        return keyMappingLeague;
+    }
 
-    // get all name of leagues
-    function getAllLeague() public view returns(string [3][] memory){
-        string [3][] memory tab;
-        for (uint k; k<keyMappingLeague.length; k++){
-            string memory League_name = Leagues[keyMappingLeague[k]].League_name;
-            string memory ipfs = Leagues[keyMappingLeague[k]].ipfs;
-            tab[k] = [keyMappingLeague[k],League_name,ipfs];
-        }
-        return tab;
+    //get all info of a League
+    function getLeagueById(string memory _LeagueId) public view returns(string [3] memory){
+        string memory League_name = Leagues[_LeagueId].League_name;
+        string memory ipfs = Leagues[_LeagueId].ipfs;
+        return [_LeagueId, League_name, ipfs];
     } 
 
     /** TEAM */
@@ -83,6 +85,7 @@ contract MonPetitProno{
     // return all the team of a league in which the player is
     function getMyTeamFromOneLeague(string memory _LeagueId) public view returns(string [] memory){
         string [] memory _myTeam;
+        console.log(msg.sender);
         uint rg = 0;
         for (uint k; k<Leagues[_LeagueId].keyMappingTeam.length;k++){
             string memory _TeamId = Leagues[_LeagueId].keyMappingTeam[k];
@@ -110,15 +113,16 @@ contract MonPetitProno{
         return _freeTeam;
     }
 
-    //return infos of a team
-    function getTeamsInfos(string memory _LeagueId, string memory _TeamId) public view returns(string [3][] memory){
-        string [3][] memory tab;
-        for (uint k; k<Leagues[_LeagueId].keyMappingTeam.length; k++){
-                string memory Team_name = Leagues[_LeagueId].Teams[_TeamId].Team_name;
-                string memory ipfs = Leagues[_LeagueId].Teams[_TeamId].ipfs;
-                tab[k] = [_TeamId,Team_name,ipfs];
-        }
-        return tab;
+    //get all Team Id of an League
+    function getTeamsIdFromOneLeague(string memory _LeagueId) public view returns(string [] memory){
+        return Leagues[_LeagueId].keyMappingTeam;
+    }
+
+    //return infos of a team for and Id
+    function getTeamsInfos(string memory _LeagueId, string memory _TeamId) public view returns(string [3] memory){
+        string memory Team_name = Leagues[_LeagueId].Teams[_TeamId].Team_name;
+        string memory ipfs = Leagues[_LeagueId].Teams[_TeamId].ipfs;
+        return [_TeamId,Team_name,ipfs];
     }                       
 
     /** PLAYER */

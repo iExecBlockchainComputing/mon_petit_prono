@@ -17,7 +17,8 @@ export default function League() {
   const wallet = useSelector((state) => state.wallet)
   
   useEffect(() => {
-    console.log(wallet.contract)
+    //const AllLeague = wallet.contract.getAllLeague();
+    //console.log(AllLeague);
   }, [])
 
 

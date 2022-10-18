@@ -1,13 +1,11 @@
 require('@nomicfoundation/hardhat-toolbox')
+require('dotenv').config()
 
-// Go to https://www.alchemyapi.io, sign up, create
-// a new App in its dashboard, and replace "KEY" with its key
-const ALCHEMY_API_KEY = 'vwVPegmjhixISIT4GAQz1JpffoYO3Wiw'
-const GOERLI_PRIVATE_KEY =
-  '32a952d982ceb716fa5f2db927e29b4fb457aff645c78503148cd950977d8309'
+const ALCHEMY_API_KEY = process.env.REACT_APP_ALCHEMY_API_KEY
+const GOERLI_PRIVATE_KEY = process.env.REACT_APP_GOERLI_PRIVATE_KEY
 
 module.exports = {
-  defaultNetwork: 'goerli',
+  defaultNetwork: 'hardhat',
   networks: {
     hardhat: {},
     goerli: {
@@ -28,7 +26,7 @@ module.exports = {
     sources: './contracts',
     tests: './test',
     cache: './cache',
-    artifacts: './scr/artifacts',
+    artifacts: './artifacts',
   },
   mocha: {
     timeout: 40000,
