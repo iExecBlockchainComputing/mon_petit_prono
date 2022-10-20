@@ -1,11 +1,11 @@
-import './addTeam.css'
-import { Card } from 'react-bootstrap'
+import './addLeague.css'
+import { Card, Container } from 'react-bootstrap'
 import React from 'react'
-import { useState } from 'react'
 import { CgAdd } from 'react-icons/cg'
-import CreateTeamModal from '../modal/CreateTeamModal'
+import { useState } from 'react'
+import CreateLeagueModal from '../modal/CreateLeagueModal'
 
-export default function AddTeam() {
+export default function AddLeague() {
   const [modalShow, setModalShow] = useState(false)
 
   return (
@@ -13,10 +13,10 @@ export default function AddTeam() {
       <Card onClick={() => setModalShow(!modalShow)} id="addCard">
         <CgAdd color="white" size={100} id="addIcon" />
         <div className="explanation">
-          <p>Create your own team with your friends</p>
+          <p>Create your League for an Event</p>
         </div>
       </Card>
-      <CreateTeamModal show={modalShow} onHide={() => setModalShow(false)} />
+      <CreateLeagueModal show={modalShow} onHide={() => setModalShow(false)} />
     </div>
   )
 }

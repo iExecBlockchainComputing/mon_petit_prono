@@ -4,6 +4,8 @@ import { Container, Row, Col } from 'react-bootstrap'
 import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { contract } from '../../utils/WebProvider'
+import { ipfs } from '../../utils/Ipfs'
+import { v4 as uuidv4 } from 'uuid'
 import OneCardLeague from './OneCardLeague'
 import worldCup2022 from '../../assets/worldCup2022.png'
 import worldCup2018 from '../../assets/worldCup2018.png'
@@ -17,6 +19,7 @@ export default function League() {
   const [leaguesInfo, setLeaguesInfo] = useState([])
   useEffect(() => {
     LeaguesInfo()
+    ipfs()
   }, [])
 
   const LeaguesInfo = async () => {
@@ -32,10 +35,10 @@ export default function League() {
   return (
     <Container id="league">
       <Row>
-        <Col>
-          {leaguesInfo.map((e) => (
+        {leaguesInfo.map((e) => (
+          <Col key={uuidv4()}>
             <OneCardLeague
-              key={e[0]}
+              key={uuidv4()}
               id={e[0]}
               years={'2012'}
               Name={e[1]}
@@ -46,8 +49,8 @@ export default function League() {
               NbLeague={'12'}
               NbNFT={'20'}
             />
-          ))}
-        </Col>
+          </Col>
+        ))}
       </Row>
     </Container>
   )

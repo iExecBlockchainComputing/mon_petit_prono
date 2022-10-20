@@ -1,14 +1,13 @@
 import './app.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { Routes, Route } from 'react-router-dom'
-import HomePage from './pages/HomePage'
-import ToolBar from './components/navBar/NavBar'
-import Footer from './components/footer/Footer'
-import PronoPage from './pages/PronoPage'
-import TeamPage from './pages/TeamPage'
-import TeamCreation from './pages/TeamCreation'
-import Forecast from './components/pronoPage/Forecast'
-import Ranking from './components/pronoPage/Ranking'
+import HomePage from './pages/HomePage.js'
+import ToolBar from './components/navBar/NavBar.js'
+import Footer from './components/footer/Footer.js'
+import PronoPage from './pages/PronoPage.js'
+import TeamPage from './pages/TeamPage.js'
+import Forecast from './components/pronoPage/Forecast.js'
+import Ranking from './components/pronoPage/Ranking.js'
 
 function App() {
   return (
@@ -21,7 +20,6 @@ function App() {
           <Route path="/teamPage/pronoPage/forecast" element={<Forecast />} />
           <Route path="/teamPage/pronoPage/ranking" element={<Ranking />} />
         </Route>
-        <Route path="/teamPage/createTeam" element={<TeamCreation />} />
         <Route path="*" element={<HomePage />} />
       </Routes>
       <Footer />

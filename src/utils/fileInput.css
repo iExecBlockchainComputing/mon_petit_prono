@@ -1,0 +1,9 @@
+#fileInput{
+    margin: auto;
+}
+
+#imgPrewiew{
+    border-radius: 25px;
+    margin: auto;
+    max-width: 40%;
+}

@@ -1,0 +1,22 @@
+#leagueModalBody {
+  height: 500px;
+}
+
+#CreationFormLeague {
+  margin: auto;
+  margin-top: 50px;
+  margin-bottom: 50px;
+  width: 70%;
+}
+
+#button {
+  text-align: center;
+  margin-top: 35px;
+}
+
+#button Button {
+  text-align: center;
+  width: 40%;
+  background-image: linear-gradient(to right, #fcd15a, #ef5454, #6dc7ff);
+  border: none;
+}
