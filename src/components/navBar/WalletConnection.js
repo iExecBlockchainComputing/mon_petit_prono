@@ -10,7 +10,7 @@ function WalletConnection() {
 
   return (
     <div id="father">
-      <BsPersonCircle
+      <BsPersonCircle id ="iconConnect"
         color="white"
         size={35}
         onMouseEnter={(e) => {

@@ -1,26 +1,19 @@
 import './createTeamModal.css'
 import React from 'react'
-import {
-  Modal,
-  Row,
-  Col,
-  Container,
-  Form,
-  Button,
-  Toast,
-  ToastContainer,
-} from 'react-bootstrap'
+import { Modal, Row, Col, Container, Form, Button } from 'react-bootstrap'
 import { BsPersonCircle } from 'react-icons/bs'
 import { useState } from 'react'
 import FileInput from '../../utils/FileInput'
 
 export default function CreateTeamModal(props) {
-  const [isShown, setIsShown] = useState(false)
   const [ipfsImage, setIpfsImage] = useState()
 
   function addImage(image) {
     setIpfsImage(image)
   }
+
+  function CreateTeamSM() {}
+
   return (
     <Modal
       id="modalPopup"
@@ -34,7 +27,7 @@ export default function CreateTeamModal(props) {
           <Col md={1} id="icon">
             <BsPersonCircle size={45} />
           </Col>
-          <Col id="title">My Wallet</Col>
+          <Col id="title">Create Your Team</Col>
         </Row>
       </Modal.Header>
       <Modal.Body>
@@ -53,26 +46,19 @@ export default function CreateTeamModal(props) {
             </Form.Group>
           </Form>
           <FileInput title={'Choose your Image'} addImage={setIpfsImage} />
+          <Form.Label htmlFor="exampleColorInput">Color picker</Form.Label>
+          <Form.Control
+            type="color"
+            id="exampleColorInput"
+            defaultValue="#563d7c"
+            title="Choose your color"
+          />
           <div id="button">
-            <Button onClick={() => setIsShown(!isShown)} type="submit">
+            <Button onClick={CreateTeamSM} type="submit">
               Create
             </Button>
           </div>
         </Container>
-        <ToastContainer id="notif" position="top-end">
-          <Toast show={isShown}>
-            <Toast.Header>
-              <img
-                src={require('../../assets/logo.png')}
-                className="rounded me-2"
-                style={{ width: '60px' }}
-                alt=""
-              />
-              <strong className="mx-auto">iExec Team</strong>
-            </Toast.Header>
-            <Toast.Body>The Team has been created</Toast.Body>
-          </Toast>
-        </ToastContainer>
       </Modal.Body>
     </Modal>
   )

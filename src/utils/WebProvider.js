@@ -35,7 +35,7 @@ const signer = provider.getSigner()
 export const contract = new ethers.Contract(
   contractAddress,
   MyContract.abi,
-  provider,
+  signer,
 )
 const contractWithSigner = contract.connect(signer)
 

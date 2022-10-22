@@ -1,29 +1,30 @@
-#addCard {
-  width: 28%;
+#addCardLeague {
   color: black;
   background-color: transparent;
   border: dashed;
   border-color: white;
   margin: auto;
   cursor: pointer;
-  vertical-align: middle;
+  height: 400px;
+  width: 270px;
+  margin-bottom: 40px;
+  margin-top: 40px;
 }
 
-#addIcon {
+#addIconLeague {
   text-align: center;
   margin: auto;
   margin-top: 20%;
   margin-bottom: 10%;
 }
 
-.explanation {
+.explanationLeague p{
   text-align: center;
   color: #ffffff;
-  font-family: 'Mulish';
   font-size: 30px;
   font-weight: 400;
   line-height: 40px;
-  margin-bottom: 5%;
+  margin-top: 15%;
   margin-left: 5%;
   margin-right: 5%;
 }

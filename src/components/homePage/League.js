@@ -4,33 +4,31 @@ import { Container, Row, Col } from 'react-bootstrap'
 import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { contract } from '../../utils/WebProvider'
-import { ipfs } from '../../utils/Ipfs'
 import { v4 as uuidv4 } from 'uuid'
 import OneCardLeague from './OneCardLeague'
-import worldCup2022 from '../../assets/worldCup2022.png'
-import worldCup2018 from '../../assets/worldCup2018.png'
-import worldCup2014 from '../../assets/worldCup2014.png'
-import euro2012 from '../../assets/euro2012.png'
-import euro2016 from '../../assets/euro2016.png'
-import euro2020 from '../../assets/euro2020.png'
+import AddLeague from './AddLeague'
+import euro from '../../assets/euro2020.png'
 
 export default function League() {
   const wallet = useSelector((state) => state.wallet)
   const [leaguesInfo, setLeaguesInfo] = useState([])
+
   useEffect(() => {
-    LeaguesInfo()
-    ipfs()
+    tabLeaguesInfo()
   }, [])
 
-  const LeaguesInfo = async () => {
+  const tabLeaguesInfo = async () => {
     const leagueId = await contract.getLeaguesID()
     let leaguesInfo = await Promise.all(
       leagueId.map(async (e) => {
         return await contract.getLeagueById(e)
       }),
     )
+    console.log(leaguesInfo)
     setLeaguesInfo(leaguesInfo)
   }
+
+ 
 
   return (
     <Container id="league">
@@ -42,8 +40,7 @@ export default function League() {
               id={e[0]}
               years={'2012'}
               Name={e[1]}
-              img={euro2012}
-              backgroungColor={'#ffffff'}
+              el={e}
               StartDate={'21/09/2022'}
               EndDate={'19/10/2022'}
               NbLeague={'12'}
@@ -51,6 +48,9 @@ export default function League() {
             />
           </Col>
         ))}
+        <Col>
+          <AddLeague />
+        </Col>
       </Row>
     </Container>
   )

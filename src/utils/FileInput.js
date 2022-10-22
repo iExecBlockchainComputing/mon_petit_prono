@@ -1,9 +1,9 @@
 import React from 'react'
 import './fileInput.css'
-import { Form, Container, Row } from 'react-bootstrap'
+import { Form, Row } from 'react-bootstrap'
 import { useState, useEffect } from 'react'
 
-export default function FileInput({ title,addImage }) {
+export default function FileInput({ title,setIpfsImage }) {
   const [selectedFile, setSelectedFile] = useState()
   const [preview, setPreview] = useState()
 
@@ -13,6 +13,7 @@ export default function FileInput({ title,addImage }) {
       return
     }
     const objectUrl = URL.createObjectURL(selectedFile)
+    setIpfsImage(selectedFile)
     setPreview(objectUrl)
     return () => URL.revokeObjectURL(objectUrl)
   }, [selectedFile])
