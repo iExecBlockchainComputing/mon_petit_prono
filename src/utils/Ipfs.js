@@ -5,9 +5,10 @@ import { Buffer } from 'buffer'
   return (await IPFS.create())
 }
 const node = init()*/
+let node = null
 
 export async function addLeagueIPFS(_ipfs, color) {
-  const node = await IPFS.create()
+  node = await IPFS.create()
   console.log('1')
   const readUploadedFileAsText = (inputFile) => {
     const temporaryFileReader = new FileReader()
@@ -31,8 +32,9 @@ export async function addLeagueIPFS(_ipfs, color) {
   return (await node.add(data)).path
 }
 
-export async function getLeagueIPFS(cid) {
-  const node = await IPFS.create()
+export async function getLeagueIPFSJson(cid) {
+  console.log('I am in JSON')
+  node = await IPFS.create()
   const stream = node.cat(cid)
   const decoder = new TextDecoder()
   let data = ''
@@ -41,4 +43,16 @@ export async function getLeagueIPFS(cid) {
   }
   const Object = JSON.parse(data)
   return Object
+}
+
+export async function getLeagueIPFSImage(cid) {
+  console.log('I am in IMAGE')
+  const stream = node.cat(cid)
+  const decoder = new TextDecoder()
+  let data = ''
+  for await (const chunk of stream) {
+    data += decoder.decode(chunk)
+  }
+  console.log('data', typeof data)
+  return data
 }
