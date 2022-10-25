@@ -15,7 +15,7 @@ function App() {
       <ToolBar />
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/teamPage" element={<TeamPage />} />
+        <Route path=":leagueId/teamPage" element={<TeamPage />} />
         <Route path="/teamPage/pronoPage" element={<PronoPage />}>
           <Route path="/teamPage/pronoPage/forecast" element={<Forecast />} />
           <Route path="/teamPage/pronoPage/ranking" element={<Ranking />} />

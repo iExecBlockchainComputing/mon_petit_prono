@@ -46,14 +46,7 @@ export function WebProvider() {
   useEffect(() => {
     connectWallet()
     switchNetwork()
-    updateStore()
   }, [])
-
-  const updateStore = () => {
-    dispatch({ type: 'wallet/accountAddress', payload: wallet.accountAddress })
-    dispatch({ type: 'wallet/setContract', payload: contract })
-    dispatch({ type: 'wallet/setProvider', payload: provider })
-  }
 
   const connectWallet = async () => {
     try {
@@ -112,4 +105,5 @@ export function WebProvider() {
   ethereum.on('accountsChanged', (_accounts) => {
     window.location.reload()
   })
+  
 }

@@ -1,58 +1,109 @@
-import * as IPFS from 'ipfs-core'
-import { Buffer } from 'buffer'
+import axios from 'axios'
+import FormData from 'form-data'
 
-/*const init = async () => {
-  return (await IPFS.create())
-}
-const node = init()*/
-let node = null
-
-export async function addLeagueIPFS(_ipfs, color) {
-  node = await IPFS.create()
-  console.log('1')
-  const readUploadedFileAsText = (inputFile) => {
-    const temporaryFileReader = new FileReader()
-
-    return new Promise((resolve, reject) => {
-      temporaryFileReader.onerror = () => {
-        temporaryFileReader.abort()
-        reject(new DOMException('Problem parsing input file.'))
-      }
-
-      temporaryFileReader.onload = () => {
-        resolve(temporaryFileReader.result)
-      }
-      temporaryFileReader.readAsArrayBuffer(inputFile)
+async function PostLeagueImage(formData) {
+  let imagePath = null
+  try {
+    const response = await axios({
+      url: 'https://api.pinata.cloud/pinning/pinFileToIPFS',
+      method: 'post',
+      headers: {
+        Authorization: `Bearer ${process.env.REACT_APP_PINIATA_JWT}`,
+      },
+      data: formData,
     })
+    const data = response.data
+    imagePath = data.IpfsHash
+  } catch (error) {
+    console.log(error)
   }
-  const ArrayBuffer = await readUploadedFileAsText(_ipfs)
-  const imgPath = (await node.add(ArrayBuffer)).path
-  const jsonobject = { backgroundColor: color, image: imgPath }
-  const data = Buffer.from(JSON.stringify(jsonobject))
-  return (await node.add(data)).path
+  return imagePath
+}
+
+async function PostLeagueMetadata(formData) {
+  let imagePath = null
+  try {
+    const response = await axios({
+      method: 'post',
+      url: 'https://api.pinata.cloud/pinning/pinJSONToIPFS',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${process.env.REACT_APP_PINIATA_JWT}`,
+      },
+      data: formData,
+    })
+    const data = response.data
+    imagePath = data.IpfsHash
+  } catch (error) {
+    console.log(error)
+  }
+  return imagePath
+}
+
+export async function addLeagueIPFS(_LeagueId, _LeagueName, file, color) {
+  //Upload the image on OFF-CHAIN storage
+  let formData = new FormData()
+  formData.append('file', file)
+  let imagePath = null
+  try {
+    imagePath = await PostLeagueImage(formData)
+  } catch (err) {
+    console.log(err)
+  }
+
+  //Upload the metadata on OFF-CHAIN storage
+  var data = JSON.stringify({
+    LeagueId: `${_LeagueId}`,
+    LeagueName: `${_LeagueName}`,
+    backgroundColor: `${color}`,
+    description: 'League metadata',
+    image: `${imagePath}`,
+  })
+  let Metadata = null
+  try {
+    Metadata = await PostLeagueMetadata(data)
+  } catch (err) {
+    console.log(err)
+  }
+
+  return Metadata
 }
 
 export async function getLeagueIPFSJson(cid) {
-  console.log('I am in JSON')
-  node = await IPFS.create()
-  const stream = node.cat(cid)
-  const decoder = new TextDecoder()
-  let data = ''
-  for await (const chunk of stream) {
-    data += decoder.decode(chunk)
+  console.log('cid', cid)
+  let response = null
+  if (cid !== '') {
+    try {
+      response = await axios({
+        method: 'get',
+        url: `/ipfs/${cid}`,
+        headers: {
+          Authorization: `Bearer ${process.env.REACT_APP_PINIATA_JWT}`,
+        },
+      })
+    } catch (error) {
+      console.log(error)
+    }
   }
-  const Object = JSON.parse(data)
-  return Object
+  return response.data
 }
 
-export async function getLeagueIPFSImage(cid) {
-  console.log('I am in IMAGE')
-  const stream = node.cat(cid)
-  const decoder = new TextDecoder()
-  let data = ''
-  for await (const chunk of stream) {
-    data += decoder.decode(chunk)
+export async function getIPFSImage(cid) {
+  console.log('cid', cid)
+  let response = null
+  if (cid !== '') {
+    try {
+      response = await axios({
+        method: 'get',
+        url: `/ipfs/${cid}`,
+        headers: {
+          Authorization: `Bearer ${process.env.REACT_APP_PINIATA_JWT}`,
+        },
+        responseType: 'blob',
+      })
+    } catch (error) {
+      console.log(error)
+    }
   }
-  console.log('data', typeof data)
-  return data
+  return response.data
 }

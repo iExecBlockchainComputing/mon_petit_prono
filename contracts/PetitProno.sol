@@ -5,6 +5,8 @@ import "hardhat/console.sol";
 contract MonPetitProno{
 
     address public owner;
+    event NewLeague(string _LeagueId, string _League_name,string _ipfs);
+    event NewTeam(string _LeagueId, string _TeamId, string _Team_name,string _ipfs);
     struct Forecast{
         uint[3] odds;
         uint[2] prono;
@@ -60,6 +62,7 @@ contract MonPetitProno{
         Leagues[_LeagueId].League_name = _League_name;
         Leagues[_LeagueId].ipfs = _ipfs;
         keyMappingLeague.push(_LeagueId);
+        emit NewLeague(_LeagueId, _League_name, _ipfs);
     }  
 
     // get all leagues id
@@ -80,6 +83,7 @@ contract MonPetitProno{
         Leagues[_LeagueId].Teams[_TeamId].Team_name = _Teame_Name;
         Leagues[_LeagueId].Teams[_TeamId].ipfs = _ipfs;
         Leagues[_LeagueId].keyMappingTeam.push(_TeamId);
+        emit NewTeam(_LeagueId, _TeamId, _Teame_Name, _ipfs);
     }
 
     // return all the team of a league in which the player is

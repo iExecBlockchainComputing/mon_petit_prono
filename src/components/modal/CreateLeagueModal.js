@@ -3,20 +3,55 @@ import React from 'react'
 import { Modal, Row, Col, Container, Form, Button } from 'react-bootstrap'
 import { BsPersonCircle } from 'react-icons/bs'
 import FileInput from '../../utils/FileInput'
+import { contract } from '../../utils/WebProvider'
+import { addLeagueIPFS } from '../../utils/Ipfs'
+import { v4 as uuidv4 } from 'uuid'
+import { useState, useEffect } from 'react'
 
-export default function CreateLeagueModal({
-  show,
-  onHide,
-  setIpfsImage,
-  setLeagueName,
-  CreateLeagueSM,
-  setColor,
-}) {
+export default function CreateLeagueModal(props) {
+  const [ipfsImage, setIpfsImage] = useState(undefined)
+  const [leagueName, setLeagueName] = useState(undefined)
+  const [color, setColor] = useState(undefined)
+
+  async function CreateLeagueSM() {
+    const _LeagueId = uuidv4()
+    const ListIdLeague = await contract.getLeaguesID()
+    while (ListIdLeague.includes(_LeagueId)) {
+      _LeagueId = uuidv4()
+    }
+    const _LeagueName = leagueName
+    const _LeagueColor = color
+    const _ipfs = ipfsImage
+    if (
+      _ipfs !== undefined &&
+      _LeagueName !== undefined &&
+      _LeagueColor !== undefined
+    ) {
+      const imgPath = await addLeagueIPFS(
+        _LeagueId,
+        _LeagueName,
+        _ipfs,
+        _LeagueColor,
+      )
+      if (imgPath !== null) {
+        await contract.addLeague(_LeagueId, _LeagueName, imgPath)
+      }
+    } else {
+      alert('Please fill all the fields')
+    }
+    props.onHide()
+  }
+
+  useEffect(() => {
+    setIpfsImage(undefined)
+    setLeagueName(undefined)
+    setColor(undefined)
+  }, [props.show === false])
+
   return (
     <Modal
       id="modalPopup"
-      show={show}
-      onHide={onHide}
+      {...props}
       size="lg"
       aria-labelledby="contained-modal-title-vcenter"
       centered
@@ -51,7 +86,7 @@ export default function CreateLeagueModal({
             onChange={(e) => setColor(e.target.value)}
           />
           <div id="button">
-            <Button onClick={() => CreateLeagueSM()} type="submit">
+            <Button onClick={CreateLeagueSM} type="submit">
               Create
             </Button>
           </div>

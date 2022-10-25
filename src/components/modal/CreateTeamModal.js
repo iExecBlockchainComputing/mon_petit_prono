@@ -2,17 +2,48 @@ import './createTeamModal.css'
 import React from 'react'
 import { Modal, Row, Col, Container, Form, Button } from 'react-bootstrap'
 import { BsPersonCircle } from 'react-icons/bs'
-import { useState } from 'react'
 import FileInput from '../../utils/FileInput'
+import { contract } from '../../utils/WebProvider'
+import { addLeagueIPFS } from '../../utils/Ipfs'
+import { v4 as uuidv4 } from 'uuid'
+import { useState, useEffect } from 'react'
+import { useParams } from 'react-router-dom'
 
 export default function CreateTeamModal(props) {
-  const [ipfsImage, setIpfsImage] = useState()
+  let { leagueId } = useParams()
+  const [ipfsImage, setIpfsImage] = useState(undefined)
+  const [teamName, setTeamName] = useState(undefined)
+  const [color, setColor] = useState(undefined)
 
-  function addImage(image) {
-    setIpfsImage(image)
+  async function CreateTeamSM() {
+    const _TeamId = uuidv4()
+    const ListIdTeam = await contract.getMyTeamFromOneLeague(leagueId)
+    while (ListIdTeam.includes(_TeamId)) {
+      _TeamId = uuidv4()
+    }
+    const _teamName = teamName
+    const _TeamColor = color
+    const _ipfs = ipfsImage
+    if (
+      _ipfs !== undefined &&
+      _teamName !== undefined &&
+      _TeamColor !== undefined
+    ) {
+      const imgPath = await addLeagueIPFS(_TeamId, _teamName, _ipfs, _TeamColor)
+      if (imgPath !== null) {
+        await contract.addTeam(leagueId, _TeamId, _teamName, imgPath)
+      }
+    } else {
+      alert('Please fill all the fields')
+    }
+    props.onHide()
   }
 
-  function CreateTeamSM() {}
+  useEffect(() => {
+    setIpfsImage(undefined)
+    setTeamName(undefined)
+    setColor(undefined)
+  }, [props.show === false])
 
   return (
     <Modal
@@ -38,6 +69,7 @@ export default function CreateTeamModal(props) {
               <Form.Control
                 type="email"
                 placeholder="Enter the name of your team"
+                onChange={(e) => setTeamName(e.target.value)}
               />
             </Form.Group>
             <Form.Group className="mb-3" controlId="formBasicPassword">
@@ -52,6 +84,7 @@ export default function CreateTeamModal(props) {
             id="exampleColorInput"
             defaultValue="#563d7c"
             title="Choose your color"
+            onChange={(e) => setColor(e.target.value)}
           />
           <div id="button">
             <Button onClick={CreateTeamSM} type="submit">

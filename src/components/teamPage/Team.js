@@ -1,22 +1,52 @@
-import { useNavigate } from 'react-router-dom'
-import { Card } from 'react-bootstrap'
 import './team.css'
+import { Container, Row, Col } from 'react-bootstrap'
+import AddTeam from './AddTeam'
+import { useSelector } from 'react-redux'
+import { contract } from '../../utils/WebProvider'
+import { v4 as uuidv4 } from 'uuid'
+import { useState, useEffect } from 'react'
+import { useParams } from 'react-router-dom'
+import OneCardTeam from './OneCardTeam'
 
-function Team() {
-  const navigate = useNavigate()
-  const handleClick = () => {
-    navigate('./pronoPage')
+export default function Team() {
+  let { leagueId } = useParams()
+  const [teamInfo, setTeamInfo] = useState([])
+  const [newTeamsCreated, setNewTeamsCreated] = useState(null)
+  const wallet = useSelector((state) => state.wallet)
+
+  contract.on('NewTeam', (_LeagueId, _TeamId, _Team_name, _ipfs) => {
+    console.log('New Team Created')
+    setNewTeamsCreated(_TeamId)
+  })
+
+  useEffect(() => {
+    tabLeaguesInfo()
+    console.log('newTeamsCreated : ', newTeamsCreated)
+  }, [newTeamsCreated])
+
+  const tabLeaguesInfo = async () => {
+    const teamId = await contract.getMyTeamFromOneLeague(leagueId)
+    let teamInfo = await Promise.all(
+      teamId.map(async (e) => {
+        return await contract.getTeamsInfos(leagueId, e)
+      }),
+    )
+    console.log(teamInfo)
+    setTeamInfo(teamInfo)
   }
+
   return (
-    <Card onClick={handleClick} id="TeamCard">
-      <Card.Img
-        variant="top"
-        src="https://cdn-images-1.medium.com/max/1200/1*H9Olt4-lI3UWf4mdacCbkg.jpeg"
-      />
-      <Card.Body>
-        <Card.Title>iExec Team</Card.Title>
-      </Card.Body>
-    </Card>
+    <Container id="teamPool">
+      <Row>
+        {teamInfo.map((e) => (
+          <Col key={uuidv4()}>
+            <OneCardTeam key={uuidv4()} id={e[0]} el={e[2]} Name={e[1]}/>
+          </Col>
+        ))}
+        <Col>
+          <AddTeam />
+        </Col>
+      </Row>
+    </Container>
   )
 }
-export default Team
