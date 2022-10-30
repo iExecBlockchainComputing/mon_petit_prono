@@ -1,14 +1,14 @@
-import './oneCardTeam.css';
+import './oneCardTeam.css'
 import React from 'react'
 import { getLeagueIPFSJson, getIPFSImage } from '../../utils/Ipfs'
 import { useNavigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
-import { Card } from 'react-bootstrap'
+import { Card, Container } from 'react-bootstrap'
 
 export default function OneCardTeam({ id, el, Name }) {
   const navigate = useNavigate()
   const handleClick = () => {
-    navigate('./pronoPage')
+    navigate(`./${id}/pronoPage`)
   }
   const [metadata, setMetadata] = useState({
     backgroundColor: '#FFFFFF',
@@ -52,7 +52,9 @@ export default function OneCardTeam({ id, el, Name }) {
   return (
     <>
       <Card onClick={handleClick} id="TeamCard">
-        <Card.Img variant="top" src={`${image}`} />
+        <Container>
+          <Card.Img id="test2" variant="top" src={`${image}`} />
+        </Container>
         <Card.Body>
           <Card.Title>{Name}</Card.Title>
         </Card.Body>

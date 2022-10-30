@@ -40,7 +40,7 @@ describe('Mon petit prono test', function () {
     })
   })
 
-  describe('Team Functions', function () {
+  describe('Team Set Up', function () {
     async function TeamFeature() {
       const { deployedContract } = await loadFixture(deployTokenFixture)
       await deployedContract.addLeague(
@@ -53,12 +53,14 @@ describe('Mon petit prono test', function () {
         leaguesID[0],
         '1x1',
         'adoption Team',
+        'robin',
         'https://ipfs_link',
       )
       await deployedContract.addTeam(
         leaguesID[0],
         '1x2',
         'compagny Team',
+        'robin',
         'https://ipfs_link',
       )
       const TeamsIdFromOneLeague = await deployedContract.getTeamsIdFromOneLeague(
@@ -91,6 +93,12 @@ describe('Mon petit prono test', function () {
   describe('Team Functions', function () {
     async function PlayerFeature() {
       const { deployedContract } = await loadFixture(deployTokenFixture)
+      const signer2 = await ethers.getSigner(
+        '0x70997970C51812dc3A010C7d01b50e0d17dc79C8',
+      )
+      const signer3 = await ethers.getSigner(
+        '0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC',
+      )
       await deployedContract.addLeague(
         '0x1',
         'Coupe du Monde',
@@ -101,55 +109,39 @@ describe('Mon petit prono test', function () {
         leaguesID[0],
         '1x1',
         'adoption Team',
+        'robin',
         'https://ipfs_link',
       )
-      await deployedContract.addTeam(
-        leaguesID[0],
-        '1x2',
-        'compagny Team',
-        'https://ipfs_link',
-      )
+      await deployedContract
+        .connect(signer2)
+        .addTeam(leaguesID[0], '1x2', 'Team1', 'paul', 'https://ipfs_link')
+      await deployedContract
+        .connect(signer2)
+        .addTeam(leaguesID[0], '1x3', 'Team2', 'paul', 'https://ipfs_link')
       const TeamsIdFromOneLeague = await deployedContract.getTeamsIdFromOneLeague(
         leaguesID[0],
       )
-      const signer2 = await ethers.getSigner(
-        '0x70997970C51812dc3A010C7d01b50e0d17dc79C8',
-      )
-      const signer3 = await ethers.getSigner(
-        '0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC',
-      )
-      await deployedContract.addPlayer('0x1', '1x1', 'Robin')
-      await deployedContract.connect(signer2).addPlayer('0x1', '1x1', 'Paul')
-      await deployedContract.connect(signer3).addPlayer('0x1', '1x1', 'Pierre')
 
       return {
         deployedContract,
         leaguesID,
         TeamsIdFromOneLeague,
+        signer2,
       }
     }
-    it('Verify getAllPlayerAddrFromOneTeam', async function () {
-      const {
-        leaguesID,
-        TeamsIdFromOneLeague,
-        deployedContract,
-      } = await loadFixture(PlayerFeature)
-      const AllPlayerAddrFromOneTeam = await deployedContract.getAllPlayerAddrFromOneTeam(
-        leaguesID[0],
-        TeamsIdFromOneLeague[0],
-      )
-      expect(AllPlayerAddrFromOneTeam.toString()).to.equal(
-        [
-          '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266',
-          '0x70997970C51812dc3A010C7d01b50e0d17dc79C8',
-          '0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC',
-        ].toString(),
-      )
-    })
-    /**it('Verify getMyTeamFromOneLeague', async function () {
-      const { deployedContract, leaguesID } = await loadFixture(TeamFeature)
+    it('Verify getMyTeamFromOneLeague', async function () {
+      const { deployedContract, leaguesID } = await loadFixture(PlayerFeature)
       const myTeam = await deployedContract.getMyTeamFromOneLeague(leaguesID[0])
-      expect(myTeam.toString()).to.equal(['1x1', '1x2'].toString())
-    })*/
+      expect(myTeam.toString()).to.equal(['1x1'].toString())
+    })
+    it('Verify getFreeTeamFromOneLeague', async function () {
+      const { deployedContract, leaguesID, signer2 } = await loadFixture(
+        PlayerFeature,
+      )
+      const myTeam = await deployedContract
+        .connect(signer2)
+        .getFreeTeamFromOneLeague(leaguesID[0])
+      expect(myTeam.toString()).to.equal(['1x1'].toString())
+    })
   })
 })

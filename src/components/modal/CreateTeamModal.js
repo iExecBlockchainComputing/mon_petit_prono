@@ -13,6 +13,7 @@ export default function CreateTeamModal(props) {
   let { leagueId } = useParams()
   const [ipfsImage, setIpfsImage] = useState(undefined)
   const [teamName, setTeamName] = useState(undefined)
+  const [playerName, setPlayerName] = useState(undefined)
   const [color, setColor] = useState(undefined)
 
   async function CreateTeamSM() {
@@ -24,14 +25,22 @@ export default function CreateTeamModal(props) {
     const _teamName = teamName
     const _TeamColor = color
     const _ipfs = ipfsImage
+    const _playerName = playerName
     if (
       _ipfs !== undefined &&
       _teamName !== undefined &&
-      _TeamColor !== undefined
+      _TeamColor !== undefined &&
+      _playerName !== undefined
     ) {
-      const imgPath = await addLeagueIPFS(_TeamId, _teamName, _ipfs, _TeamColor)
+      const imgPath = await addLeagueIPFS(_TeamId, _teamName, _ipfs, _playerName, _TeamColor)
       if (imgPath !== null) {
-        await contract.addTeam(leagueId, _TeamId, _teamName, imgPath)
+        await contract.addTeam(
+          leagueId,
+          _TeamId,
+          _teamName,
+          _playerName,
+          imgPath,
+        )
       }
     } else {
       alert('Please fill all the fields')
@@ -73,11 +82,15 @@ export default function CreateTeamModal(props) {
               />
             </Form.Group>
             <Form.Group className="mb-3" controlId="formBasicPassword">
-              <Form.Label>Password to join your Team</Form.Label>
-              <Form.Control type="password" placeholder="Password" />
+              <Form.Label>Your Player Name</Form.Label>
+              <Form.Control
+                type="text"
+                onChange={(e) => setPlayerName(e.target.value)}
+                placeholder="Player Name"
+              />
             </Form.Group>
           </Form>
-          <FileInput title={'Choose your Image'} addImage={setIpfsImage} />
+          <FileInput title={'Choose your Image'} setIpfsImage={setIpfsImage} />
           <Form.Label htmlFor="exampleColorInput">Color picker</Form.Label>
           <Form.Control
             type="color"

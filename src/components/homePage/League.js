@@ -12,14 +12,12 @@ const { ethereum } = window
 export default function League() {
   const [leaguesInfo, setLeaguesInfo] = useState([])
   const [owner, setOwner] = useState(false)
+  const [newLeagueCreated, setNewLeagueCreated] = useState(null)
   const wallet = useSelector((state) => state.wallet)
-  let newLeagueCreated = contract.on(
-    'NewLeague',
-    (_LeagueId, _League_name, _ipfs) => {
-      console.log('New League Created')
-      return _LeagueId
-    },
-  )
+  contract.on('NewLeague', (_LeagueId, _League_name, _ipfs) => {
+    console.log('New League Created', _LeagueId)
+    setNewLeagueCreated(_LeagueId)
+  })
 
   useEffect(() => {
     async function getOwner() {
@@ -59,7 +57,7 @@ export default function League() {
               id={e[0]}
               years={'2012'}
               Name={e[1]}
-              el={e[2]}
+              ipfs={e[2]}
               StartDate={'21/09/2022'}
               EndDate={'19/10/2022'}
               NbLeague={'12'}

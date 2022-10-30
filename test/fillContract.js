@@ -4,7 +4,7 @@ const MyContract = require('../artifacts/contracts/PetitProno.sol/MonPetitProno.
 
 const contractAddress = process.env.REACT_APP_CONTRACT_ADDRESS
 const WALLET_ADDRESS_1 = '0xa1B1CAbE3FF10B0e08B95F74BF7A374A4A9f85d6'
-const WALLET_ADDRESS_2 = '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266'
+const WALLET_ADDRESS_2 = '0x11Ec6e62CdEB571F3b8591b8d1C50d7a5e4D626f'
 const provider = new ethers.providers.AlchemyProvider(
   (network = 'goerli'),
   process.env.REACT_APP_ALCHEMY_API_KEY,
@@ -260,5 +260,3 @@ fillLeague()
 fillTeam()
 fillPlayer()
 //fillForecast()
-
-

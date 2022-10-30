@@ -79,19 +79,20 @@ contract MonPetitProno{
 
     /** TEAM */
     //add a team
-    function addTeam(string memory _LeagueId,string memory _TeamId, string memory _Teame_Name, string memory _ipfs) public{
+    function addTeam(string memory _LeagueId,string memory _TeamId, string memory _Teame_Name,string memory _Player_name, string memory _ipfs) public{
         Leagues[_LeagueId].Teams[_TeamId].Team_name = _Teame_Name;
         Leagues[_LeagueId].Teams[_TeamId].ipfs = _ipfs;
         Leagues[_LeagueId].keyMappingTeam.push(_TeamId);
+        addPlayer(_LeagueId, _TeamId,  _Player_name);
         emit NewTeam(_LeagueId, _TeamId, _Teame_Name, _ipfs);
     }
 
     // return all the team of a league in which the player is
     function getMyTeamFromOneLeague(string memory _LeagueId) public view returns(string [] memory){
-        string [] memory _myTeam;
-        console.log(msg.sender);
+        uint _TeamNb = Leagues[_LeagueId].keyMappingTeam.length;
+        string [] memory _myTeam = new string[](_TeamNb);
         uint rg = 0;
-        for (uint k; k<Leagues[_LeagueId].keyMappingTeam.length;k++){
+        for (uint k; k<_TeamNb;k++){
             string memory _TeamId = Leagues[_LeagueId].keyMappingTeam[k];
             for (uint i; i<Leagues[_LeagueId].Teams[_TeamId].keyMappingPlayer.length;i++){
                 if (Leagues[_LeagueId].Teams[_TeamId].keyMappingPlayer[i] == msg.sender){
@@ -100,20 +101,30 @@ contract MonPetitProno{
                 }
             }
         }
-        return _myTeam;
+        string [] memory _result = new string[](rg);
+        for (uint j; j<rg;j++){
+            _result[j]=_myTeam[j];
+        }
+        return _result;
     }
 
     //return all the theam of a league in which the player is not
     function getFreeTeamFromOneLeague(string memory _LeagueId) public view returns(string [] memory){
-        string [] memory _freeTeam;
         string [] memory _myTeam = getMyTeamFromOneLeague(_LeagueId);
+        string [] memory _freeTeam = new string[](Leagues[_LeagueId].keyMappingTeam.length - _myTeam.length);
+        uint rg = 0;
+        for(uint i; i<Leagues[_LeagueId].keyMappingTeam.length; i++){
+            bool test = false;
             for (uint k; k<_myTeam.length ; k++){
-                for(uint i; i<Leagues[_LeagueId].keyMappingTeam.length; i++){
-                    if (keccak256(abi.encodePacked(_myTeam[k])) != keccak256(abi.encodePacked(Leagues[_LeagueId].keyMappingTeam[i]))){
-                        _freeTeam[k]=Leagues[_LeagueId].keyMappingTeam[i];
-                    }
+                if (keccak256(abi.encodePacked(_myTeam[k])) == keccak256(abi.encodePacked(Leagues[_LeagueId].keyMappingTeam[i]))){
+                    test = true;
                 }
             }
+            if (test == false){
+                _freeTeam[rg]=Leagues[_LeagueId].keyMappingTeam[i];
+                rg+=1;
+            }
+        }
         return _freeTeam;
     }
 

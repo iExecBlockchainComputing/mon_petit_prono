@@ -79,7 +79,7 @@ export default function OneCardLeague({
         <h3>- {years} -</h3>
         <Container id="infos">
           <h2>Start Date: </h2>
-          <h3>{id}</h3>
+          <h3>{StartDate}</h3>
           <br />
           <h2>End Date: </h2>
           <h3>{EndDate}</h3>

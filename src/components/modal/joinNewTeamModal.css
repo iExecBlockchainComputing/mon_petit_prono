@@ -1,0 +1,30 @@
+#modalJoinNewTeam .modal-content {
+  height: 500px;
+  background-color: #1d1d24;
+}
+
+#researschBar {
+  width: 330%;
+}
+
+#modalJoinNewTeam .modal-header {
+  padding: 0px;
+}
+
+#leaguModalBody {
+  padding: 0px;
+  display: inline-table;
+}
+
+#typographie {
+  color: white;
+}
+
+#test {
+  color: #fcd15a;
+}
+
+#test:hover {
+  background-color: '#fcd15a';
+  color: '#3c52b2';
+}

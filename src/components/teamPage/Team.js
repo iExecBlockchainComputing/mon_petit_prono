@@ -15,13 +15,12 @@ export default function Team() {
   const wallet = useSelector((state) => state.wallet)
 
   contract.on('NewTeam', (_LeagueId, _TeamId, _Team_name, _ipfs) => {
-    console.log('New Team Created')
+    console.log('newTeamsCreated : ', _LeagueId)
     setNewTeamsCreated(_TeamId)
   })
 
   useEffect(() => {
     tabLeaguesInfo()
-    console.log('newTeamsCreated : ', newTeamsCreated)
   }, [newTeamsCreated])
 
   const tabLeaguesInfo = async () => {
@@ -40,7 +39,7 @@ export default function Team() {
       <Row>
         {teamInfo.map((e) => (
           <Col key={uuidv4()}>
-            <OneCardTeam key={uuidv4()} id={e[0]} el={e[2]} Name={e[1]}/>
+            <OneCardTeam key={uuidv4()} id={e[0]} el={e[2]} Name={e[1]} />
           </Col>
         ))}
         <Col>

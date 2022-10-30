@@ -1,12 +1,17 @@
+#containerAddTeam{
+  margin: auto;
+}
+
 #addCard {
-  width: 28%;
+  height: 300px;
+  width: 270px;
+  display: flex;
   color: black;
   background-color: transparent;
   border: dashed;
   border-color: white;
   margin: auto;
   cursor: pointer;
-  vertical-align: middle;
 }
 
 #addIcon {

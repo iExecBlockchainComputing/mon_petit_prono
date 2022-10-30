@@ -40,7 +40,13 @@ async function PostLeagueMetadata(formData) {
   return imagePath
 }
 
-export async function addLeagueIPFS(_LeagueId, _LeagueName, file, color) {
+export async function addLeagueIPFS(
+  _LeagueId,
+  _LeagueName,
+  file,
+  _playerName,
+  color,
+) {
   //Upload the image on OFF-CHAIN storage
   let formData = new FormData()
   formData.append('file', file)
@@ -55,6 +61,7 @@ export async function addLeagueIPFS(_LeagueId, _LeagueName, file, color) {
   var data = JSON.stringify({
     LeagueId: `${_LeagueId}`,
     LeagueName: `${_LeagueName}`,
+    CreatorName: `${_playerName}`,
     backgroundColor: `${color}`,
     description: 'League metadata',
     image: `${imagePath}`,
@@ -70,17 +77,22 @@ export async function addLeagueIPFS(_LeagueId, _LeagueName, file, color) {
 }
 
 export async function getLeagueIPFSJson(cid) {
-  console.log('cid', cid)
+  console.log('cid Json :', cid)
   let response = null
   if (cid !== '') {
     try {
       response = await axios({
         method: 'get',
         url: `/ipfs/${cid}`,
+        proxy: {
+          host: 'https://gateway.ipfs.io',
+        },
         headers: {
+          'Content-Type': 'application/json',
           Authorization: `Bearer ${process.env.REACT_APP_PINIATA_JWT}`,
         },
       })
+      console.log('get Json/response', response.data)
     } catch (error) {
       console.log(error)
     }
@@ -89,13 +101,16 @@ export async function getLeagueIPFSJson(cid) {
 }
 
 export async function getIPFSImage(cid) {
-  console.log('cid', cid)
+  console.log('cid Image', cid)
   let response = null
   if (cid !== '') {
     try {
       response = await axios({
         method: 'get',
         url: `/ipfs/${cid}`,
+        proxy: {
+          host: 'https://gateway.ipfs.io',
+        },
         headers: {
           Authorization: `Bearer ${process.env.REACT_APP_PINIATA_JWT}`,
         },
@@ -105,5 +120,6 @@ export async function getIPFSImage(cid) {
       console.log(error)
     }
   }
+  console.log('get Image/response', response.data)
   return response.data
 }

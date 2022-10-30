@@ -1,5 +1,5 @@
 import './addTeam.css'
-import { Card } from 'react-bootstrap'
+import { Card, Container } from 'react-bootstrap'
 import React from 'react'
 import { useState } from 'react'
 import { CgAdd } from 'react-icons/cg'
@@ -9,7 +9,7 @@ export default function AddTeam() {
   const [modalShow, setModalShow] = useState(false)
 
   return (
-    <div>
+    <Container id="containerAddTeam">
       <Card onClick={() => setModalShow(!modalShow)} id="addCard">
         <CgAdd color="white" size={100} id="addIcon" />
         <div className="explanation">
@@ -17,6 +17,6 @@ export default function AddTeam() {
         </div>
       </Card>
       <CreateTeamModal show={modalShow} onHide={() => setModalShow(false)} />
-    </div>
+    </Container>
   )
 }
