@@ -18,13 +18,13 @@
   margin-bottom: 10%;
 }
 
-.explanationLeague p{
+.explanationLeague p {
   text-align: center;
   color: #ffffff;
-  font-size: 30px;
+  font-size: 28px;
   font-weight: 400;
   line-height: 40px;
   margin-top: 15%;
-  margin-left: 5%;
-  margin-right: 5%;
+  margin-left: 1%;
+  font-family: 'Mulish', Sans-serif;
 }

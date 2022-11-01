@@ -2,8 +2,11 @@ import { useNavigate } from 'react-router-dom'
 import './navBar.css'
 import WalletConnection from './WalletConnection'
 import { Navbar, Col, Row } from 'react-bootstrap'
+import { LinearProgress } from '@mui/material'
+import { useState, useEffect } from 'react'
 
 function ToolBar() {
+  const [progressBar, setProgressBar] = useState(false)
   const navigate = useNavigate()
   const handleClick = () => {
     navigate('/')
@@ -11,8 +14,8 @@ function ToolBar() {
 
   return (
     <Navbar id="navbar">
-      <Row id='innerRow'>
-        <Col id='iexecIcon' md={2}>
+      <Row>
+        <Col id="iexecIcon" md={1}>
           <img
             onClick={handleClick}
             src={require('../../assets/logo.png')}
@@ -20,13 +23,19 @@ function ToolBar() {
             id="logo"
           />
         </Col>
-        <Col >
+        <Col>
           <h1>DAPP</h1>
         </Col>
         <Col md={1} id="wallet">
           <WalletConnection />
         </Col>
       </Row>
+
+      {progressBar && (
+        <Row>
+          <LinearProgress id="progress" />
+        </Row>
+      )}
     </Navbar>
   )
 }

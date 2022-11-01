@@ -145,6 +145,8 @@ contract MonPetitProno{
     function addPlayer(string memory _LeagueId, string memory _TeamId, string memory _Player_name) public {
         Leagues[_LeagueId].Teams[_TeamId].Players[msg.sender].Player_name = _Player_name;
         Leagues[_LeagueId].Teams[_TeamId].keyMappingPlayer.push(msg.sender);
+        emit NewTeam( _LeagueId,  _TeamId, Leagues[_LeagueId].Teams[_TeamId].Team_name, Leagues[_LeagueId].Teams[_TeamId].ipfs);
+
     }
 
     //update score of a player in a certain team and league

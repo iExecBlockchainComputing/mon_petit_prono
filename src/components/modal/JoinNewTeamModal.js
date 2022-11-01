@@ -9,7 +9,7 @@ import {
   Box,
   Button,
 } from '@mui/material'
-import { Modal } from 'react-bootstrap'
+import { Col, Modal, Row } from 'react-bootstrap'
 import { useState, useEffect } from 'react'
 import { contract } from '../../utils/WebProvider'
 import { useParams } from 'react-router-dom'
@@ -57,7 +57,7 @@ export default function JoinNewTeam(props) {
 
   return (
     <Modal
-    id ='modalJoinNewTeam'
+      id="modalJoinNewTeam"
       {...props}
       size="lg"
       aria-labelledby="contained-modal-title-vcenter"
@@ -86,8 +86,10 @@ export default function JoinNewTeam(props) {
 function TeamRow({ team, onHide }) {
   let { leagueId } = useParams()
   const [showOrders, setShowOrders] = useState(false)
+  const [playerName, setPlayerName] = useState('')
 
-  function joinNewTeam() {
+  async function joinNewTeam() {
+    await contract.addPlayer(leagueId, team[0], playerName)
     alert('Your Join new Team')
     onHide()
   }
@@ -104,11 +106,21 @@ function TeamRow({ team, onHide }) {
         <Typography id="typographie">{team[0]}</Typography>
       </Box>
       {showOrders && (
-        <Box>
-          <Button fullWidth onClick={joinNewTeam} id="test">
-            JOIN THIS TEAM
-          </Button>
-        </Box>
+        <Row id='info'>
+          <Col>
+            <TextField
+              label="Your name ..."
+              type="text"
+              variant="filled"
+              onChange={(e) => setPlayerName(e.target.value)}
+            />
+          </Col>
+          <Col id="test">
+            <Button onClick={joinNewTeam}>
+              JOIN THIS TEAM
+            </Button>
+          </Col>
+        </Row>
       )}
     </TableCell>
   )

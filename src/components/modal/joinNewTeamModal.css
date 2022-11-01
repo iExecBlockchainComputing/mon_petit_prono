@@ -20,7 +20,8 @@
   color: white;
 }
 
-#test {
+#info .button {
+  margin: auto !important;
   color: #fcd15a;
 }
 
