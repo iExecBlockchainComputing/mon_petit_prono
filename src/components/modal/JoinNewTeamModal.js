@@ -1,15 +1,7 @@
 import React from 'react'
 import './joinNewTeamModal.css'
-import {
-  TextField,
-  TableBody,
-  TableRow,
-  TableCell,
-  Typography,
-  Box,
-  Button,
-} from '@mui/material'
-import { Col, Modal, Row } from 'react-bootstrap'
+import { TextField, Typography, Box, Button } from '@mui/material'
+import { Col, Modal, Row, Table, Form } from 'react-bootstrap'
 import { useState, useEffect } from 'react'
 import { contract } from '../../utils/WebProvider'
 import { useParams } from 'react-router-dom'
@@ -62,6 +54,8 @@ export default function JoinNewTeam(props) {
       size="lg"
       aria-labelledby="contained-modal-title-vcenter"
       centered
+      className="table-responsive overflow-scroll"
+      scrollable={true}
     >
       <Modal.Header>
         <TextField
@@ -72,13 +66,20 @@ export default function JoinNewTeam(props) {
           onChange={(e) => setSearchInput(e.target.value)}
         />
       </Modal.Header>
-      <TableBody id="leaguModalBody">
-        {researchResults.map((team) => (
-          <TableRow hover key={team[0]}>
+      <Modal.Body
+        id="leaguModalBody"
+        style={{
+          maxHeight: 'calc(100vh - 100px)',
+          overflowY: 'auto',
+          position: 'relative',
+        }}
+      >
+        <Table id="globalTable">
+          {researchResults.map((team) => (
             <TeamRow team={team} onHide={props.onHide} />
-          </TableRow>
-        ))}
-      </TableBody>
+          ))}
+        </Table>
+      </Modal.Body>
     </Modal>
   )
 }
@@ -87,41 +88,82 @@ function TeamRow({ team, onHide }) {
   let { leagueId } = useParams()
   const [showOrders, setShowOrders] = useState(false)
   const [playerName, setPlayerName] = useState('')
+  const [nbOfPlayers, setNbOfPlayers] = useState(0)
 
   async function joinNewTeam() {
-    await contract.addPlayer(leagueId, team[0], playerName)
-    alert('Your Join new Team')
+    if (playerName.length > 0) {
+      await contract.addPlayer(leagueId, team[0], playerName)
+      alert('Your Join new Team')
+    } else {
+      alert('You must enter a Player name')
+    }
     onHide()
   }
 
+  useEffect(() => {
+    getNbOfPlayers()
+  }, [])
+
+  async function getNbOfPlayers() {
+    const addressPlayers = await contract.getAllPlayerAddrFromOneTeam(
+      leagueId,
+      team[0],
+    )
+    console.log('nb of players : ', addressPlayers.length)
+    setNbOfPlayers(addressPlayers.length)
+  }
+
   return (
-    <TableCell
-      key={team[0]}
-      onClick={() => setShowOrders(true)}
-      component="th"
-      scope="row"
-    >
-      <Box display="flex" justifyContent="space-between">
+    <tr key={team[0]} id="OneLigne">
+      <Box
+        onClick={() => setShowOrders(!showOrders)}
+        display="flex"
+        justifyContent="space-between"
+        id="affichage"
+      >
         <Typography id="typographie">{team[1]}</Typography>
         <Typography id="typographie">{team[0]}</Typography>
       </Box>
       {showOrders && (
-        <Row id='info'>
-          <Col>
-            <TextField
-              label="Your name ..."
-              type="text"
-              variant="filled"
-              onChange={(e) => setPlayerName(e.target.value)}
-            />
-          </Col>
-          <Col id="test">
-            <Button onClick={joinNewTeam}>
-              JOIN THIS TEAM
-            </Button>
-          </Col>
-        </Row>
+        <div id="line">
+          <Table
+            id="tableInfo"
+            responsive="sm"
+            onClick={() => setShowOrders(false)}
+          >
+            <tbody>
+              <tr>
+                <td id="firstCell">RCL Awards</td>
+                <td>50 RLC</td>
+              </tr>
+            </tbody>
+            <tbody>
+              <tr>
+                <td id="firstCell">NFT Awards</td>
+                <td>3 NFT</td>
+              </tr>
+            </tbody>
+            <tbody>
+              <tr>
+                <td id="firstCell">Number of participants</td>
+                <td>{nbOfPlayers}</td>
+              </tr>
+            </tbody>
+          </Table>
+          <Row id="info">
+            <Col>
+              <Form.Control
+                type="text"
+                placeholder="Your Name"
+                onChange={(e) => setPlayerName(e.target.value)}
+              />
+            </Col>
+            <Col id="test">
+              <Button onClick={joinNewTeam}>JOIN THIS TEAM</Button>
+            </Col>
+          </Row>
+        </div>
       )}
-    </TableCell>
+    </tr>
   )
 }

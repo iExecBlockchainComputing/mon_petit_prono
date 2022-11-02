@@ -16,16 +16,67 @@
   display: inline-table;
 }
 
+#globalTable {
+  text-align: center;
+  margin: auto;
+  justify-content: center;
+  margin-bottom: 0px;
+}
+
+#OneLigne {
+  padding-left: 2px;
+  border-style: solid;
+  border-bottom-width: 1px;
+}
+
 #typographie {
   color: white;
 }
 
-#info .button {
-  margin: auto !important;
+#info {
+  width: 50%;
+  margin: auto;
+}
+
+#info .col {
+  margin: auto;
+  text-align: center;
   color: #fcd15a;
 }
 
-#test:hover {
-  background-color: '#fcd15a';
-  color: '#3c52b2';
+#info .css-10botns-MuiInputBase-input-MuiFilledInput-input {
+  padding-bottom: 2px;
+}
+
+#tableInfo {
+  margin: auto;
+  width: 60%;
+  margin-top: 5%;
+  margin-bottom: 5%;
+  color: white;
+  text-align: center;
+}
+
+#tableInfo tr {
+  border-style: solid;
+  border-top-width: 1px;
+}
+
+#firstCell {
+  width: 45%;
+  border-style: solid;
+  border-right-width: 1px;
+  border-color: white;
+  text-align: start;
+}
+
+#affichage {
+  margin: 7px;
+}
+
+#line {
+  border-style: dashed;
+  border-width: 0px;
+  border-top-width: 1px;
+  border-color: rgb(140, 138, 138);
 }
