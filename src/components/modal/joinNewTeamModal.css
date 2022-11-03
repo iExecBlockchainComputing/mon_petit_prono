@@ -3,17 +3,12 @@
   background-color: #1d1d24;
 }
 
-#researschBar {
-  width: 330%;
-}
-
 #modalJoinNewTeam .modal-header {
   padding: 0px;
 }
 
 #leaguModalBody {
   padding: 0px;
-  display: inline-table;
 }
 
 #globalTable {
