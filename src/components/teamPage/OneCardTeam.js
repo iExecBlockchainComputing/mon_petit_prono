@@ -30,12 +30,13 @@ export default function OneCardTeam({ id, el, Name }) {
     }
     if (
       JsonMetadata !== null &&
-      JSON.stringify(JsonMetadata) !== JSON.stringify(metadata)
+      JSON.stringify(JsonMetadata) !== JSON.stringify(metadata) &&
+      JsonMetadata.image !== undefined &&
+      JsonMetadata.backgroundColor !== undefined
     ) {
       setMetadata(JsonMetadata)
     }
 
-    console.log('Path of default image', metadata.image)
     let img = null
     try {
       img = await getIPFSImage(metadata.image)
@@ -45,7 +46,10 @@ export default function OneCardTeam({ id, el, Name }) {
     } catch (err) {
       console.log(err)
     }
-    if (img !== null && img !== image) {
+    if (
+      img !== null &&
+      metadata.image !== 'QmVERfcU8E4TBCMTk2cK6fVvqRbRoGkWRYPdkwGwQ8CFbW'
+    ) {
       setImage(img)
     }
   }
