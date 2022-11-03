@@ -24,7 +24,7 @@ export default function OneCardTeam({ id, el, Name }) {
   async function getMetadata() {
     let JsonMetadata = null
     try {
-      JsonMetadata = await getLeagueIPFSJson(el[2])
+      JsonMetadata = await getLeagueIPFSJson(el)
     } catch (err) {
       console.log(err)
     }

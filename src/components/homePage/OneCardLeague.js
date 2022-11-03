@@ -4,17 +4,22 @@ import { useNavigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { Container, Card, Button } from 'react-bootstrap'
 import { getLeagueIPFSJson, getIPFSImage } from '../../utils/Ipfs'
+import { contract } from '../../utils/WebProvider'
 
 export default function OneCardLeague({
   id,
   ipfs,
   StartDate,
   EndDate,
-  NbLeague,
   NbNFT,
   years,
   Name,
 }) {
+  const naviguate = useNavigate()
+  const handle = () => {
+    naviguate(`./${id}/teamPage`)
+  }
+  const [nbTeam, setNbTeam] = useState(0)
   const [flip, setFlip] = useState(false)
   const [metadata, setMetadata] = useState({
     backgroundColor: '#FFFFFF',
@@ -23,10 +28,6 @@ export default function OneCardLeague({
   const [image, setImage] = useState(
     `https://gateway.pinata.cloud/ipfs/${metadata.image}`,
   )
-  const naviguate = useNavigate()
-  const handle = () => {
-    naviguate(`./${id}/teamPage`)
-  }
 
   useEffect(() => {
     getMetadata()
@@ -65,6 +66,15 @@ export default function OneCardLeague({
     }
   }
 
+  useEffect(() => {
+    getNbOfTeam()
+  }, [])
+
+  async function getNbOfTeam() {
+    const teamId = await contract.getTeamsIdFromOneLeague(id)
+    setNbTeam(teamId.length)
+  }
+
   return (
     <ReactCardFlip id={id} isFlipped={flip} flipDirection="horizontal">
       <Card
@@ -88,8 +98,8 @@ export default function OneCardLeague({
           <h2>End Date: </h2>
           <h3>{EndDate}</h3>
           <br />
-          <h2>Nb of League: </h2>
-          <h3>{NbLeague}</h3>
+          <h2>Nb of Team: </h2>
+          <h3>{nbTeam}</h3>
           <br />
           <h2>NFT to Win: </h2>
           <h3>{NbNFT}</h3>

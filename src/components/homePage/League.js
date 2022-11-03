@@ -66,10 +66,9 @@ export default function League() {
                 years={'2012'}
                 Name={e[1]}
                 ipfs={e[2]}
-                StartDate={'21/09/2022'}
-                EndDate={'19/10/2022'}
-                NbLeague={'12'}
-                NbNFT={'20'}
+                StartDate={'20/11/2022'}
+                EndDate={'18/11/2022'}
+                NbNFT={'68'}
               />
             </Col>
           ))

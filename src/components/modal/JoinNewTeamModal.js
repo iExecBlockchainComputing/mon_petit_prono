@@ -1,7 +1,7 @@
 import React from 'react'
 import './joinNewTeamModal.css'
 import { TextField, Typography, Box, Button } from '@mui/material'
-import { Col, Modal, Row, Table, Form } from 'react-bootstrap'
+import { Col, Modal, Row, Table, Form, Container } from 'react-bootstrap'
 import { useState, useEffect } from 'react'
 import { contract } from '../../utils/WebProvider'
 import { useParams } from 'react-router-dom'
@@ -19,7 +19,6 @@ export default function JoinNewTeam(props) {
   })
 
   useEffect(() => {
-    console.log('I am in useEffect')
     GetAllTeams()
   }, [newTeamsCreated])
 
@@ -42,20 +41,18 @@ export default function JoinNewTeam(props) {
       })
       setResearchResults(resultsearch)
     } else {
-      console.log('ce que je veux savoir : ', AllTeamsAvailable)
       setResearchResults(AllTeamsAvailable)
     }
-  }, [])
+  }, [searchInput])
 
   return (
     <Modal
       id="modalJoinNewTeam"
       {...props}
       size="lg"
-      aria-labelledby="contained-modal-title-vcenter"
       centered
-      className="table-responsive overflow-scroll"
-      scrollable={true}
+      keyboard
+      scrollable
     >
       <Modal.Header>
         <TextField
@@ -66,19 +63,12 @@ export default function JoinNewTeam(props) {
           onChange={(e) => setSearchInput(e.target.value)}
         />
       </Modal.Header>
-      <Modal.Body
-        id="leaguModalBody"
-        style={{
-          maxHeight: 'calc(100vh - 100px)',
-          overflowY: 'auto',
-          position: 'relative',
-        }}
-      >
-        <Table id="globalTable">
+      <Modal.Body id="leaguModalBody">
+        <Container id="globalTable">
           {researchResults.map((team) => (
-            <TeamRow team={team} onHide={props.onHide} />
+            <TeamRow key={team[0]} team={team} onHide={props.onHide} />
           ))}
-        </Table>
+        </Container>
       </Modal.Body>
     </Modal>
   )
@@ -109,12 +99,11 @@ function TeamRow({ team, onHide }) {
       leagueId,
       team[0],
     )
-    console.log('nb of players : ', addressPlayers.length)
     setNbOfPlayers(addressPlayers.length)
   }
 
   return (
-    <tr key={team[0]} id="OneLigne">
+    <Row key={team[0]} id="OneLigne">
       <Box
         onClick={() => setShowOrders(!showOrders)}
         display="flex"
@@ -133,20 +122,38 @@ function TeamRow({ team, onHide }) {
           >
             <tbody>
               <tr>
-                <td id="firstCell">RCL Awards</td>
-                <td>50 RLC</td>
+                <td id="firstCell">Award for the First</td>
+                <td>1 Gold NFT</td>
               </tr>
             </tbody>
             <tbody>
               <tr>
-                <td id="firstCell">NFT Awards</td>
-                <td>3 NFT</td>
+                <td id="firstCell">Award for the Second</td>
+                <td>1 Silver NFT</td>
               </tr>
             </tbody>
             <tbody>
               <tr>
-                <td id="firstCell">Number of participants</td>
-                <td>{nbOfPlayers}</td>
+                <td id="firstCell">Award for the Third</td>
+                <td>1 Bronze NFT</td>
+              </tr>
+            </tbody>
+            <tbody>
+              <tr>
+                <td id="firstCell">Award for the best Team </td>
+                <td>1 Rare NFT</td>
+              </tr>
+            </tbody>
+            <tbody>
+              <tr>
+                <td id="firstCell">Perfect score </td>
+                <td>1 dynamic NFT</td>
+              </tr>
+            </tbody>
+            <tbody>
+              <tr>
+                <td id="firstCell">Number of Players</td>
+                <td>{nbOfPlayers}/500</td>
               </tr>
             </tbody>
           </Table>
@@ -164,6 +171,6 @@ function TeamRow({ team, onHide }) {
           </Row>
         </div>
       )}
-    </tr>
+    </Row>
   )
 }
