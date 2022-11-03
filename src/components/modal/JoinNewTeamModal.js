@@ -93,11 +93,11 @@ function TeamRow({ team, onHide }) {
   async function joinNewTeam() {
     if (playerName.length > 0) {
       await contract.addPlayer(leagueId, team[0], playerName)
+      onHide()
       alert('Your Join new Team')
     } else {
       alert('You must enter a Player name')
     }
-    onHide()
   }
 
   useEffect(() => {
@@ -158,7 +158,7 @@ function TeamRow({ team, onHide }) {
                 onChange={(e) => setPlayerName(e.target.value)}
               />
             </Col>
-            <Col id="test">
+            <Col>
               <Button onClick={joinNewTeam}>JOIN THIS TEAM</Button>
             </Col>
           </Row>

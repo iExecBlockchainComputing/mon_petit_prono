@@ -38,16 +38,6 @@
   margin: auto;
 }
 
-#info .col {
-  margin: auto;
-  text-align: center;
-  color: #fcd15a;
-}
-
-#info .css-10botns-MuiInputBase-input-MuiFilledInput-input {
-  padding-bottom: 2px;
-}
-
 #tableInfo {
   margin: auto;
   width: 60%;
@@ -79,4 +69,19 @@
   border-width: 0px;
   border-top-width: 1px;
   border-color: rgb(140, 138, 138);
+}
+
+#info button {
+  text-align: end;
+  color: #fcd15a;
+}
+
+#info .form-control {
+  background-color: #1d1d24e3;
+  color: #fcd15a;
+  border-color: #fcd15a;
+}
+
+#info .form-control::placeholder {
+  color: #fcd15a;
 }
