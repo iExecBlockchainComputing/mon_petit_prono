@@ -42,11 +42,12 @@ export default function OneCardLeague({
     if (
       JsonMetadata !== null &&
       JSON.stringify(JsonMetadata) !== JSON.stringify(metadata)
+      && JsonMetadata.image !== undefined
+      && JsonMetadata.backgroundColor !== undefined
     ) {
       setMetadata(JsonMetadata)
     }
 
-    console.log('Path of default image', metadata.image)
     let img = null
     try {
       img = await getIPFSImage(metadata.image)
