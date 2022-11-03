@@ -85,7 +85,7 @@ export async function getLeagueIPFSJson(cid) {
         method: 'get',
         url: `/ipfs/${cid}`,
         proxy: {
-          host: 'https://gateway.ipfs.io',
+          host: 'https://gateway.pinata.cloud',
         },
         headers: {
           'Content-Type': 'application/json',
@@ -109,7 +109,7 @@ export async function getIPFSImage(cid) {
         method: 'get',
         url: `/ipfs/${cid}`,
         proxy: {
-          host: 'https://gateway.ipfs.io',
+          host: 'https://gateway.pinata.cloud',
         },
         headers: {
           Authorization: `Bearer ${process.env.REACT_APP_PINIATA_JWT}`,

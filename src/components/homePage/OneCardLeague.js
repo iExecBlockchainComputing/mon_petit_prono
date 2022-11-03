@@ -41,9 +41,9 @@ export default function OneCardLeague({
     }
     if (
       JsonMetadata !== null &&
-      JSON.stringify(JsonMetadata) !== JSON.stringify(metadata)
-      && JsonMetadata.image !== undefined
-      && JsonMetadata.backgroundColor !== undefined
+      JSON.stringify(JsonMetadata) !== JSON.stringify(metadata) &&
+      JsonMetadata.image !== undefined &&
+      JsonMetadata.backgroundColor !== undefined
     ) {
       setMetadata(JsonMetadata)
     }
@@ -57,7 +57,10 @@ export default function OneCardLeague({
     } catch (err) {
       console.log(err)
     }
-    if (img !== null && img !== image) {
+    if (
+      img !== null &&
+      metadata.image !== 'QmVERfcU8E4TBCMTk2cK6fVvqRbRoGkWRYPdkwGwQ8CFbW'
+    ) {
       setImage(img)
     }
   }
