@@ -14,7 +14,7 @@ export default function CreateTeamModal(props) {
   const [ipfsImage, setIpfsImage] = useState(undefined)
   const [teamName, setTeamName] = useState(undefined)
   const [playerName, setPlayerName] = useState(undefined)
-  const [color, setColor] = useState(undefined)
+  const [color, setColor] = useState('#ffffff')
 
   async function CreateTeamSM() {
     const _TeamId = uuidv4()
@@ -29,10 +29,16 @@ export default function CreateTeamModal(props) {
     if (
       _ipfs !== undefined &&
       _teamName !== undefined &&
-      _TeamColor !== undefined &&
       _playerName !== undefined
     ) {
-      const imgPath = await addLeagueIPFS(_TeamId, _teamName, _ipfs, _playerName, _TeamColor)
+      props.onHide()
+      const imgPath = await addLeagueIPFS(
+        _TeamId,
+        _teamName,
+        _ipfs,
+        _playerName,
+        _TeamColor,
+      )
       if (imgPath !== null) {
         await contract.addTeam(
           leagueId,
@@ -41,11 +47,12 @@ export default function CreateTeamModal(props) {
           _playerName,
           imgPath,
         )
+      } else {
+        alert('Une Erreur est survenue avec le stockage offchain')
       }
     } else {
       alert('Please fill all the fields')
     }
-    props.onHide()
   }
 
   useEffect(() => {
@@ -95,7 +102,7 @@ export default function CreateTeamModal(props) {
           <Form.Control
             type="color"
             id="exampleColorInput"
-            defaultValue="#563d7c"
+            defaultValue="#ffffff"
             title="Choose your color"
             onChange={(e) => setColor(e.target.value)}
           />

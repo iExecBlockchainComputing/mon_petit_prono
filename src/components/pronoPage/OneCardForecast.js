@@ -1,8 +1,9 @@
 import './oneCardForecast.css'
 import React from 'react'
-import { Container, Row, Col, Card, Form, Button } from 'react-bootstrap'
+import { Row, Col, Card, Form, Button } from 'react-bootstrap'
+import ReactCountryFlag from 'react-country-flag'
 
-export default function OneCardForecast({ j1, j2, pays1, pays2, date }) {
+export default function OneCardForecast({ countryCode1, countryCode2, countryName1, countryName2, date }) {
   return (
     <Card id="forecastCard">
       <Row>
@@ -10,11 +11,13 @@ export default function OneCardForecast({ j1, j2, pays1, pays2, date }) {
       </Row>
       <Row>
         <Col id="flagueImage">
-          <img
-            src={'https://countryflagsapi.com/png/' + j1}
-            alt={pays1 + ' flag'}
+          <ReactCountryFlag
+            countryCode={countryCode1()}
+            style={{
+              fontSize: '6em',
+            }}
           />
-          <h2>{pays1}</h2>
+          <h2>{countryName1}</h2>
         </Col>
         <Col id="scoreContent">
           <Row>
@@ -40,11 +43,13 @@ export default function OneCardForecast({ j1, j2, pays1, pays2, date }) {
           </Row>
         </Col>
         <Col id="flagueImage">
-          <img
-            src={'https://countryflagsapi.com/png/' + j2}
-            alt={pays2 + ' flag'}
+          <ReactCountryFlag
+            countryCode={countryCode2()}
+            style={{
+              fontSize: '6em',
+            }}
           />
-          <h2>{pays2}</h2>
+          <h2>{countryName2}</h2>
         </Col>
       </Row>
     </Card>

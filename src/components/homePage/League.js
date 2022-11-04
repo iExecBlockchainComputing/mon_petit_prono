@@ -15,7 +15,7 @@ export default function League() {
   const [newLeagueCreated, setNewLeagueCreated] = useState(null)
   const [loading, setLoading] = useState(false)
   const wallet = useSelector((state) => state.wallet)
-  contract.on('NewLeague', (_LeagueId, _League_name, _ipfs) => {
+  contract.on('NewLeague', (_LeagueId, _League_name) => {
     console.log('New League Created', _LeagueId)
     setNewLeagueCreated(_LeagueId)
   })

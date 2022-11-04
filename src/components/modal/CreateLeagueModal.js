@@ -11,7 +11,7 @@ import { useState, useEffect } from 'react'
 export default function CreateLeagueModal(props) {
   const [ipfsImage, setIpfsImage] = useState(undefined)
   const [leagueName, setLeagueName] = useState(undefined)
-  const [color, setColor] = useState(undefined)
+  const [color, setColor] = useState('#ffffff')
 
   async function CreateLeagueSM() {
     const _LeagueId = uuidv4()
@@ -22,11 +22,8 @@ export default function CreateLeagueModal(props) {
     const _LeagueName = leagueName
     const _LeagueColor = color
     const _ipfs = ipfsImage
-    if (
-      _ipfs !== undefined &&
-      _LeagueName !== undefined &&
-      _LeagueColor !== undefined
-    ) {
+    if (_ipfs !== undefined && _LeagueName !== undefined) {
+      props.onHide()
       const imgPath = await addLeagueIPFS(
         _LeagueId,
         _LeagueName,
@@ -35,11 +32,12 @@ export default function CreateLeagueModal(props) {
       )
       if (imgPath !== null) {
         await contract.addLeague(_LeagueId, _LeagueName, imgPath)
+      } else {
+        alert('Une Erreur est survenue avec le stockage offchain')
       }
     } else {
       alert('Please fill all the fields')
     }
-    props.onHide()
   }
 
   useEffect(() => {
@@ -81,7 +79,7 @@ export default function CreateLeagueModal(props) {
           <Form.Control
             type="color"
             id="exampleColorInput"
-            defaultValue="#fcd15a"
+            defaultValue="#ffffff"
             title="Choose your color"
             onChange={(e) => setColor(e.target.value)}
           />

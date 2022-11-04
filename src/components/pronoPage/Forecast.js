@@ -6,10 +6,35 @@ import { Container, Button } from 'react-bootstrap'
 import AddForecast from './AddForecast'
 import { contract } from '../../utils/WebProvider'
 import { useSelector } from 'react-redux'
+import { useParams } from 'react-router-dom'
+import countryList from 'react-select-country-list'
 
 export default function Forecast() {
+  let { leagueId, teamId } = useParams()
   const [owner, setOwner] = useState(false)
+  const [newForecast, setNewForecast] = useState(null)
+  const [forecast, setForecast] = useState([])
   const wallet = useSelector((state) => state.wallet)
+
+  contract.on('NewForecast', (_LeagueId, _ForecastId) => {
+    console.log('newForecast : ', _ForecastId)
+    setNewForecast(_ForecastId)
+  })
+
+  useEffect(() => {
+    forecastInfo()
+  }, [newForecast])
+
+  const forecastInfo = async () => {
+    const forecastId = await contract.getForecastId(leagueId, teamId)
+    let forecastInfo = await Promise.all(
+      forecastId.map(async (e) => {
+        return await contract.getForecast(leagueId, teamId, e)
+      }),
+    )
+    console.log(forecastInfo)
+    setForecast(forecastInfo)
+  }
 
   useEffect(() => {
     async function getOwner() {
@@ -25,29 +50,17 @@ export default function Forecast() {
 
   return (
     <Container id="forecast">
-      <OneCardForecast
-        j1={'de'}
-        j2={'br'}
-        pays1={'Allemagne'}
-        pays2={'Brésil'}
-        date={'Dim. 14 decembre 20h00'}
-      />
-      <OneCardForecast
-        j1={'fr'}
-        j2={'it'}
-        pays1={'France'}
-        pays2={'Italy'}
-        date={'Dim. 14 decembre 20h00'}
-      />
-      {owner && (
-        <AddForecast
-          j1={'fr'}
-          j2={'it'}
-          pays1={'France'}
-          pays2={'Italy'}
+      {forecast.map((forecast) => (
+        <OneCardForecast
+          key={forecast[0]}
+          countryCode1={() => countryList().getValue(forecast[0][0])}
+          countryCode2={() => countryList().getValue(forecast[0][1])}
+          countryName1={forecast[0][0]}
+          countryName2={forecast[0][1]}
           date={'Dim. 14 decembre 20h00'}
         />
-      )}
+      ))}
+      {owner && <AddForecast />}
       <Button id="saveButton">Save Your Forecast</Button>
     </Container>
   )

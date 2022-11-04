@@ -5,10 +5,11 @@ import "hardhat/console.sol";
 contract MonPetitProno{
 
     address public owner;
-    event NewLeague(string _LeagueId, string _League_name,string _ipfs);
-    event NewTeam(string _LeagueId, string _TeamId, string _Team_name,string _ipfs);
+    event NewLeague(string _LeagueId, string _League_name);
+    event NewTeam(string _LeagueId, string _TeamId, string _Team_name);
+    event NewForecast(string _LeagueId, string _ForecastId);
     struct Forecast{
-        uint[3] odds;
+        string [2] teams;
         uint[2] prono;
         uint[2] result;
         uint PointNb;
@@ -62,7 +63,7 @@ contract MonPetitProno{
         Leagues[_LeagueId].League_name = _League_name;
         Leagues[_LeagueId].ipfs = _ipfs;
         keyMappingLeague.push(_LeagueId);
-        emit NewLeague(_LeagueId, _League_name, _ipfs);
+        emit NewLeague(_LeagueId, _League_name);
     }  
 
     // get all leagues id
@@ -84,7 +85,7 @@ contract MonPetitProno{
         Leagues[_LeagueId].Teams[_TeamId].ipfs = _ipfs;
         Leagues[_LeagueId].keyMappingTeam.push(_TeamId);
         addPlayer(_LeagueId, _TeamId,  _Player_name);
-        emit NewTeam(_LeagueId, _TeamId, _Teame_Name, _ipfs);
+        emit NewTeam(_LeagueId, _TeamId, _Teame_Name);
     }
 
     // return all the team of a league in which the player is
@@ -145,7 +146,7 @@ contract MonPetitProno{
     function addPlayer(string memory _LeagueId, string memory _TeamId, string memory _Player_name) public {
         Leagues[_LeagueId].Teams[_TeamId].Players[msg.sender].Player_name = _Player_name;
         Leagues[_LeagueId].Teams[_TeamId].keyMappingPlayer.push(msg.sender);
-        emit NewTeam( _LeagueId,  _TeamId, Leagues[_LeagueId].Teams[_TeamId].Team_name, Leagues[_LeagueId].Teams[_TeamId].ipfs);
+        emit NewTeam( _LeagueId,  _TeamId, Leagues[_LeagueId].Teams[_TeamId].Team_name);
 
     }
 
@@ -178,21 +179,33 @@ contract MonPetitProno{
     }
 
     //return the score of a player of a certain team and league
-    function getPlayerScore(string memory _LeagueId, string memory _TeamId, address _walletId) public view returns(uint){
+    function getPlayerNameAndScore(string memory _LeagueId, string memory _TeamId, address _walletId) public view returns(uint){
         return Leagues[_LeagueId].Teams[_TeamId].Players[_walletId].score;
     }
 
     /** FORECAST */
     //add a forecast from a player
-    function addForecast(string memory _LeagueId, string memory _TeamId, address _walletId, string memory _matchId, uint[3] memory _odds, uint[2] memory _prono) public {
-        Leagues[_LeagueId].Teams[_TeamId].Players[_walletId].Forecasts[_matchId].odds = _odds;
-        Leagues[_LeagueId].Teams[_TeamId].Players[_walletId].Forecasts[_matchId].prono = _prono;
+    function addForecast(string memory _LeagueId,  string memory _matchId, string [2] memory  teams) public {
+        for (uint i; i<Leagues[_LeagueId].keyMappingTeam.length; i++){
+            string memory _TeamId = Leagues[_LeagueId].keyMappingTeam[i];
+            for (uint k; k<Leagues[_LeagueId].Teams[_TeamId].keyMappingPlayer.length; k++){
+                address _walletId = Leagues[_LeagueId].Teams[_TeamId].keyMappingPlayer[k];
+                Leagues[_LeagueId].Teams[_TeamId].Players[_walletId].keyMappingForecasts.push(_matchId);
+                Leagues[_LeagueId].Teams[_TeamId].Players[_walletId].Forecasts[_matchId].teams = teams;
+            }
+        }
+        emit NewForecast(_LeagueId, _matchId );
+    }
+
+    //get forecast id of a player
+    function getForecastId(string memory _LeagueId, string memory _TeamId) public view returns(string [] memory){
+        return Leagues[_LeagueId].Teams[_TeamId].Players[msg.sender].keyMappingForecasts;
     }
 
     //get forecast info from a player
-    function getForecast(string memory _LeagueId, string memory _TeamId, address _walletId, string memory _matchId) public view returns(uint[3] memory, uint[2] memory, uint[2] memory, uint){
-        Forecast memory _match = Leagues[_LeagueId].Teams[_TeamId].Players[_walletId].Forecasts[_matchId];
-        return (_match.odds, _match.prono, _match.result, _match.PointNb);
+    function getForecast(string memory _LeagueId, string memory _TeamId, string memory _matchId) public view returns(string [2] memory, uint[2] memory, uint[2] memory, uint){
+        Forecast memory _match = Leagues[_LeagueId].Teams[_TeamId].Players[msg.sender].Forecasts[_matchId];
+        return (_match.teams, _match.prono, _match.result, _match.PointNb);
     }
 
     //update forecat result from a player

@@ -14,8 +14,8 @@ export default function Team() {
   const [newTeamsCreated, setNewTeamsCreated] = useState(null)
   const wallet = useSelector((state) => state.wallet)
 
-  contract.on('NewTeam', (_LeagueId, _TeamId, _Team_name, _ipfs) => {
-    console.log('newTeamsCreated : ', _LeagueId)
+  contract.on('NewTeam', (_LeagueId, _TeamId, _Team_name) => {
+    console.log('newTeamsCreated : ', _TeamId)
     setNewTeamsCreated(_TeamId)
   })
 

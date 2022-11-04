@@ -89,10 +89,9 @@ export async function getLeagueIPFSJson(cid) {
         },
         headers: {
           Authorization: `Bearer ${process.env.REACT_APP_PINIATA_JWT}`,
-          "Access-Control-Allow-Origin": "*"
         },
       })
-      console.log('get Json/response', response.data)
+      console.log('get Json/response', response)
     } catch (error) {
       console.log(error)
     }

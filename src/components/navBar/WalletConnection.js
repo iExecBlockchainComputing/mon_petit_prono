@@ -10,12 +10,13 @@ function WalletConnection() {
 
   return (
     <div id="father">
-      <BsPersonCircle id ="iconConnect"
+      <BsPersonCircle
+        id="iconConnect"
         color="white"
         size={35}
-        onMouseEnter={(e) => {
+        /**onMouseEnter={(e) => {
           setStyle({ display: 'block' })
-        }}
+        }}*/
       />
       <div
         onMouseLeave={(e) => {
@@ -34,10 +35,7 @@ function WalletConnection() {
             >
               Connexion
             </ListGroup.Item>
-            <ListGroup.Item
-              id="walletItems"
-              action
-            >
+            <ListGroup.Item id="walletItems" action>
               Deconnexion
             </ListGroup.Item>
           </ListGroup>

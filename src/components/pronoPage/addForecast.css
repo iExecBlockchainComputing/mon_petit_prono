@@ -51,6 +51,7 @@
   border-width: 2px;
   border-color: white;
   cursor: pointer;
+  position: relative;
 }
 
 #dropdownFlagueImage button {
@@ -95,4 +96,9 @@
   height: 300px;
   width: 130%;
   overflow-y: scroll;
+}
+
+#dropdownFlag span {
+  margin-top: -15px;
+    margin-left: -9px;
 }

@@ -6,17 +6,36 @@ import { FaFlag } from 'react-icons/fa'
 import { useEffect, useMemo } from 'react'
 import countryList from 'react-select-country-list'
 import ReactCountryFlag from 'react-country-flag'
+import { contract } from '../../utils/WebProvider'
+import { useParams } from 'react-router-dom'
+import { v4 as uuidv4 } from 'uuid'
 
-export default function AddForecast({ j1, j2, pays1, pays2, date }) {
+export default function AddForecast() {
+  let { leagueId, teamId } = useParams()
   const [Country1, setCountry1] = useState('Country')
   const [Country2, setCountry2] = useState('Country')
-  const addForecast = () => {
-    console.log('addForecast')
+
+  const addForecast = async () => {
+    const _matchId = uuidv4()
+    const ListIdMatch = await contract.getForecastId(leagueId, teamId)
+    while (ListIdMatch.includes(_matchId)) {
+      _matchId = uuidv4()
+    }
+    if (
+      Country1 === Country2 ||
+      Country1 === 'Country' ||
+      Country2 === 'Country'
+    ) {
+      alert('Choose a valid match')
+    } else {
+      await contract.addForecast(leagueId, _matchId, [Country1, Country2])
+    }
   }
+
   return (
     <Card id="addforecastCard">
       <Row>
-        <h3>{date}</h3>
+        <h3>Dim. 14 decembre 20h00</h3>
       </Row>
       <Row>
         <Col id="dropdownFlagueImage">
@@ -41,7 +60,7 @@ function DropDonwFlag({ pays }) {
   const [search, setSearch] = useState('')
   const countries = useMemo(() => countryList().getData(), [])
   const [toggleContents, setToggleContents] = useState(
-    <FaFlag size={30} color="white" style={{ marginRight: '18%' }} />,
+    <FaFlag size={22} color="white" style={{ marginRight: '18%',marginTop:'-5px' }} />,
   )
 
   const [countriesFiltered, setCountriesFiltered] = useState(countries)
@@ -68,7 +87,7 @@ function DropDonwFlag({ pays }) {
           <ReactCountryFlag
             countryCode={value}
             style={{
-              fontSize: '3em',
+              fontSize: '4em',
             }}
           />,
         )
