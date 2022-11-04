@@ -16,7 +16,7 @@ export default function TeamPage() {
 
   document.addEventListener('keydown', (event) => {
     keysPressed[event.key] = true
-    if ((keysPressed['Meta'] || keysPressed['Control']) && event.key == 'k') {
+    if ((keysPressed['Meta'] || keysPressed['Control']) && event.key === 'k') {
       setModalShow(true)
     }
   })
@@ -34,7 +34,7 @@ export default function TeamPage() {
             <Form.Label>Join a new Team</Form.Label>
             <Form.Control
               type="search"
-              placeholder="Search team...                                   Cmd + K"
+              placeholder="Cmd + K"
               className="me-2"
               onClick={() => setModalShow(true)}
             >

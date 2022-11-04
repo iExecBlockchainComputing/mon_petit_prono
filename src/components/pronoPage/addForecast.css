@@ -1,0 +1,98 @@
+#addforecastCard {
+  --backgroundColor: #1d1d24;
+  background-color: var(--backgroundColor);
+  margin: auto;
+  width: 55%;
+  height: 150px;
+  margin-top: 50px;
+  border-radius: 15px;
+  border-style: dashed;
+  border-width: 2px;
+  border-color: white;
+}
+
+#addforecastCard h3 {
+  margin-top: 1%;
+  font-size: 12px;
+  font-family: 'Mulish';
+  color: white;
+}
+
+#addforecastCard h2 {
+  margin-top: 4%;
+  font-size: 20px;
+  color: white;
+}
+
+#addButton button {
+  margin: auto;
+  width: 50%;
+  color: #fcd15a;
+  background-color: #1d1d24;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #fcd15a;
+  padding: 4px;
+  border-radius: 25px;
+}
+
+#addButton {
+  margin: auto;
+  text-align: center;
+}
+
+#dropdownFlag {
+  padding-top: 12px;
+  margin: auto;
+  width: 90px;
+  height: 60px;
+  border-radius: 15px;
+  border-style: dashed;
+  border-width: 2px;
+  border-color: white;
+  cursor: pointer;
+}
+
+#dropdownFlagueImage button {
+  padding-top: 5%;
+  width: 90px;
+  height: 60px;
+  border-radius: 15px;
+  border-style: dashed;
+  border-width: 2px;
+  border-color: white;
+  background-color: #1d1d24;
+}
+
+#selectedFlag {
+  margin: auto;
+}
+
+#searchFlag {
+  padding: 0%;
+  margin: 0px;
+  padding-left: 10%;
+  padding-right: 2%;
+  --bs-dropdown-link-active-bg: white;
+}
+
+#searchFlag .form-control {
+  width: 100%;
+  padding: 0%;
+  border-width: 0px;
+}
+
+#searchFlag .form-control:focus {
+  box-shadow: none;
+}
+
+#searchFlag:hover {
+  background-color: white;
+}
+
+#oneItem {
+  color: black;
+  height: 300px;
+  width: 130%;
+  overflow-y: scroll;
+}

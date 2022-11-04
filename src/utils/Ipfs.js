@@ -83,10 +83,7 @@ export async function getLeagueIPFSJson(cid) {
     try {
       response = await axios({
         method: 'get',
-        url: `/ipfs/${cid}`,
-        proxy: {
-          host: 'https://gateway.pinata.cloud',
-        },
+        url: `https://gateway.pinata.cloud/ipfs/${cid}`,
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${process.env.REACT_APP_PINIATA_JWT}`,
@@ -107,10 +104,7 @@ export async function getIPFSImage(cid) {
     try {
       response = await axios({
         method: 'get',
-        url: `/ipfs/${cid}`,
-        proxy: {
-          host: 'https://gateway.pinata.cloud',
-        },
+        url: `https://gateway.pinata.cloud/ipfs/${cid}`,
         headers: {
           Authorization: `Bearer ${process.env.REACT_APP_PINIATA_JWT}`,
         },

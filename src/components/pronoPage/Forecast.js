@@ -1,79 +1,54 @@
 import './forecast.css'
-
+import OneCardForecast from './OneCardForecast'
 import React from 'react'
-import { Container, Row, Col, Card, Form, Button } from 'react-bootstrap'
+import { useEffect, useState } from 'react'
+import { Container, Button } from 'react-bootstrap'
+import AddForecast from './AddForecast'
+import { contract } from '../../utils/WebProvider'
+import { useSelector } from 'react-redux'
 
 export default function Forecast() {
+  const [owner, setOwner] = useState(false)
+  const wallet = useSelector((state) => state.wallet)
+
+  useEffect(() => {
+    async function getOwner() {
+      let actualAccount = wallet.accountAddress.toLowerCase()
+      let ownerContractAddress = (await contract.owner()).toLowerCase()
+      if (actualAccount === ownerContractAddress) {
+        setOwner(true)
+        console.log('Your are the owner of the smart Contract')
+      }
+    }
+    getOwner()
+  }, [wallet.accountAddress])
+
   return (
     <Container id="forecast">
-      <OneForecast j1={'de'} j2={'br'} />
-      <OneForecast j1={'fr'} j2={'pr'} />
-      <OneForecast j1={'es'} j2={'us'} />
-      <OneForecast j1={'de'} j2={'br'} />
-      <OneForecast j1={'al'} j2={'fr'} />
-      <OneForecast j1={'de'} j2={'br'} />
-      <OneForecast j1={'gb'} j2={'gr'} />
-      <Button id='saveButton'>Save Your Forecast</Button>
+      <OneCardForecast
+        j1={'de'}
+        j2={'br'}
+        pays1={'Allemagne'}
+        pays2={'Brésil'}
+        date={'Dim. 14 decembre 20h00'}
+      />
+      <OneCardForecast
+        j1={'fr'}
+        j2={'it'}
+        pays1={'France'}
+        pays2={'Italy'}
+        date={'Dim. 14 decembre 20h00'}
+      />
+      {owner && (
+        <AddForecast
+          j1={'fr'}
+          j2={'it'}
+          pays1={'France'}
+          pays2={'Italy'}
+          date={'Dim. 14 decembre 20h00'}
+        />
+      )}
+      <Button id="saveButton">Save Your Forecast</Button>
     </Container>
-  )
-}
-
-function OneForecast({ j1, j2 }) {
-  return (
-    <Card id="forecastCard">
-      <Row>
-        <h3>Dim. 14 decembre 20h00</h3>
-      </Row>
-      <Row>
-        <Col id="flagueImage">
-          <img
-            src={'https://countryflagsapi.com/png/' + j1}
-            alt="Germany flag"
-          />
-          <h2>Allemagne</h2>
-        </Col>
-        <Col id="scoreContent">
-          <Row>
-            <Col id='ttt'>
-              <Form.Control
-                id="score"
-                type="number"
-                onWheel={(e) => e.currentTarget.blur()}
-                placeholder="..."
-              />
-            </Col>
-            <Col>
-              <h1>-</h1>
-            </Col>
-            <Col>
-              <Form.Control
-                id="score"
-                type="number"
-                onWheel={(e) => e.currentTarget.blur()}
-                placeholder="..."
-              />
-            </Col>
-          </Row>
-        </Col>
-        <Col id="flagueImage">
-          <img
-            src={'https://countryflagsapi.com/png/' + j2}
-            alt="Brazil flag"
-          />
-          <h2>Brésil</h2>
-        </Col>
-      </Row>
-      <Row>
-        <Col>
-          <Card>20</Card>
-        </Col>
-        <Col>
-          <Card>25</Card>
-        </Col>
-        <Col>
-          <Card>29</Card>
-        </Col>
-      </Row>
-    </Card>
   )
 }
