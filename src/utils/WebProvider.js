@@ -68,7 +68,7 @@ export function WebProvider() {
     try {
       await window.ethereum.request({
         method: 'wallet_addEthereumChain',
-        params: [AllNetwork[1]],
+        params: [AllNetwork[0]],
       })
     } catch (error) {
       console.error(error)
@@ -79,7 +79,7 @@ export function WebProvider() {
     try {
       await ethereum.request({
         method: 'wallet_switchEthereumChain',
-        params: [{ chainId: AllNetwork[1].chainId }],
+        params: [{ chainId: AllNetwork[0].chainId }],
       })
     } catch {
       addNetwork()
