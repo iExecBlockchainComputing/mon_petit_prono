@@ -4,10 +4,22 @@
   font-weight: 800;
   line-height: 130px;
   margin-bottom: 80px;
-  background: linear-gradient(to right, #fcd15a, #ef5454, #6dc7ff);
+  background: linear-gradient(
+    60deg,
+    #f79533,
+    #f37055,
+    #ef4e7b,
+    #a166ab,
+    #5073b8,
+    #1098ad,
+    #07b39b,
+    #6fba82
+  );
   background-clip: border-box;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  animation: animatedgradient 10s ease alternate infinite;
+  background-size: 300% 300%;
 }
 
 #subTitle p {
@@ -22,4 +34,10 @@
 #titles {
   margin-top: 150px;
   margin-bottom: 120px;
+}
+
+@keyframes animatedgradient {
+  to {
+    background-position: 300% center;
+  }
 }

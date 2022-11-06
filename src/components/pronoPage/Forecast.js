@@ -15,6 +15,7 @@ export default function Forecast() {
   const [newForecast, setNewForecast] = useState(null)
   const [forecast, setForecast] = useState([])
   const wallet = useSelector((state) => state.wallet)
+  const [playersBets, setPlayersBets] = useState([])
 
   contract.on('NewForecast', (_LeagueId, _ForecastId) => {
     console.log('newForecast : ', _ForecastId)
@@ -24,6 +25,10 @@ export default function Forecast() {
   useEffect(() => {
     forecastInfo()
   }, [newForecast])
+
+  const SaveForecast = () => {
+    console.log('playersBets : ', playersBets)
+  }
 
   const forecastInfo = async () => {
     const forecastId = await contract.getForecastId(leagueId, teamId)
@@ -50,18 +55,22 @@ export default function Forecast() {
 
   return (
     <Container id="forecast">
-      {forecast.map((forecast) => (
+      {forecast.map((elem) => (
         <OneCardForecast
-          key={forecast[0]}
-          countryCode1={() => countryList().getValue(forecast[0][0])}
-          countryCode2={() => countryList().getValue(forecast[0][1])}
-          countryName1={forecast[0][0]}
-          countryName2={forecast[0][1]}
+          key={elem[0]}
+          id={elem[0]}
+          setCardInfo={[playersBets,setPlayersBets]}
+          countryCode1={() => countryList().getValue(elem[0][0])}
+          countryCode2={() => countryList().getValue(elem[0][1])}
+          countryName1={elem[0][0]}
+          countryName2={elem[0][1]}
           date={'Dim. 14 decembre 20h00'}
         />
       ))}
       {owner && <AddForecast />}
-      <Button id="saveButton">Save Your Forecast</Button>
+      <Button id="saveButton" onClick={SaveForecast}>
+        <h1 id='linear-wide'>Save Your Forecast</h1>
+      </Button>
     </Container>
   )
 }

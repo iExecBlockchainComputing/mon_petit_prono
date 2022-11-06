@@ -1,13 +1,25 @@
 #navbar {
   text-align: center;
   height: auto;
-  background-image: linear-gradient(to right, #fcd15a, #ef5454, #6dc7ff);
+  background: linear-gradient(
+    60deg,
+    #f79533,
+    #f37055,
+    #ef4e7b,
+    #a166ab,
+    #5073b8,
+    #1098ad,
+    #07b39b,
+    #6fba82
+  );
   position: sticky;
   top: 0;
   z-index: 1;
   width: 100%;
   flex-flow: column;
   padding-bottom: 0px;
+  animation: animatedgradient 10s ease alternate infinite;
+  background-size: 300% 300%;
 }
 
 #logo {
@@ -39,4 +51,10 @@
 
 #progress .MuiLinearProgress-barColorPrimary {
   background-color: #c4c4c4;
+}
+
+@keyframes animatedgradient {
+  to {
+    background-position: 300% center;
+  }
 }

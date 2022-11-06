@@ -47,7 +47,7 @@
   );
   border-radius: calc(2 * var(--borderWidth));
   z-index: -1;
-  animation: animatedgradient 3s ease alternate infinite;
+  animation: animatedgradient 10s ease alternate infinite;
   background-size: 300% 300%;
 }
 

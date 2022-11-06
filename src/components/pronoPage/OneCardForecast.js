@@ -1,9 +1,41 @@
 import './oneCardForecast.css'
-import React from 'react'
+import { useState, useEffect } from 'react'
 import { Row, Col, Card, Form, Button } from 'react-bootstrap'
 import ReactCountryFlag from 'react-country-flag'
 
-export default function OneCardForecast({ countryCode1, countryCode2, countryName1, countryName2, date }) {
+export default function OneCardForecast({
+  id,
+  setCardInfo,
+  countryCode1,
+  countryCode2,
+  countryName1,
+  countryName2,
+  date,
+}) {
+  const [score1, setScore1] = useState(null)
+  const [score2, setScore2] = useState(null)
+  const playersBets = setCardInfo[0]
+  const setPlayersBets = setCardInfo[1]
+
+  useEffect(() => {
+    if (score1 !== null && score2 !== null) {
+      let test = false
+      for (let i = 0; i < playersBets.length; i++) {
+        if (playersBets[i].id === id) {
+          test = true
+          playersBets[i].score1 = score1
+          playersBets[i].score2 = score2
+        }
+      }
+      if (!test) {
+        setPlayersBets([
+          ...playersBets,
+          { id: id, score1: score1, score2: score2, date: date },
+        ])
+      }
+    }
+  }, [score1, score2])
+
   return (
     <Card id="forecastCard">
       <Row>
@@ -25,8 +57,8 @@ export default function OneCardForecast({ countryCode1, countryCode2, countryNam
               <Form.Control
                 id="score"
                 type="number"
-                onWheel={(e) => e.currentTarget.blur()}
                 placeholder="..."
+                onChange={(e) => setScore1(e.target.value)}
               />
             </Col>
             <Col>
@@ -36,8 +68,8 @@ export default function OneCardForecast({ countryCode1, countryCode2, countryNam
               <Form.Control
                 id="score"
                 type="number"
-                onWheel={(e) => e.currentTarget.blur()}
                 placeholder="..."
+                onChange={(e) => setScore2(e.target.value)}
               />
             </Col>
           </Row>

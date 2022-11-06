@@ -60,7 +60,11 @@ function DropDonwFlag({ pays }) {
   const [search, setSearch] = useState('')
   const countries = useMemo(() => countryList().getData(), [])
   const [toggleContents, setToggleContents] = useState(
-    <FaFlag size={22} color="white" style={{ marginRight: '18%',marginTop:'-5px' }} />,
+    <FaFlag
+      size={22}
+      color="white"
+      style={{ marginRight: '18%', marginTop: '-5px' }}
+    />,
   )
 
   const [countriesFiltered, setCountriesFiltered] = useState(countries)
