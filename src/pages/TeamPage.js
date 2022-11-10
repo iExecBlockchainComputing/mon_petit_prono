@@ -31,7 +31,7 @@ export default function TeamPage() {
       <Container id="researchBar">
         <Form>
           <Form.Group>
-            <Form.Label>Join a new Team</Form.Label>
+            <Form.Label>Join an existing team</Form.Label>
             <Form.Control
               type="search"
               placeholder="Cmd + K"

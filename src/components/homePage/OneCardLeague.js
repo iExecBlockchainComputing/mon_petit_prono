@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { Container, Card, Button } from 'react-bootstrap'
 import { getLeagueIPFSJson, getIPFSImage } from '../../utils/Ipfs'
-import { contract } from '../../utils/WebProvider'
+import { MonPetitPronoContract } from '../../utils/WebProvider'
 
 export default function OneCardLeague({
   id,
@@ -71,7 +71,7 @@ export default function OneCardLeague({
   }, [])
 
   async function getNbOfTeam() {
-    const teamId = await contract.getTeamsIdFromOneLeague(id)
+    const teamId = await MonPetitPronoContract.getTeamsIdFromOneLeague(id)
     setNbTeam(teamId.length)
   }
 

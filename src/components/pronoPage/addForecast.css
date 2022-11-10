@@ -11,6 +11,36 @@
   border-color: white;
 }
 
+#rowDatepicker {
+  border-style: solid;
+  border-color: #fcd15a;
+  border-width: 0px 0px 1px 0px;
+  width: 205px;
+  margin: auto;
+}
+
+#datePicker {
+  background-color: #1d1d24;
+  margin: auto;
+  color: #fcd15a;
+  border-style: hidden;
+  text-align: center;
+  width: 210px;
+}
+
+#rowDatepickerCol {
+  max-width: 5px;
+  text-align: center;
+  margin: auto;
+  margin-bottom: -5px;
+}
+
+#rowDatepickerCol h2 {
+  color: #fcd15a !important;
+  width: 5px !important;
+  margin: auto;
+}
+
 #addforecastCard h3 {
   margin-top: 1%;
   font-size: 12px;
@@ -100,5 +130,5 @@
 
 #dropdownFlag span {
   margin-top: -15px;
-    margin-left: -9px;
+  margin-left: -9px;
 }

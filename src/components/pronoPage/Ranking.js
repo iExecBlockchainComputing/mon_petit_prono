@@ -1,120 +1,68 @@
 import './ranking.css'
-import Container from 'react-bootstrap/Container'
+import { Container, Button } from 'react-bootstrap'
 import Table from 'react-bootstrap/Table'
-import React from 'react'
+import { useEffect, useState } from 'react'
+import { MonPetitPronoContract } from '../../utils/WebProvider'
+import { useParams } from 'react-router-dom'
 
 export default function Ranking() {
+  let { leagueId, teamId } = useParams()
+  const [ranking, setRanking] = useState([])
+
+  useEffect(() => {
+    getRanking()
+  }, [])
+
+  const getRanking = async () => {
+    const playersId = await MonPetitPronoContract.getAllPlayerAddrFromOneTeam(
+      leagueId,
+      teamId,
+    )
+    let forecastInfo = await Promise.all(
+      playersId.map(async (e) => {
+        let info = await MonPetitPronoContract.getPlayerInfo(
+          leagueId,
+          teamId,
+          e,
+        )
+        let OnePlayer = [...info]
+        OnePlayer[1] = OnePlayer[1].toNumber()
+        return [...OnePlayer, e]
+      }),
+    )
+    forecastInfo.sort((a, b) => b[1] - a[1])
+    setRanking(forecastInfo)
+    console.log('forecast Ranking: ', forecastInfo)
+  }
+
+  const UpdateScore = async () => {
+    await MonPetitPronoContract.updateScore(leagueId, teamId)
+    getRanking()
+  }
+
   return (
-    <Container id='ranking'>
-      <Table striped >
+    <Container id="ranking">
+      <Button id="updateScore" onClick={UpdateScore}>
+        <h1 id="linear-wide">Update Your Rank</h1>
+      </Button>
+      <Table striped>
         <thead>
           <tr>
             <th>Rank</th>
             <th>Number of Points</th>
-            <th>First Name</th>
-            <th>Last Name</th>
+            <th>Player Name</th>
             <th>Wallet ID</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>1</td>
-            <td>35</td>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td id="walletID">0xa1B1CAbE3FF10B0e08B95F74BF7A374A4A9f85d6</td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td>32</td>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td id="walletID">0xa1B1CAbE3FF10B0e08B95F74BF7A374A4A9f85d6</td>
-          </tr>
-          <tr>
-            <td>3</td>
-            <td>25</td>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td id="walletID">0xa1B1CAbE3FF10B0e08B95F74BF7A374A4A9f85d6</td>
-          </tr>
-          <tr>
-            <td>4</td>
-            <td>22</td>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td id="walletID">0xa1B1CAbE3FF10B0e08B95F74BF7A374A4A9f85d6</td>
-          </tr>
-          <tr>
-            <td>5</td>
-            <td>20</td>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td id="walletID">0xa1B1CAbE3FF10B0e08B95F74BF7A374A4A9f85d6</td>
-          </tr>
-          <tr>
-            <td>6</td>
-            <td>18</td>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td id="walletID">0xa1B1CAbE3FF10B0e08B95F74BF7A374A4A9f85d6</td>
-          </tr>
-          <tr>
-            <td>7</td>
-            <td>14</td>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td id="walletID">0xa1B1CAbE3FF10B0e08B95F74BF7A374A4A9f85d6</td>
-          </tr>
-          <tr>
-            <td>7</td>
-            <td>14</td>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td id="walletID">0xa1B1CAbE3FF10B0e08B95F74BF7A374A4A9f85d6</td>
-          </tr>
-          <tr>
-            <td>7</td>
-            <td>14</td>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td id="walletID">0xa1B1CAbE3FF10B0e08B95F74BF7A374A4A9f85d6</td>
-          </tr>
-          <tr>
-            <td>7</td>
-            <td>14</td>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td id="walletID">0xa1B1CAbE3FF10B0e08B95F74BF7A374A4A9f85d6</td>
-          </tr>
-          <tr>
-            <td>7</td>
-            <td>14</td>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td id="walletID">0xa1B1CAbE3FF10B0e08B95F74BF7A374A4A9f85d6</td>
-          </tr>
-          <tr>
-            <td>7</td>
-            <td>14</td>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td id="walletID">0xa1B1CAbE3FF10B0e08B95F74BF7A374A4A9f85d6</td>
-          </tr>
-          <tr>
-            <td>7</td>
-            <td>14</td>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td id="walletID">0xa1B1CAbE3FF10B0e08B95F74BF7A374A4A9f85d6</td>
-          </tr>
-          <tr>
-            <td>7</td>
-            <td>14</td>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td id="walletID">0xa1B1CAbE3FF10B0e08B95F74BF7A374A4A9f85d6</td>
-          </tr>
+          {ranking.map((e, index) => (
+            <tr key={index}>
+              <td>{index + 1}</td>
+              <td>{e[1]}</td>
+              <td>{e[0]}</td>
+              <td id="walletID">{e[2]}</td>
+            </tr>
+          ))}
         </tbody>
       </Table>
     </Container>

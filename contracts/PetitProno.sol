@@ -1,18 +1,27 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.9; 
 import "hardhat/console.sol";
+import './GetOracleInfo.sol';
 
-contract MonPetitProno{
+contract MonPetitProno is GetOracleInfo {
 
     address public owner;
     event NewLeague(string _LeagueId, string _League_name);
     event NewTeam(string _LeagueId, string _TeamId, string _Team_name);
     event NewForecast(string _LeagueId, string _ForecastId);
+    event EndDate (string _LeagueId, uint _EndDate, uint _matchDate);
+    event MatchAvailable(string _LeagueId, string _matchId);
+    enum Time{ AVAILABLE, FINISHED }
+
     struct Forecast{
         string [2] teams;
         uint[2] prono;
         uint[2] result;
         uint PointNb;
+        uint blockEnd;
+        bytes32 _oracleId;
+        uint matchDate;
+        Time time;
     }
 
     struct Player {
@@ -48,13 +57,9 @@ contract MonPetitProno{
         _;
     }
 
-    modifier OnlyPlayer(string memory _LeagueId, string memory _TeamId, address _walletId){
-        for (uint k; k<Leagues[_LeagueId].Teams[_TeamId].keyMappingPlayer.length; k++){
-            if (Leagues[_LeagueId].Teams[_TeamId].keyMappingPlayer[k] == _walletId){
-                _;
-            }
-        }
-        revert("Vous n'etes pas un Player de cette team");
+    modifier ValideEnd(uint _endDate){
+        require(block.timestamp < _endDate, "End date must be in the future");
+        _;
     }
 
     /** LEAGUE */
@@ -151,7 +156,7 @@ contract MonPetitProno{
     }
 
     //update score of a player in a certain team and league
-    function updateScore(string memory _LeagueId, string memory _TeamId, address _walletId) public OnlyPlayer(_LeagueId,_TeamId, _walletId){
+    function updateScore(string memory _LeagueId, string memory _TeamId) public {
         uint _score = 0;
         for (uint k ; k<Leagues[_LeagueId].Teams[_TeamId].Players[msg.sender].keyMappingForecasts.length; k++){
             string memory _key = Leagues[_LeagueId].Teams[_TeamId].Players[msg.sender].keyMappingForecasts[k];
@@ -160,38 +165,35 @@ contract MonPetitProno{
         Leagues[_LeagueId].Teams[_TeamId].Players[msg.sender].score = _score;
     }
 
-    //update score of all player in a certain team and league
-    function updateAllScore(string memory _LeagueId, string memory _TeamId) public {
-        for (uint i ; i<Leagues[_LeagueId].Teams[_TeamId].keyMappingPlayer.length; i++){
-            address _walletId = Leagues[_LeagueId].Teams[_TeamId].keyMappingPlayer[i];
-            updateScore(_LeagueId, _TeamId, _walletId);
-        }
-    }
-
     //return all the player of a certain team and league
     function getAllPlayerAddrFromOneTeam(string memory _LeagueId, string memory _TeamId) public view returns(address [] memory){
         return Leagues[_LeagueId].Teams[_TeamId].keyMappingPlayer;
     }
 
-    //return the name of a player of a certain team and league
-    function getPlayername(string memory _LeagueId, string memory _TeamId, address _walletId) public view returns(string memory){
-        return Leagues[_LeagueId].Teams[_TeamId].Players[_walletId].Player_name;
-    }
-
-    //return the score of a player of a certain team and league
-    function getPlayerNameAndScore(string memory _LeagueId, string memory _TeamId, address _walletId) public view returns(uint){
-        return Leagues[_LeagueId].Teams[_TeamId].Players[_walletId].score;
+    //return the name of a player and his score of a certain team and league
+    function getPlayerInfo(string memory _LeagueId, string memory _TeamId, address _walletId) public view returns(string memory,uint){
+        string memory Player_name = Leagues[_LeagueId].Teams[_TeamId].Players[_walletId].Player_name;
+        uint score = Leagues[_LeagueId].Teams[_TeamId].Players[_walletId].score;
+        return (Player_name, score);
     }
 
     /** FORECAST */
     //add a forecast from a player
-    function addForecast(string memory _LeagueId,  string memory _matchId, string [2] memory  teams) public {
+    function addForecast(string memory _LeagueId,  string memory _matchId, string [2] memory  teams,uint _endDate) public ValideEnd(_endDate){
+        uint blockEnd = block.number + (_endDate - block.timestamp)/5;
         for (uint i; i<Leagues[_LeagueId].keyMappingTeam.length; i++){
             string memory _TeamId = Leagues[_LeagueId].keyMappingTeam[i];
             for (uint k; k<Leagues[_LeagueId].Teams[_TeamId].keyMappingPlayer.length; k++){
                 address _walletId = Leagues[_LeagueId].Teams[_TeamId].keyMappingPlayer[k];
                 Leagues[_LeagueId].Teams[_TeamId].Players[_walletId].keyMappingForecasts.push(_matchId);
+                Leagues[_LeagueId].Teams[_TeamId].Players[_walletId].Forecasts[_matchId].blockEnd = blockEnd;
                 Leagues[_LeagueId].Teams[_TeamId].Players[_walletId].Forecasts[_matchId].teams = teams;
+                Leagues[_LeagueId].Teams[_TeamId].Players[_walletId].Forecasts[_matchId].matchDate = _endDate;
+                if(block.number < blockEnd){
+                    Leagues[_LeagueId].Teams[_TeamId].Players[_walletId].Forecasts[_matchId].time = Time.AVAILABLE;
+                }else{
+                    Leagues[_LeagueId].Teams[_TeamId].Players[_walletId].Forecasts[_matchId].time = Time.FINISHED;
+                }
             }
         }
         emit NewForecast(_LeagueId, _matchId );
@@ -203,9 +205,24 @@ contract MonPetitProno{
     }
 
     //get forecast info from a player
-    function getForecast(string memory _LeagueId, string memory _TeamId, string memory _matchId) public view returns(string [2] memory, uint[2] memory, uint[2] memory, uint){
+    function getForecast(string memory _LeagueId, string memory _TeamId, string memory _matchId) public view returns(string [2] memory, uint[2] memory, uint[2] memory, uint,uint,Time){
         Forecast memory _match = Leagues[_LeagueId].Teams[_TeamId].Players[msg.sender].Forecasts[_matchId];
-        return (_match.teams, _match.prono, _match.result, _match.PointNb);
+        return (_match.teams, _match.prono, _match.result, _match.PointNb, _match.matchDate, _match.time);
+    }
+
+    //update Time of Match for all leagues
+    function updateTime(string memory _LeagueId, string memory _matchId) public {
+        for (uint i; i<Leagues[_LeagueId].keyMappingTeam.length; i++){
+            string memory _TeamId = Leagues[_LeagueId].keyMappingTeam[i];
+            for (uint k; k<Leagues[_LeagueId].Teams[_TeamId].keyMappingPlayer.length; k++){
+                address _walletId = Leagues[_LeagueId].Teams[_TeamId].keyMappingPlayer[k];
+                if(block.number < Leagues[_LeagueId].Teams[_TeamId].Players[msg.sender].Forecasts[_matchId].blockEnd){
+                    Leagues[_LeagueId].Teams[_TeamId].Players[_walletId].Forecasts[_matchId].time = Time.AVAILABLE;
+                }else{
+                    Leagues[_LeagueId].Teams[_TeamId].Players[_walletId].Forecasts[_matchId].time = Time.FINISHED;
+                }
+            }
+        }
     }
 
     //update forecat result from a player
@@ -214,12 +231,33 @@ contract MonPetitProno{
     }
 
     //update forecat prono for a player
-    function setForecastProno(string memory _LeagueId, string memory _TeamId, address _walletId, string memory _matchId, uint[2] memory _prono) public {
-        Leagues[_LeagueId].Teams[_TeamId].Players[_walletId].Forecasts[_matchId].prono = _prono;
+    function setForecastProno(string memory _LeagueId, string memory _TeamId, string memory _matchId, uint[2] memory _prono) public {
+        if (block.number < Leagues[_LeagueId].Teams[_TeamId].Players[msg.sender].Forecasts[_matchId].blockEnd){
+            Leagues[_LeagueId].Teams[_TeamId].Players[msg.sender].Forecasts[_matchId].prono = _prono;
+        }else{
+            emit MatchAvailable(_LeagueId,_matchId);
+
+        }
     }
 
     //update forecast point for a player
     function setForecastPointNb(string memory _LeagueId, string memory _TeamId, address _walletId, string memory _matchId, uint _PointNb) public {
-        Leagues[_LeagueId].Teams[_TeamId].Players[_walletId].Forecasts[_matchId].PointNb = _PointNb;
+        Leagues[_LeagueId].Teams[_TeamId].Players[_walletId].Forecasts[_matchId].PointNb = _PointNb;    
+    }
+
+    //get forecast point for a player
+    function getForecastPointNb(string memory _LeagueId, string memory _TeamId, string memory _matchId) public view returns(uint){
+        return Leagues[_LeagueId].Teams[_TeamId].Players[msg.sender].Forecasts[_matchId].PointNb;
+    }
+
+    //set forecast OracleId
+    function setForecastOracleId(string memory _LeagueId, string memory _TeamId, string memory _matchId, bytes32 _OracleId) public OnlyOwner{
+        Leagues[_LeagueId].Teams[_TeamId].Players[msg.sender].Forecasts[_matchId]._oracleId = _OracleId;
+    }
+
+    //get forecast OracleId
+    function getForecastOracleId(string memory _LeagueId, string memory _TeamId, string memory _matchId) public view returns(bytes32){
+        return Leagues[_LeagueId].Teams[_TeamId].Players[msg.sender].Forecasts[_matchId]._oracleId;
     }
 }
+

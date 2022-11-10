@@ -5,7 +5,7 @@ import { CgAdd } from 'react-icons/cg'
 import CreateLeagueModal from '../modal/CreateLeagueModal'
 import { useState, useEffect } from 'react'
 
-export default function AddLeague() {
+export default function AddLeague({ setLoading }) {
   const [modalShow, setModalShow] = useState(false)
 
   return (
@@ -16,7 +16,11 @@ export default function AddLeague() {
           <p>Create your League for an Event</p>
         </div>
       </Card>
-      <CreateLeagueModal show={modalShow} onHide={() => setModalShow(false)} />
+      <CreateLeagueModal
+        setLoading={setLoading}
+        show={modalShow}
+        onHide={() => setModalShow(false)}
+      />
     </>
   )
 }

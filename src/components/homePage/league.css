@@ -13,10 +13,22 @@
   height: 6rem;
 }
 
-#league .col{
+#league .col {
   margin: auto;
 }
 
-#league .text-primary{
-  color :#fcd15a !important;
+#league .text-primary {
+  color: #fcd15a !important;
+}
+
+#leagueCardCharging {
+  background-color: grey;
+  height: 400px;
+  width: 270px;
+  margin-right: 20px;
+  vertical-align: middle;
+  margin: auto;
+  margin-bottom: 40px;
+  margin-top: 40px;
+  border-radius: 5px;
 }

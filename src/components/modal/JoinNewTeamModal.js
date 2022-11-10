@@ -3,7 +3,7 @@ import './joinNewTeamModal.css'
 import { TextField, Typography, Box, Button } from '@mui/material'
 import { Col, Modal, Row, Table, Form, Container } from 'react-bootstrap'
 import { useState, useEffect } from 'react'
-import { contract } from '../../utils/WebProvider'
+import { MonPetitPronoContract } from '../../utils/WebProvider'
 import { useParams } from 'react-router-dom'
 
 export default function JoinNewTeam(props) {
@@ -13,7 +13,7 @@ export default function JoinNewTeam(props) {
   const [researchResults, setResearchResults] = useState([])
   const [newTeamsCreated, setNewTeamsCreated] = useState(null)
 
-  contract.on('NewTeam', (_LeagueId, _TeamId, _Team_name, _ipfs) => {
+  MonPetitPronoContract.on('NewTeam', (_LeagueId, _TeamId, _Team_name, _ipfs) => {
     console.log('newTeamsCreated : ', _LeagueId)
     setNewTeamsCreated(_TeamId)
   })
@@ -23,10 +23,10 @@ export default function JoinNewTeam(props) {
   }, [newTeamsCreated])
 
   async function GetAllTeams() {
-    const AllTeamsId = await contract.getFreeTeamFromOneLeague(leagueId)
+    const AllTeamsId = await MonPetitPronoContract.getFreeTeamFromOneLeague(leagueId)
     let AllTeams = await Promise.all(
       AllTeamsId.map(async (e) => {
-        return await contract.getTeamsInfos(leagueId, e)
+        return await MonPetitPronoContract.getTeamsInfos(leagueId, e)
       }),
     )
     console.log('AllTeams : ', AllTeams)
@@ -82,7 +82,7 @@ function TeamRow({ team, onHide }) {
 
   async function joinNewTeam() {
     if (playerName.length > 0) {
-      await contract.addPlayer(leagueId, team[0], playerName)
+      await MonPetitPronoContract.addPlayer(leagueId, team[0], playerName)
       onHide()
       alert('Your Join new Team')
     } else {
@@ -95,7 +95,7 @@ function TeamRow({ team, onHide }) {
   }, [])
 
   async function getNbOfPlayers() {
-    const addressPlayers = await contract.getAllPlayerAddrFromOneTeam(
+    const addressPlayers = await MonPetitPronoContract.getAllPlayerAddrFromOneTeam(
       leagueId,
       team[0],
     )

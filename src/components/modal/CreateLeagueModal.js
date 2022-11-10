@@ -3,7 +3,7 @@ import React from 'react'
 import { Modal, Row, Col, Container, Form, Button } from 'react-bootstrap'
 import { BsPersonCircle } from 'react-icons/bs'
 import FileInput from '../../utils/FileInput'
-import { contract } from '../../utils/WebProvider'
+import { MonPetitPronoContract } from '../../utils/WebProvider'
 import { addLeagueIPFS } from '../../utils/Ipfs'
 import { v4 as uuidv4 } from 'uuid'
 import { useState, useEffect } from 'react'
@@ -15,7 +15,7 @@ export default function CreateLeagueModal(props) {
 
   async function CreateLeagueSM() {
     const _LeagueId = uuidv4()
-    const ListIdLeague = await contract.getLeaguesID()
+    const ListIdLeague = await MonPetitPronoContract.getLeaguesID()
     while (ListIdLeague.includes(_LeagueId)) {
       _LeagueId = uuidv4()
     }
@@ -31,7 +31,8 @@ export default function CreateLeagueModal(props) {
         _LeagueColor,
       )
       if (imgPath !== null) {
-        await contract.addLeague(_LeagueId, _LeagueName, imgPath)
+        await MonPetitPronoContract.addLeague(_LeagueId, _LeagueName, imgPath)
+        props.setLoading(true)
       } else {
         alert('Une Erreur est survenue avec le stockage offchain')
       }
@@ -49,7 +50,8 @@ export default function CreateLeagueModal(props) {
   return (
     <Modal
       id="modalPopup"
-      {...props}
+      show={props.show}
+      onHide={props.onHide}
       size="lg"
       aria-labelledby="contained-modal-title-vcenter"
       centered

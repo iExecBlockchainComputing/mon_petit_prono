@@ -1,8 +1,9 @@
 import './team.css'
 import { Container, Row, Col } from 'react-bootstrap'
+import { Skeleton } from '@mui/material'
 import AddTeam from './AddTeam'
 import { useSelector } from 'react-redux'
-import { contract } from '../../utils/WebProvider'
+import { MonPetitPronoContract } from '../../utils/WebProvider'
 import { v4 as uuidv4 } from 'uuid'
 import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
@@ -13,10 +14,12 @@ export default function Team() {
   const [teamInfo, setTeamInfo] = useState([])
   const [newTeamsCreated, setNewTeamsCreated] = useState(null)
   const wallet = useSelector((state) => state.wallet)
+  const [loading, setLoading] = useState(false)
 
-  contract.on('NewTeam', (_LeagueId, _TeamId, _Team_name) => {
+  MonPetitPronoContract.on('NewTeam', (_LeagueId, _TeamId, _Team_name) => {
     console.log('newTeamsCreated : ', _TeamId)
     setNewTeamsCreated(_TeamId)
+    setLoading(false)
   })
 
   useEffect(() => {
@@ -24,10 +27,10 @@ export default function Team() {
   }, [newTeamsCreated])
 
   const tabLeaguesInfo = async () => {
-    const teamId = await contract.getMyTeamFromOneLeague(leagueId)
+    const teamId = await MonPetitPronoContract.getMyTeamFromOneLeague(leagueId)
     let teamInfo = await Promise.all(
       teamId.map(async (e) => {
-        return await contract.getTeamsInfos(leagueId, e)
+        return await MonPetitPronoContract.getTeamsInfos(leagueId, e)
       }),
     )
     console.log(teamInfo)
@@ -42,8 +45,14 @@ export default function Team() {
             <OneCardTeam key={uuidv4()} id={e[0]} el={e[2]} Name={e[1]} />
           </Col>
         ))}
+        {loading && (
+          <Col>
+            {' '}
+            <Skeleton id="teamCardCharging" variant="rectangular" />
+          </Col>
+        )}
         <Col>
-          <AddTeam />
+          <AddTeam setLoading={setLoading} />
         </Col>
       </Row>
     </Container>

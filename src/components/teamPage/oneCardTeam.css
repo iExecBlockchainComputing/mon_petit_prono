@@ -3,11 +3,120 @@
   width: 270px;
   margin: auto;
   margin-bottom: 100px;
-  background-color: #1d1d24;
+  background-color: white;
   border-width: 3px;
-  border-color: white;
+  border-color: #1d1d24
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  $;
   border-radius: 25px;
-  --bs-card-border-width: 0px;
+  --bs-card-border-width: 2px;
   text-align: center;
   cursor: pointer;
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
@@ -25,7 +134,25 @@
 
 #TeamCard .card-body {
   color: #1d1d24;
-  background-image: linear-gradient(to right, #fcd15a, #ef5454, #6dc7ff);
+  background: linear-gradient(
+    60deg,
+    #f79533,
+    #f37055,
+    #ef4e7b,
+    #a166ab,
+    #5073b8,
+    #1098ad,
+    #07b39b,
+    #6fba82
+  );
+  animation: animatedgradient 10s ease alternate infinite;
+  background-size: 300% 300%;
   border-bottom-left-radius: 22px;
   border-bottom-right-radius: 22px;
+}
+
+@keyframes animatedgradient {
+  to {
+    background-position: 300% center;
+  }
 }

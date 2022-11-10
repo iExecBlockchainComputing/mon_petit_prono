@@ -2,7 +2,7 @@ const { loadFixture } = require('@nomicfoundation/hardhat-network-helpers')
 const { expect } = require('chai')
 const { ethers } = require('hardhat')
 
-describe('Mon petit prono test', function () {
+describe('Mon petit prono', function () {
   async function deployTokenFixture() {
     const [owner, otherAccount] = await ethers.getSigners()
     const contract = await ethers.getContractFactory('MonPetitProno')
@@ -142,6 +142,118 @@ describe('Mon petit prono test', function () {
         .connect(signer2)
         .getFreeTeamFromOneLeague(leaguesID[0])
       expect(myTeam.toString()).to.equal(['1x1'].toString())
+    })
+  })
+
+  describe('Players Functions', function () {
+    function getDate(str) {
+      const [dateComponents, timeComponents] = str.split(' ')
+      const [month, day, year] = dateComponents.split('/')
+      const [hours, minutes, seconds] = timeComponents.split(':')
+      const date = new Date(+year, month - 1, +day, +hours, +minutes, +seconds)
+      const timestamp = Math.trunc(date.getTime() / 1000)
+      return timestamp
+    }
+
+    async function PlayerFeature() {
+      const { deployedContract } = await loadFixture(deployTokenFixture)
+      await deployedContract.addLeague(
+        '0x1',
+        'Coupe du Monde',
+        'https://ipfs_link',
+      )
+      const leaguesID = await deployedContract.getLeaguesID()
+      await deployedContract.addTeam(
+        leaguesID[0],
+        '1x1',
+        'adoption Team',
+        'robin',
+        'https://ipfs_link',
+      )
+      const TeamsIdFromOneLeague = (
+        await deployedContract.getTeamsIdFromOneLeague(leaguesID[0])
+      )[0]
+      const timestamp = getDate('11/08/2023 21:28:9')
+      await deployedContract.addForecast(
+        leaguesID[0],
+        '2x1',
+        ['France', 'Allemagne'],
+        timestamp,
+      )
+      const forecastId = await deployedContract.getForecastId(
+        leaguesID[0],
+        TeamsIdFromOneLeague,
+      )
+      return {
+        deployedContract,
+        leaguesID,
+        TeamsIdFromOneLeague,
+        forecastId,
+        timestamp,
+      }
+    }
+    it('Verify addForecast', async function () {
+      const { deployedContract, leaguesID, forecastId } = await loadFixture(
+        PlayerFeature,
+      )
+      expect(forecastId.toString()).to.equal(['2x1'].toString())
+    })
+    it('Verify getForecast', async function () {
+      const {
+        deployedContract,
+        leaguesID,
+        TeamsIdFromOneLeague,
+        forecastId,
+        timestamp,
+      } = await loadFixture(PlayerFeature)
+      const forecastInfo = await deployedContract.getForecast(
+        leaguesID[0],
+        TeamsIdFromOneLeague,
+        forecastId[0],
+      )
+      expect(forecastInfo.toString()).to.equal(
+        [['France', 'Allemagne'], [0, 0], [0, 0], 0, timestamp,0].toString(),
+      )
+    })
+    it('Verify setForecastProno', async function () {
+      const {
+        deployedContract,
+        leaguesID,
+        TeamsIdFromOneLeague,
+        forecastId,
+        timestamp,
+      } = await loadFixture(PlayerFeature)
+      await deployedContract.setForecastProno(
+        leaguesID[0],
+        TeamsIdFromOneLeague,
+        forecastId[0],
+        [parseFloat('1'), parseFloat('2')],
+      )
+      const forecastInfo = await deployedContract.getForecast(
+        leaguesID[0],
+        TeamsIdFromOneLeague,
+        forecastId[0],
+      )
+      expect(forecastInfo.toString()).to.equal(
+        [['France', 'Allemagne'], [1, 2], [0, 0], 0, timestamp,0].toString(),
+      )
+    })
+    it('Verify updateTime', async function () {
+      const {
+        deployedContract,
+        leaguesID,
+        TeamsIdFromOneLeague,
+        forecastId,
+      } = await loadFixture(PlayerFeature)
+      await deployedContract.updateTime(leaguesID[0], forecastId[0])
+      const forecastInfo = await deployedContract.getForecast(
+        leaguesID[0],
+        TeamsIdFromOneLeague,
+        forecastId[0],
+      )
+      expect(forecastInfo[5].toString()).to.equal(
+        [0].toString(),
+      )
     })
   })
 })

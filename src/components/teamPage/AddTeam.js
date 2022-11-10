@@ -5,7 +5,7 @@ import { useState } from 'react'
 import { CgAdd } from 'react-icons/cg'
 import CreateTeamModal from '../modal/CreateTeamModal'
 
-export default function AddTeam() {
+export default function AddTeam({ setLoading }) {
   const [modalShow, setModalShow] = useState(false)
 
   return (
@@ -13,10 +13,14 @@ export default function AddTeam() {
       <Card onClick={() => setModalShow(!modalShow)} id="addCard">
         <CgAdd color="white" size={100} id="addIcon" />
         <div className="explanation">
-          <p>Create your own team with your friends</p>
+          <p>Create a new Team</p>
         </div>
       </Card>
-      <CreateTeamModal show={modalShow} onHide={() => setModalShow(false)} />
+      <CreateTeamModal
+        setLoading={setLoading}
+        show={modalShow}
+        onHide={() => setModalShow(false)}
+      />
     </Container>
   )
 }

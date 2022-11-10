@@ -4,9 +4,9 @@ function Home() {
   return (
     <div className="container-fluid text-center">
       <div className="row" id="topPage">
-        <h2>Join</h2>
-        <h2>&</h2>
-        <h2>Create Your Team</h2>
+        <h2>Join a Team</h2>
+        <h2>Or</h2>
+        <h2>Create Your Own</h2>
       </div>
     </div>
   )

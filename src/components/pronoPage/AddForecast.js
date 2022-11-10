@@ -1,23 +1,40 @@
 import './addForecast.css'
-import React from 'react'
-import { Row, Col, Card, Form, Button, Dropdown } from 'react-bootstrap'
-import { useState } from 'react'
+import {
+  Row,
+  Col,
+  Card,
+  Form,
+  Button,
+  Dropdown,
+  OverlayTrigger,
+  Tooltip,
+} from 'react-bootstrap'
 import { FaFlag } from 'react-icons/fa'
-import { useEffect, useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import countryList from 'react-select-country-list'
 import ReactCountryFlag from 'react-country-flag'
-import { contract } from '../../utils/WebProvider'
+import { MonPetitPronoContract } from '../../utils/WebProvider'
 import { useParams } from 'react-router-dom'
 import { v4 as uuidv4 } from 'uuid'
+import DatePicker from 'react-datepicker'
+import 'react-datepicker/dist/react-datepicker.css'
+import { setDefaultLocale } from 'react-datepicker'
+import fr from 'date-fns/locale/fr'
+import 'react-datepicker/dist/react-datepicker.css'
+setDefaultLocale(fr)
 
-export default function AddForecast() {
+export default function AddForecast({ setLoading }) {
   let { leagueId, teamId } = useParams()
+  const [displayInfo, setDisplayInfo] = useState(false)
+  const [timestampDate, setTimestampDate] = useState(0)
+  const [selectedDate, setSelectedDate] = useState(new Date())
   const [Country1, setCountry1] = useState('Country')
   const [Country2, setCountry2] = useState('Country')
 
   const addForecast = async () => {
     const _matchId = uuidv4()
-    const ListIdMatch = await contract.getForecastId(leagueId, teamId)
+    const ListIdMatch = await MonPetitPronoContract.getForecastId(leagueId, teamId)
+    console.log('Date SELECTED : ', typeof timestampDate, timestampDate)
     while (ListIdMatch.includes(_matchId)) {
       _matchId = uuidv4()
     }
@@ -28,14 +45,49 @@ export default function AddForecast() {
     ) {
       alert('Choose a valid match')
     } else {
-      await contract.addForecast(leagueId, _matchId, [Country1, Country2])
+      await MonPetitPronoContract.addForecast(
+        leagueId,
+        _matchId,
+        [Country1, Country2],
+        timestampDate,
+      )
+      setLoading(true)
     }
+  }
+
+  const convertDateToTimestamp = (date) => {
+    setSelectedDate(date)
+    const timestamp = Math.trunc(date.getTime() / 1000)
+    setTimestampDate(timestamp)
   }
 
   return (
     <Card id="addforecastCard">
-      <Row>
-        <h3>Dim. 14 decembre 20h00</h3>
+      <Row
+        id="rowDatepicker"
+        onMouseEnter={(e) => {
+          setDisplayInfo(true)
+        }}
+        onMouseLeave={(e) => {
+          setDisplayInfo(false)
+        }}
+      >
+        <OverlayTrigger
+          placement="top"
+          delay={{ show: 250, hide: 400 }}
+          show={displayInfo}
+          overlay={<Tooltip>End Date for forecast</Tooltip>}
+        >
+          <DatePicker
+            id="datePicker"
+            selected={selectedDate}
+            onChange={(date) => convertDateToTimestamp(date)}
+            showTimeSelect
+            timeFormat="p"
+            timeIntervals={15}
+            dateFormat="MMMM d, yyyy p"
+          />
+        </OverlayTrigger>
       </Row>
       <Row>
         <Col id="dropdownFlagueImage">

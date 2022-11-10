@@ -6,10 +6,14 @@ async function main() {
 
   console.log('Account balance:', (await deployer.getBalance()).toString())
 
-  const Token = await ethers.getContractFactory('MonPetitProno')
-  const contract = await Token.deploy()
+  const MonPetitProno = await ethers.getContractFactory('MonPetitProno')
+  const contract = await MonPetitProno.deploy()
 
-  console.log('Contract address:', contract.address)
+  const Oracle = await ethers.getContractFactory('GetOracleInfo')
+  const Oraclecontract = await Oracle.deploy()
+
+  console.log('Contract MonPetitProno address:', contract.address)
+  console.log('Contract Oracle address:', Oraclecontract.address)
 }
 
 main()

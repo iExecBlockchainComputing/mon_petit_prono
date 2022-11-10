@@ -53,7 +53,7 @@
 
 #linear-wide {
   margin: auto;
-  font-size: 23px ;
+  font-size: 23px;
   background: linear-gradient(
     60deg,
     #f79533,
@@ -71,4 +71,36 @@
 
   animation: animatedgradient 10s ease alternate infinite;
   background-size: 300% 300%;
+}
+
+#forecastCardCharging {
+  background-color: gray;
+  margin: auto;
+  width: 55%;
+  height: 150px;
+  margin-top: 50px;
+  border-radius: 15px;
+}
+
+#lineDate {
+  width: 70%;
+  margin: auto;
+}
+
+#lineDate .row {
+  border-style: solid;
+  border-width: 0px;
+  border-top-width: 1px;
+  border-color: #fcd15a;
+  margin: auto;
+  color: white;
+}
+
+#date {
+  margin-top: 30px;
+  margin-bottom: -0.1px;
+  color: #fcd15a;
+  text-align: start;
+  font-size: 12px;
+  font-style: italic;
 }

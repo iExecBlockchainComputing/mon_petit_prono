@@ -6,3 +6,17 @@
   width: 70%;
   margin-bottom: 80px;
 }
+
+#teamCardCharging{
+  height: 300px;
+  width: 270px;
+  margin: auto;
+  margin-bottom: 100px;
+  border-width: 3px;
+  border-radius: 25px;
+  --bs-card-border-width: 0px;
+  text-align: center;
+  cursor: pointer;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+  background-color: gray;
+}

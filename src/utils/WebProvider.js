@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { ethers } from 'ethers'
-import MyContract from './abi.json'
+import MyContractMonPetitProno from './abiMonPetitProno.json'
+import MyContractOracle from './abiOracle.json'
 import { useSelector, useDispatch } from 'react-redux'
 
 const AllNetwork = [
@@ -30,14 +31,19 @@ const AllNetwork = [
 
 const { ethereum } = window
 const provider = new ethers.providers.Web3Provider(window.ethereum)
-const contractAddress = process.env.REACT_APP_CONTRACT_ADDRESS
+const contractAddressMonPetitProno = process.env.REACT_APP_CONTRACT_ADDRESS
+const contractAddressOracle = process.env.REACT_APP_ORACLE_CONTRACT_ADDRESS
 const signer = provider.getSigner()
-export const contract = new ethers.Contract(
-  contractAddress,
-  MyContract.abi,
+export const MonPetitPronoContract = new ethers.Contract(
+  contractAddressMonPetitProno,
+  MyContractMonPetitProno.abi,
   signer,
 )
-const contractWithSigner = contract.connect(signer)
+export const OracleContract = new ethers.Contract(
+  contractAddressOracle,
+  MyContractOracle.abi,
+  signer,
+)
 
 export function WebProvider() {
   const wallet = useSelector((state) => state.wallet)
@@ -105,5 +111,4 @@ export function WebProvider() {
   ethereum.on('accountsChanged', (_accounts) => {
     window.location.reload()
   })
-  
 }
