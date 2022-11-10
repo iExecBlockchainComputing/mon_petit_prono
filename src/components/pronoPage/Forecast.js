@@ -91,12 +91,13 @@ export default function Forecast() {
   }
 
   function test(date) {
-    if (date().split(' ')[0] === priviousDate) {
+    /*if (date().split(' ')[0] === priviousDate) {
       return true
     } else {
       setPriviousDate(date().split(' ')[0])
       return true
-    }
+    }*/
+    return true
   }
 
   return (
