@@ -1,4 +1,3 @@
-
 async function main() {
   const [deployer] = await ethers.getSigners()
 
@@ -6,11 +5,13 @@ async function main() {
 
   console.log('Account balance:', (await deployer.getBalance()).toString())
 
-  const MonPetitProno = await ethers.getContractFactory('MonPetitProno')
+  const MonPetitProno = await ethers.getContractFactory('PetitProno')
   const contract = await MonPetitProno.deploy()
+  await contract.deployed()
 
   const Oracle = await ethers.getContractFactory('GetOracleInfo')
   const Oraclecontract = await Oracle.deploy()
+  await Oraclecontract.deployed()
 
   console.log('Contract MonPetitProno address:', contract.address)
   console.log('Contract Oracle address:', Oraclecontract.address)

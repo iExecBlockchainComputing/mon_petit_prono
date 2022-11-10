@@ -3,7 +3,7 @@ pragma solidity ^0.8.9;
 import "hardhat/console.sol";
 import './GetOracleInfo.sol';
 
-contract MonPetitProno is GetOracleInfo {
+contract PetitProno is GetOracleInfo {
 
     address public owner;
     event NewLeague(string _LeagueId, string _League_name);
