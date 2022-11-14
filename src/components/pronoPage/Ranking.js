@@ -1,13 +1,17 @@
 import './ranking.css'
 import { Container, Button } from 'react-bootstrap'
+import { Stack, LinearProgress } from '@mui/material'
 import Table from 'react-bootstrap/Table'
 import { useEffect, useState } from 'react'
 import { MonPetitPronoContract } from '../../utils/WebProvider'
 import { useParams } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 export default function Ranking() {
   let { leagueId, teamId } = useParams()
   const [ranking, setRanking] = useState([])
+  const [loadingRanking, setLoadingRanking] = useState(false)
+  const naviguate = useNavigate()
 
   useEffect(() => {
     getRanking()
@@ -36,15 +40,24 @@ export default function Ranking() {
   }
 
   const UpdateScore = async () => {
-    await MonPetitPronoContract.updateScore(leagueId, teamId)
-    getRanking()
+    setLoadingRanking(true)
+    const tr = await MonPetitPronoContract.updateScore(leagueId, teamId)
+    await tr.wait()
+    window.location.reload()
   }
 
   return (
     <Container id="ranking">
-      <Button id="updateScore" onClick={UpdateScore}>
-        <h1 id="linear-wide">Update Your Rank</h1>
-      </Button>
+      {!loadingRanking && (
+        <Button id="updateScore" onClick={UpdateScore}>
+          <h1 id="linear-wide">Update Your Rank</h1>
+        </Button>
+      )}
+      {loadingRanking && (
+        <Stack sx={{ width: '100%', color: 'grey.500', margin: 'auto', marginBottom: '5%' }}>
+          <LinearProgress color="secondary" />
+        </Stack>
+      )}
       <Table striped>
         <thead>
           <tr>

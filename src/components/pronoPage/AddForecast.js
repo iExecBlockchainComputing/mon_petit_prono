@@ -1,4 +1,5 @@
 import './addForecast.css'
+import { Skeleton} from '@mui/material'
 import {
   Row,
   Col,
@@ -23,17 +24,22 @@ import fr from 'date-fns/locale/fr'
 import 'react-datepicker/dist/react-datepicker.css'
 setDefaultLocale(fr)
 
-export default function AddForecast({ setLoading }) {
+export default function AddForecast({ setLoading, loadingValues,setNoForecast }) {
   let { leagueId, teamId } = useParams()
   const [displayInfo, setDisplayInfo] = useState(false)
   const [timestampDate, setTimestampDate] = useState(0)
   const [selectedDate, setSelectedDate] = useState(new Date())
   const [Country1, setCountry1] = useState('Country')
   const [Country2, setCountry2] = useState('Country')
+  let loadingContent = loadingValues[0]
+  let setLoadingContent = loadingValues[1]
 
   const addForecast = async () => {
     const _matchId = uuidv4()
-    const ListIdMatch = await MonPetitPronoContract.getForecastId(leagueId, teamId)
+    const ListIdMatch = await MonPetitPronoContract.getForecastId(
+      leagueId,
+      teamId,
+    )
     console.log('Date SELECTED : ', typeof timestampDate, timestampDate)
     while (ListIdMatch.includes(_matchId)) {
       _matchId = uuidv4()
@@ -52,6 +58,11 @@ export default function AddForecast({ setLoading }) {
         timestampDate,
       )
       setLoading(true)
+      setNoForecast(false)
+      setLoadingContent([
+        ...loadingContent,
+        <Skeleton id="forecastCardCharging" variant="rectangular" />,
+      ])
     }
   }
 

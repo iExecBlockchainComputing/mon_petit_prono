@@ -5,8 +5,9 @@ import { CgAdd } from 'react-icons/cg'
 import CreateLeagueModal from '../modal/CreateLeagueModal'
 import { useState, useEffect } from 'react'
 
-export default function AddLeague({ setLoading }) {
+export default function AddLeague({ setLoading, loadingValues }) {
   const [modalShow, setModalShow] = useState(false)
+
 
   return (
     <>
@@ -20,6 +21,7 @@ export default function AddLeague({ setLoading }) {
         setLoading={setLoading}
         show={modalShow}
         onHide={() => setModalShow(false)}
+        loadingValues={loadingValues}
       />
     </>
   )

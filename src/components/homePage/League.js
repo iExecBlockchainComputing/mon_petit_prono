@@ -14,6 +14,7 @@ export default function League() {
   const [owner, setOwner] = useState(false)
   const [newLeagueCreated, setNewLeagueCreated] = useState(null)
   const [loading, setLoading] = useState(false)
+  const [loadingContent, setLoadingContent] = useState([])
   const wallet = useSelector((state) => state.wallet)
 
   MonPetitPronoContract.on('NewLeague', (_LeagueId, _League_name) => {
@@ -25,7 +26,9 @@ export default function League() {
   useEffect(() => {
     async function getOwner() {
       let actualAccount = wallet.accountAddress.toLowerCase()
-      let ownerContractAddress = (await MonPetitPronoContract.owner()).toLowerCase()
+      let ownerContractAddress = (
+        await MonPetitPronoContract.owner()
+      ).toLowerCase()
       if (actualAccount === ownerContractAddress) {
         setOwner(true)
         console.log('Your are the owner of the smart Contract')
@@ -64,17 +67,17 @@ export default function League() {
               StartDate={'20/11/2022'}
               EndDate={'18/12/2022'}
               NbNFT={'68'}
-              />
+            />
           </Col>
         ))}
-        {loading && (
-          <Col>
-            <Skeleton id="leagueCardCharging" variant="rectangular" />
-          </Col>
-        )}
+        {loading &&
+          loadingContent.map((elem, index) => <Col key={index}>{elem}</Col>)}
         {owner && (
           <Col>
-            <AddLeague setLoading={setLoading}/>
+            <AddLeague
+              setLoading={setLoading}
+              loadingValues={[loadingContent, setLoadingContent]}
+            />
           </Col>
         )}
       </Row>

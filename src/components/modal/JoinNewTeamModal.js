@@ -13,17 +13,22 @@ export default function JoinNewTeam(props) {
   const [researchResults, setResearchResults] = useState([])
   const [newTeamsCreated, setNewTeamsCreated] = useState(null)
 
-  MonPetitPronoContract.on('NewTeam', (_LeagueId, _TeamId, _Team_name, _ipfs) => {
-    console.log('newTeamsCreated : ', _LeagueId)
-    setNewTeamsCreated(_TeamId)
-  })
+  MonPetitPronoContract.on(
+    'NewTeam',
+    (_LeagueId, _TeamId, _Team_name, _ipfs) => {
+      console.log('newTeamsCreated : ', _LeagueId)
+      setNewTeamsCreated(_TeamId)
+    },
+  )
 
   useEffect(() => {
     GetAllTeams()
   }, [newTeamsCreated])
 
   async function GetAllTeams() {
-    const AllTeamsId = await MonPetitPronoContract.getFreeTeamFromOneLeague(leagueId)
+    const AllTeamsId = await MonPetitPronoContract.getFreeTeamFromOneLeague(
+      leagueId,
+    )
     let AllTeams = await Promise.all(
       AllTeamsId.map(async (e) => {
         return await MonPetitPronoContract.getTeamsInfos(leagueId, e)

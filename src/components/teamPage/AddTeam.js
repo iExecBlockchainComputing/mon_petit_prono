@@ -5,7 +5,7 @@ import { useState } from 'react'
 import { CgAdd } from 'react-icons/cg'
 import CreateTeamModal from '../modal/CreateTeamModal'
 
-export default function AddTeam({ setLoading }) {
+export default function AddTeam({ setLoading, loadingValues}) {
   const [modalShow, setModalShow] = useState(false)
 
   return (
@@ -20,6 +20,7 @@ export default function AddTeam({ setLoading }) {
         setLoading={setLoading}
         show={modalShow}
         onHide={() => setModalShow(false)}
+        loadingValues={loadingValues}
       />
     </Container>
   )

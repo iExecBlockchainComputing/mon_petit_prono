@@ -6,6 +6,7 @@ import './GetOracleInfo.sol';
 contract PetitProno is GetOracleInfo {
 
     address public owner;
+
     event NewLeague(string _LeagueId, string _League_name);
     event NewTeam(string _LeagueId, string _TeamId, string _Team_name);
     event NewForecast(string _LeagueId, string _ForecastId);
@@ -18,9 +19,9 @@ contract PetitProno is GetOracleInfo {
         uint[2] prono;
         uint[2] result;
         uint PointNb;
-        uint blockEnd;
-        bytes32 _oracleId;
         uint matchDate;
+        bytes32 _oracleId;
+        bool scoreIsSet;
         Time time;
     }
 
@@ -39,6 +40,7 @@ contract PetitProno is GetOracleInfo {
     }
 
     struct League {
+        string refTeamId;
         string League_name;
         string ipfs;
         string [] keyMappingTeam;
@@ -85,7 +87,7 @@ contract PetitProno is GetOracleInfo {
 
     /** TEAM */
     //add a team
-    function addTeam(string memory _LeagueId,string memory _TeamId, string memory _Teame_Name,string memory _Player_name, string memory _ipfs) public{
+    function addTeam(string memory _LeagueId,string memory _TeamId, string memory _Teame_Name, string memory _Player_name, string memory _ipfs) public{
         Leagues[_LeagueId].Teams[_TeamId].Team_name = _Teame_Name;
         Leagues[_LeagueId].Teams[_TeamId].ipfs = _ipfs;
         Leagues[_LeagueId].keyMappingTeam.push(_TeamId);
@@ -151,8 +153,23 @@ contract PetitProno is GetOracleInfo {
     function addPlayer(string memory _LeagueId, string memory _TeamId, string memory _Player_name) public {
         Leagues[_LeagueId].Teams[_TeamId].Players[msg.sender].Player_name = _Player_name;
         Leagues[_LeagueId].Teams[_TeamId].keyMappingPlayer.push(msg.sender);
+        if (keccak256(abi.encodePacked(Leagues[_LeagueId].refTeamId)) != ""){
+            string memory _referenceTeamId = Leagues[_LeagueId].refTeamId;
+            for (uint k; k<Leagues[_LeagueId].Teams[_referenceTeamId].Players[owner].keyMappingForecasts.length; k++){
+                string memory _forecastId = Leagues[_LeagueId].Teams[_referenceTeamId].Players[owner].keyMappingForecasts[k];
+                Forecast memory _forecast = Leagues[_LeagueId].Teams[_referenceTeamId].Players[owner].Forecasts[_forecastId];         
+                Leagues[_LeagueId].Teams[_TeamId].Players[msg.sender].keyMappingForecasts.push(_forecastId);
+                Leagues[_LeagueId].Teams[_TeamId].Players[msg.sender].Forecasts[_forecastId].teams = _forecast.teams;
+                Leagues[_LeagueId].Teams[_TeamId].Players[msg.sender].Forecasts[_forecastId].prono = [100,100];
+                Leagues[_LeagueId].Teams[_TeamId].Players[msg.sender].Forecasts[_forecastId].result = _forecast.result;
+                Leagues[_LeagueId].Teams[_TeamId].Players[msg.sender].Forecasts[_forecastId].PointNb = 0;
+                Leagues[_LeagueId].Teams[_TeamId].Players[msg.sender].Forecasts[_forecastId].matchDate = _forecast.matchDate;
+                Leagues[_LeagueId].Teams[_TeamId].Players[msg.sender].Forecasts[_forecastId]._oracleId = _forecast._oracleId;
+                Leagues[_LeagueId].Teams[_TeamId].Players[msg.sender].Forecasts[_forecastId].scoreIsSet = _forecast.scoreIsSet;   
+                Leagues[_LeagueId].Teams[_TeamId].Players[msg.sender].Forecasts[_forecastId].time = _forecast.time;   
+            }
+        }
         emit NewTeam( _LeagueId,  _TeamId, Leagues[_LeagueId].Teams[_TeamId].Team_name);
-
     }
 
     //update score of a player in a certain team and league
@@ -179,21 +196,22 @@ contract PetitProno is GetOracleInfo {
 
     /** FORECAST */
     //add a forecast from a player
-    function addForecast(string memory _LeagueId,  string memory _matchId, string [2] memory  teams,uint _endDate) public ValideEnd(_endDate){
-        uint blockEnd = block.number + (_endDate - block.timestamp)/5;
+    function addForecast(string memory _LeagueId,  string memory _matchId, string [2] memory  teams,uint _endDate) public OnlyOwner ValideEnd(_endDate){
         for (uint i; i<Leagues[_LeagueId].keyMappingTeam.length; i++){
             string memory _TeamId = Leagues[_LeagueId].keyMappingTeam[i];
             for (uint k; k<Leagues[_LeagueId].Teams[_TeamId].keyMappingPlayer.length; k++){
                 address _walletId = Leagues[_LeagueId].Teams[_TeamId].keyMappingPlayer[k];
-                Leagues[_LeagueId].Teams[_TeamId].Players[_walletId].keyMappingForecasts.push(_matchId);
-                Leagues[_LeagueId].Teams[_TeamId].Players[_walletId].Forecasts[_matchId].blockEnd = blockEnd;
-                Leagues[_LeagueId].Teams[_TeamId].Players[_walletId].Forecasts[_matchId].teams = teams;
-                Leagues[_LeagueId].Teams[_TeamId].Players[_walletId].Forecasts[_matchId].matchDate = _endDate;
-                if(block.number < blockEnd){
-                    Leagues[_LeagueId].Teams[_TeamId].Players[_walletId].Forecasts[_matchId].time = Time.AVAILABLE;
-                }else{
-                    Leagues[_LeagueId].Teams[_TeamId].Players[_walletId].Forecasts[_matchId].time = Time.FINISHED;
+                if(_walletId == owner && msg.sender == owner){
+                    Leagues[_LeagueId].refTeamId = _TeamId;
                 }
+                Leagues[_LeagueId].Teams[_TeamId].Players[_walletId].keyMappingForecasts.push(_matchId);
+                Leagues[_LeagueId].Teams[_TeamId].Players[_walletId].Forecasts[_matchId].teams = teams;
+                Leagues[_LeagueId].Teams[_TeamId].Players[_walletId].Forecasts[_matchId].prono = [100,100];
+                Leagues[_LeagueId].Teams[_TeamId].Players[_walletId].Forecasts[_matchId].PointNb = 0;
+                Leagues[_LeagueId].Teams[_TeamId].Players[_walletId].Forecasts[_matchId].matchDate = _endDate;
+                Leagues[_LeagueId].Teams[_TeamId].Players[_walletId].Forecasts[_matchId].scoreIsSet = false;
+                Leagues[_LeagueId].Teams[_TeamId].Players[_walletId].Forecasts[_matchId].time = Time.AVAILABLE;
+                
             }
         }
         emit NewForecast(_LeagueId, _matchId );
@@ -205,9 +223,9 @@ contract PetitProno is GetOracleInfo {
     }
 
     //get forecast info from a player
-    function getForecast(string memory _LeagueId, string memory _TeamId, string memory _matchId) public view returns(string [2] memory, uint[2] memory, uint[2] memory, uint,uint,Time){
+    function getForecast(string memory _LeagueId, string memory _TeamId, string memory _matchId) public view returns(string [2] memory, uint[2] memory, uint[2] memory, uint,uint,Time,bool){
         Forecast memory _match = Leagues[_LeagueId].Teams[_TeamId].Players[msg.sender].Forecasts[_matchId];
-        return (_match.teams, _match.prono, _match.result, _match.PointNb, _match.matchDate, _match.time);
+        return (_match.teams, _match.prono, _match.result, _match.PointNb, _match.matchDate, _match.time, _match.scoreIsSet);
     }
 
     //update Time of Match for all leagues
@@ -216,7 +234,7 @@ contract PetitProno is GetOracleInfo {
             string memory _TeamId = Leagues[_LeagueId].keyMappingTeam[i];
             for (uint k; k<Leagues[_LeagueId].Teams[_TeamId].keyMappingPlayer.length; k++){
                 address _walletId = Leagues[_LeagueId].Teams[_TeamId].keyMappingPlayer[k];
-                if(block.number < Leagues[_LeagueId].Teams[_TeamId].Players[msg.sender].Forecasts[_matchId].blockEnd){
+                if(block.timestamp < Leagues[_LeagueId].Teams[_TeamId].Players[msg.sender].Forecasts[_matchId].matchDate){
                     Leagues[_LeagueId].Teams[_TeamId].Players[_walletId].Forecasts[_matchId].time = Time.AVAILABLE;
                 }else{
                     Leagues[_LeagueId].Teams[_TeamId].Players[_walletId].Forecasts[_matchId].time = Time.FINISHED;
@@ -226,23 +244,31 @@ contract PetitProno is GetOracleInfo {
     }
 
     //update forecat result from a player
-    function setForecastResult(string memory _LeagueId, string memory _TeamId, address _walletId, string memory _matchId, uint[2] memory _result) public {
-        Leagues[_LeagueId].Teams[_TeamId].Players[_walletId].Forecasts[_matchId].result = _result;
+    function setForecastResult(string memory _LeagueId, string memory _matchId, uint[2] memory _result) public {
+        updateTime( _LeagueId, _matchId);
+        for (uint i; i<Leagues[_LeagueId].keyMappingTeam.length; i++){
+            string memory _TeamId = Leagues[_LeagueId].keyMappingTeam[i];
+            for (uint k; k<Leagues[_LeagueId].Teams[_TeamId].keyMappingPlayer.length; k++){
+                address _walletId = Leagues[_LeagueId].Teams[_TeamId].keyMappingPlayer[k];
+                Leagues[_LeagueId].Teams[_TeamId].Players[_walletId].Forecasts[_matchId].result = _result;
+                Leagues[_LeagueId].Teams[_TeamId].Players[_walletId].Forecasts[_matchId].scoreIsSet = true;
+            }
+        }
     }
 
     //update forecat prono for a player
     function setForecastProno(string memory _LeagueId, string memory _TeamId, string memory _matchId, uint[2] memory _prono) public {
-        if (block.number < Leagues[_LeagueId].Teams[_TeamId].Players[msg.sender].Forecasts[_matchId].blockEnd){
+        if (block.timestamp < Leagues[_LeagueId].Teams[_TeamId].Players[msg.sender].Forecasts[_matchId].matchDate){
             Leagues[_LeagueId].Teams[_TeamId].Players[msg.sender].Forecasts[_matchId].prono = _prono;
         }else{
+            updateTime( _LeagueId, _matchId);
             emit MatchAvailable(_LeagueId,_matchId);
-
         }
     }
 
     //update forecast point for a player
-    function setForecastPointNb(string memory _LeagueId, string memory _TeamId, address _walletId, string memory _matchId, uint _PointNb) public {
-        Leagues[_LeagueId].Teams[_TeamId].Players[_walletId].Forecasts[_matchId].PointNb = _PointNb;    
+    function setForecastPointNb(string memory _LeagueId, string memory _TeamId, string memory _matchId, uint _PointNb) public {
+        Leagues[_LeagueId].Teams[_TeamId].Players[msg.sender].Forecasts[_matchId].PointNb = _PointNb;    
     }
 
     //get forecast point for a player

@@ -1,5 +1,4 @@
 import './createLeagueModal.css'
-import React from 'react'
 import { Modal, Row, Col, Container, Form, Button } from 'react-bootstrap'
 import { BsPersonCircle } from 'react-icons/bs'
 import FileInput from '../../utils/FileInput'
@@ -7,11 +6,14 @@ import { MonPetitPronoContract } from '../../utils/WebProvider'
 import { addLeagueIPFS } from '../../utils/Ipfs'
 import { v4 as uuidv4 } from 'uuid'
 import { useState, useEffect } from 'react'
+import { Skeleton } from '@mui/material'
 
 export default function CreateLeagueModal(props) {
   const [ipfsImage, setIpfsImage] = useState(undefined)
   const [leagueName, setLeagueName] = useState(undefined)
   const [color, setColor] = useState('#ffffff')
+  let loadingContent = props.loadingValues[0]
+  let setLoadingContent = props.loadingValues[1]
 
   async function CreateLeagueSM() {
     const _LeagueId = uuidv4()
@@ -33,6 +35,10 @@ export default function CreateLeagueModal(props) {
       if (imgPath !== null) {
         await MonPetitPronoContract.addLeague(_LeagueId, _LeagueName, imgPath)
         props.setLoading(true)
+        setLoadingContent([
+          ...loadingContent,
+          <Skeleton id="leagueCardCharging" variant="rectangular" />,
+        ])
       } else {
         alert('Une Erreur est survenue avec le stockage offchain')
       }

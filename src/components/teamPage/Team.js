@@ -13,6 +13,7 @@ export default function Team() {
   let { leagueId } = useParams()
   const [teamInfo, setTeamInfo] = useState([])
   const [newTeamsCreated, setNewTeamsCreated] = useState(null)
+  const [loadingContent, setLoadingContent] = useState([])
   const wallet = useSelector((state) => state.wallet)
   const [loading, setLoading] = useState(false)
 
@@ -45,14 +46,13 @@ export default function Team() {
             <OneCardTeam key={uuidv4()} id={e[0]} el={e[2]} Name={e[1]} />
           </Col>
         ))}
-        {loading && (
-          <Col>
-            {' '}
-            <Skeleton id="teamCardCharging" variant="rectangular" />
-          </Col>
-        )}
+        {loading &&
+          loadingContent.map((elem, index) => <Col key={index}>{elem}</Col>)}
         <Col>
-          <AddTeam setLoading={setLoading} />
+          <AddTeam
+            setLoading={setLoading}
+            loadingValues={[loadingContent, setLoadingContent]}
+          />
         </Col>
       </Row>
     </Container>

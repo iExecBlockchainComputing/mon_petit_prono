@@ -2,6 +2,8 @@ import './oneCardForecast.css'
 import { useState, useEffect } from 'react'
 import { Row, Col, Card, Form } from 'react-bootstrap'
 import ReactCountryFlag from 'react-country-flag'
+import { MonPetitPronoContract, OracleContract } from '../../utils/WebProvider'
+import { useParams } from 'react-router-dom'
 
 export default function OneCardForecast({
   id,
@@ -10,18 +12,23 @@ export default function OneCardForecast({
   countryCode2,
   countryName1,
   countryName2,
+  prono,
   date,
   available,
+  score,
+  nbPoints,
+  checkFinaleScoreSet,
 }) {
+  let { leagueId, teamId } = useParams()
   const [score1, setScore1] = useState(null)
   const [score2, setScore2] = useState(null)
-  const [availableBet, setAvailableBet] = useState(false)
+  const [notAvailableBet, setNotAvailableBet] = useState(false)
   const playersBets = setCardInfo[0]
   const setPlayersBets = setCardInfo[1]
 
   useEffect(() => {
     if (available === 1) {
-      setAvailableBet(true)
+      setNotAvailableBet(true)
     }
   }, [])
 
@@ -73,19 +80,22 @@ export default function OneCardForecast({
           </Col>
           <Col id="scoreContent">
             <Row>
-              <Col id="ttt">
+              <Col>
                 <Form.Control
                   id="score"
                   type="number"
+                  defaultValue={prono[0].toNumber() === 100 ? null : prono[0]}
                   placeholder="..."
                   onChange={(e) => {
+                    e.preventDefault()
+                    console.log(e.target.value)
                     if (e.target.value === '') {
                       setScore1(null)
                     } else {
                       setScore1(parseFloat(e.target.value))
                     }
                   }}
-                  disabled={availableBet}
+                  disabled={notAvailableBet}
                 />
               </Col>
               <Col>
@@ -95,18 +105,29 @@ export default function OneCardForecast({
                 <Form.Control
                   id="score"
                   type="number"
+                  defaultValue={prono[1].toNumber() === 100 ? null : prono[1]}
                   placeholder="..."
                   onChange={(e) => {
+                    e.preventDefault()
+                    console.log(e.target.value)
                     if (e.target.value === '') {
-                      setScore1(null)
+                      setScore2(null)
                     } else {
                       setScore2(parseFloat(e.target.value))
                     }
                   }}
-                  disabled={availableBet}
+                  disabled={notAvailableBet}
                 />
               </Col>
             </Row>
+            {checkFinaleScoreSet && (
+              <Row>
+                <h3>
+                  Score : {score[0].toNumber()} - {score[1].toNumber()}
+                </h3>
+                <h3>Point : {nbPoints.toNumber()}</h3>
+              </Row>
+            )}
           </Col>
           <Col id="flagueImage">
             <ReactCountryFlag

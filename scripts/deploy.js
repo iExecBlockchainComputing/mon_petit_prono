@@ -9,12 +9,12 @@ async function main() {
   const contract = await MonPetitProno.deploy()
   await contract.deployed()
 
-  const Oracle = await ethers.getContractFactory('GetOracleInfo')
+  /*const Oracle = await ethers.getContractFactory('GetOracleInfo')
   const Oraclecontract = await Oracle.deploy()
   await Oraclecontract.deployed()
 
+  console.log('Contract Oracle address:', Oraclecontract.address)*/
   console.log('Contract MonPetitProno address:', contract.address)
-  console.log('Contract Oracle address:', Oraclecontract.address)
 }
 
 main()

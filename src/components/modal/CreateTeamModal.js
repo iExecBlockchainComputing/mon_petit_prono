@@ -1,5 +1,5 @@
 import './createTeamModal.css'
-import React from 'react'
+import { Skeleton } from '@mui/material'
 import { Modal, Row, Col, Container, Form, Button } from 'react-bootstrap'
 import { BsPersonCircle } from 'react-icons/bs'
 import FileInput from '../../utils/FileInput'
@@ -15,10 +15,14 @@ export default function CreateTeamModal(props) {
   const [teamName, setTeamName] = useState(undefined)
   const [playerName, setPlayerName] = useState(undefined)
   const [color, setColor] = useState('#ffffff')
+  let loadingContent = props.loadingValues[0]
+  let setLoadingContent = props.loadingValues[1]
 
   async function CreateTeamSM() {
     const _TeamId = uuidv4()
-    const ListIdTeam = await MonPetitPronoContract.getMyTeamFromOneLeague(leagueId)
+    const ListIdTeam = await MonPetitPronoContract.getMyTeamFromOneLeague(
+      leagueId,
+    )
     while (ListIdTeam.includes(_TeamId)) {
       _TeamId = uuidv4()
     }
@@ -48,6 +52,10 @@ export default function CreateTeamModal(props) {
           imgPath,
         )
         props.setLoading(true)
+        setLoadingContent([
+          ...loadingContent,
+          <Skeleton id="teamCardCharging" variant="rectangular" />,
+        ])
       } else {
         alert('Une Erreur est survenue avec le stockage offchain')
       }

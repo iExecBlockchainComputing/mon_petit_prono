@@ -14,7 +14,7 @@ import {
 function ConnectionModal(props) {
   const [isClicked, setIsClicked] = useState(false)
 
-  return (
+  /*return (
     <Modal
       id="modalPopup"
       {...props}
@@ -117,7 +117,7 @@ function ConnectionModal(props) {
       </Modal.Body>
       {isClicked ? console.log('your clicked') : console.log('not clicked yet')}
     </Modal>
-  )
+  )*/
 }
 
 export default ConnectionModal
