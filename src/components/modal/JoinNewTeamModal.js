@@ -42,7 +42,7 @@ export default function JoinNewTeam(props) {
   useEffect(() => {
     if (searchInput.length > 0) {
       const resultsearch = AllTeamsAvailable.filter((e) => {
-        return e[1].match(searchInput)
+        return (e[1].toLowerCase()).match(searchInput.toLowerCase())
       })
       setResearchResults(resultsearch)
     } else {
