@@ -218,18 +218,18 @@ async function getOracleResult(oracleID) {
 function CalculateNbPoints(leagueId, teamId, prono, score, _matchId) {
   let myScore = 0
   if (prono[0].toNumber() !== 100 && prono[1].toNumber() !== 100) {
-    if (prono[0].toNumber() === prono[1].toNumber() && score[0] === score[1]) {
-      myScore += 1
+    if (prono[0].toNumber() === prono[1].toNumber() && score[0] === score[1] && prono[0].toNumber() !== score[0]) {
+      myScore = 1
     } else if (
       prono[0].toNumber() === score[0] &&
       prono[1].toNumber() === score[1]
     ) {
-      myScore += 3
+      myScore = 3
     } else if (
       (prono[0].toNumber() === score[0] && prono[1].toNumber() !== score[1]) ||
       (prono[0].toNumber() !== score[0] && prono[1].toNumber() === score[1])
     ) {
-      myScore += 1
+      myScore = 1
     }
   }
   MonPetitPronoContract.setForecastPointNb(leagueId, teamId, _matchId, myScore)
