@@ -30,3 +30,17 @@
   --bs-toast-header-bg: #fcd15a;
   --bs-toast-header-color: black;
 }
+
+#teamNameAlreadySet{
+  margin-left: 15px;
+  margin-top: 4px;
+  color: red;
+  font-size: 12px;
+}
+
+#playerNameAlreadySet{
+  margin-left: 15px;
+  margin-top: -10px;
+  color: red;
+  font-size: 12px;
+}

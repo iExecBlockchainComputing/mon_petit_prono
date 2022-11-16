@@ -1,6 +1,7 @@
 require('dotenv').config()
 require('@nomicfoundation/hardhat-toolbox')
 require('@nomiclabs/hardhat-etherscan')
+require('@nomiclabs/hardhat-ethers')
 
 const ALCHEMY_API_KEY = process.env.REACT_APP_ALCHEMY_API_KEY
 const PRIVATE_KEY = process.env.REACT_APP_WALLET_PRIVATE_KEY_1

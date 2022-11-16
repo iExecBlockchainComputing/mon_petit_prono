@@ -64,6 +64,11 @@ contract PetitProno is GetOracleInfo {
         _;
     }
 
+    //change the owner of the contract
+    function changeOwner(address _newOwner) public OnlyOwner{
+        owner = _newOwner;
+    }
+
     /** LEAGUE */
     //add a league
     function addLeague(string memory _LeagueId, string memory _League_name,string memory _ipfs) public OnlyOwner{

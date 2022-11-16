@@ -22,7 +22,7 @@ export default function Ranking() {
       leagueId,
       teamId,
     )
-    let forecastInfo = await Promise.all(
+    let playersInfo = await Promise.all(
       playersId.map(async (e) => {
         let info = await MonPetitPronoContract.getPlayerInfo(
           leagueId,
@@ -34,9 +34,8 @@ export default function Ranking() {
         return [...OnePlayer, e]
       }),
     )
-    forecastInfo.sort((a, b) => b[1] - a[1])
-    setRanking(forecastInfo)
-    console.log('forecast Ranking: ', forecastInfo)
+    playersInfo.sort((a, b) => b[1] - a[1])
+    setRanking(playersInfo)
   }
 
   const UpdateScore = async () => {

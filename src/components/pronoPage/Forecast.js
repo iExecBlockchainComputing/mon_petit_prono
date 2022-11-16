@@ -7,6 +7,7 @@ import AddForecast from './AddForecast'
 import { MonPetitPronoContract, OracleContract } from '../../utils/WebProvider'
 import { useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
+import { IoIosArrowForward, IoIosArrowDown } from 'react-icons/io'
 import countryList from 'react-select-country-list'
 
 export default function Forecast() {
@@ -168,7 +169,10 @@ export default function Forecast() {
         <div key={elem[0]}>
           {test(() => convertTimestampToDate(elem[5])) && (
             <Row id="lineDate">
-              <h3 id="date">{convertTimestampToDate(elem[5]).split(' ')[0]}</h3>
+              <h3 id="date">
+                <IoIosArrowForward color="#fcd15a" size={15} />
+                {convertTimestampToDate(elem[5]).split(' ')[0]}
+              </h3>
               <Row></Row>
             </Row>
           )}
@@ -218,7 +222,11 @@ async function getOracleResult(oracleID) {
 function CalculateNbPoints(leagueId, teamId, prono, score, _matchId) {
   let myScore = 0
   if (prono[0].toNumber() !== 100 && prono[1].toNumber() !== 100) {
-    if (prono[0].toNumber() === prono[1].toNumber() && score[0] === score[1] && prono[0].toNumber() !== score[0]) {
+    if (
+      prono[0].toNumber() === prono[1].toNumber() &&
+      score[0] === score[1] &&
+      prono[0].toNumber() !== score[0]
+    ) {
       myScore = 1
     } else if (
       prono[0].toNumber() === score[0] &&

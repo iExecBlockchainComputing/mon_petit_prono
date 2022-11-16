@@ -27,6 +27,10 @@ export default function OneCardForecast({
   const setPlayersBets = setCardInfo[1]
 
   useEffect(() => {
+    if (prono[0].toNumber() !== 100 && prono[1].toNumber() !== 100) {
+      setScore1(prono[0].toNumber())
+      setScore2(prono[1].toNumber())
+    }
     if (available === 1) {
       setNotAvailableBet(true)
     }

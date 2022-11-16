@@ -14,7 +14,6 @@
     "bootstrap": "^5.2.2",
     "browserify": "^17.0.0",
     "dotenv": "^16.0.3",
-    "ethers": "^5.7.1",
     "hardhat": "^2.11.2",
     "react": "^18.2.0",
     "react-bootstrap": "^2.6.0",
@@ -56,6 +55,10 @@
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^2.0.0",
-    "@nomiclabs/hardhat-etherscan": "^3.1.2"
+    "@nomiclabs/hardhat-ethers": "^2.2.1",
+    "@nomiclabs/hardhat-etherscan": "^3.1.2",
+    "@openzeppelin/contracts": "^4.8.0",
+    "@openzeppelin/hardhat-upgrades": "^1.21.0",
+    "ethers": "^5.7.2"
   }
 }

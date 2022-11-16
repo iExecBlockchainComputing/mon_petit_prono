@@ -10,19 +10,90 @@ import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 
 export default function CreateTeamModal(props) {
-  let { leagueId } = useParams()
+  let { leagueId, teamId } = useParams()
   const [ipfsImage, setIpfsImage] = useState(undefined)
   const [teamName, setTeamName] = useState(undefined)
+  const [teamNameAlreadyExist, setTeamNameAlreadyExist] = useState(false)
+  const [playersInfo, setPlayersInfo] = useState([])
   const [playerName, setPlayerName] = useState(undefined)
+  const [playerNameAlreadyExist, setPlayerNeamAlreadyExist] = useState(false)
+  const [ListIdTeam, setListIdTeam] = useState([])
+  const [teamInfo, setTeamInfo] = useState([])
   const [color, setColor] = useState('#ffffff')
   let loadingContent = props.loadingValues[0]
   let setLoadingContent = props.loadingValues[1]
 
-  async function CreateTeamSM() {
-    const _TeamId = uuidv4()
+  useEffect(() => {
+    init()
+  }, [])
+
+  async function init() {
     const ListIdTeam = await MonPetitPronoContract.getMyTeamFromOneLeague(
       leagueId,
     )
+    setListIdTeam(ListIdTeam)
+    let teamInfo = await Promise.all(
+      ListIdTeam.map(async (e) => {
+        return await MonPetitPronoContract.getTeamsInfos(leagueId, e)
+      }),
+    )
+    setTeamInfo(teamInfo)
+    let playersInfo = await Promise.all(
+      ListIdTeam.map(async (id) => {
+        const playersId = await MonPetitPronoContract.getAllPlayerAddrFromOneTeam(
+          leagueId,
+          id,
+        )
+        let playersInfo = await Promise.all(
+          playersId.map(async (e) => {
+            let info = await MonPetitPronoContract.getPlayerInfo(
+              leagueId,
+              id,
+              e,
+            )
+            return info[0]
+          }),
+        )
+        return playersInfo
+      }),
+    )
+    setPlayersInfo(playersInfo)
+  }
+
+  useEffect(() => {
+    verifyTeamName()
+  }, [teamName])
+
+  async function verifyTeamName() {
+    let teamNameAlreadyExist = teamInfo.filter((e) => e[1].toLowerCase() === teamName.toLowerCase())
+    if (teamNameAlreadyExist.length > 0) {
+      setTeamNameAlreadyExist(true)
+    } else {
+      setTeamNameAlreadyExist(false)
+    }
+  }
+
+  useEffect(() => {
+    verifyPlayerName()
+  }, [playerName])
+
+  async function verifyPlayerName() {
+    let playerNameAlreadyExist = playersInfo.filter((tabPlayers) => {
+      for (var name of tabPlayers) {
+        if (name.toLowerCase() === playerName.toLowerCase()) {
+          return true
+        }
+      }
+    })
+    if (playerNameAlreadyExist.length > 0) {
+      setPlayerNeamAlreadyExist(true)
+    } else {
+      setPlayerNeamAlreadyExist(false)
+    }
+  }
+
+  async function CreateTeamSM() {
+    const _TeamId = uuidv4()
     while (ListIdTeam.includes(_TeamId)) {
       _TeamId = uuidv4()
     }
@@ -97,6 +168,9 @@ export default function CreateTeamModal(props) {
                 placeholder="Enter the name of your team"
                 onChange={(e) => setTeamName(e.target.value)}
               />
+              {teamNameAlreadyExist && (
+                <h3 id="teamNameAlreadySet">This name of team already exist</h3>
+              )}
             </Form.Group>
             <Form.Group className="mb-3" controlId="formBasicPassword">
               <Form.Label>Your Player Name</Form.Label>
@@ -106,6 +180,9 @@ export default function CreateTeamModal(props) {
                 placeholder="Player Name"
               />
             </Form.Group>
+            {playerNameAlreadyExist && (
+              <h3 id="playerNameAlreadySet">This name of team already exist</h3>
+            )}
           </Form>
           <FileInput title={'Choose your Image'} setIpfsImage={setIpfsImage} />
           <Form.Label htmlFor="exampleColorInput">Color picker</Form.Label>
@@ -117,7 +194,13 @@ export default function CreateTeamModal(props) {
             onChange={(e) => setColor(e.target.value)}
           />
           <div id="button">
-            <Button onClick={CreateTeamSM} type="submit">
+            <Button
+              disabled={
+                teamNameAlreadyExist && playerNameAlreadyExist ? true : false
+              }
+              onClick={CreateTeamSM}
+              type="submit"
+            >
               Create
             </Button>
           </div>
