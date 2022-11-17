@@ -1,8 +1,8 @@
 import './team.css'
 import { Container, Row, Col } from 'react-bootstrap'
 import { Skeleton } from '@mui/material'
+import { useSelector, useDispatch } from 'react-redux'
 import AddTeam from './AddTeam'
-import { useSelector } from 'react-redux'
 import { MonPetitPronoContract } from '../../utils/WebProvider'
 import { v4 as uuidv4 } from 'uuid'
 import { useState, useEffect } from 'react'
@@ -11,20 +11,24 @@ import OneCardTeam from './OneCardTeam'
 
 export default function Team() {
   let { leagueId } = useParams()
+  let elemsLoading = useSelector((state) => state.teamLoading)
+  const dispatch = useDispatch()
   const [teamInfo, setTeamInfo] = useState([])
   const [newTeamsCreated, setNewTeamsCreated] = useState(null)
-  const [loadingContent, setLoadingContent] = useState([])
-  const wallet = useSelector((state) => state.wallet)
-  const [loading, setLoading] = useState(false)
 
   MonPetitPronoContract.on('NewTeam', (_LeagueId, _TeamId, _Team_name) => {
-    console.log('newTeamsCreated : ', _TeamId)
     setNewTeamsCreated(_TeamId)
-    setLoading(false)
   })
 
   useEffect(() => {
     tabLeaguesInfo()
+    if (elemsLoading.elemLoading.length > 0) {
+      let tabCopy = [...elemsLoading.elemLoading]
+      dispatch({
+        type: 'teamLoading/updateElemLoading',
+        payload: tabCopy.pop(),
+      })
+    }
   }, [newTeamsCreated])
 
   const tabLeaguesInfo = async () => {
@@ -46,13 +50,14 @@ export default function Team() {
             <OneCardTeam key={uuidv4()} id={e[0]} el={e[2]} Name={e[1]} />
           </Col>
         ))}
-        {loading &&
-          loadingContent.map((elem, index) => <Col key={index}>{elem}</Col>)}
+        {elemsLoading.elemLoading.length > 0 &&
+          elemsLoading.elemLoading.map((elem, index) => (
+            <Col key={index}>
+              <Skeleton id="teamCardCharging" variant="rectangular" />
+            </Col>
+          ))}
         <Col>
-          <AddTeam
-            setLoading={setLoading}
-            loadingValues={[loadingContent, setLoadingContent]}
-          />
+          <AddTeam />
         </Col>
       </Row>
     </Container>

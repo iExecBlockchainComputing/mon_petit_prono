@@ -1,10 +1,11 @@
 import React from 'react'
 import './joinNewTeamModal.css'
-import { TextField, Typography, Box, Button } from '@mui/material'
+import { Skeleton, TextField, Typography, Box, Button } from '@mui/material'
 import { Col, Modal, Row, Table, Form, Container } from 'react-bootstrap'
 import { useState, useEffect } from 'react'
 import { MonPetitPronoContract } from '../../utils/WebProvider'
 import { useParams } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
 
 export default function JoinNewTeam(props) {
   let { leagueId } = useParams()
@@ -42,7 +43,7 @@ export default function JoinNewTeam(props) {
   useEffect(() => {
     if (searchInput.length > 0) {
       const resultsearch = AllTeamsAvailable.filter((e) => {
-        return (e[1].toLowerCase()).match(searchInput.toLowerCase())
+        return e[1].toLowerCase().match(searchInput.toLowerCase())
       })
       setResearchResults(resultsearch)
     } else {
@@ -81,15 +82,27 @@ export default function JoinNewTeam(props) {
 
 function TeamRow({ team, onHide }) {
   let { leagueId } = useParams()
+  let elemsLoading = useSelector((state) => state.teamLoading)
+  let tabCopy = [...elemsLoading.elemLoading]
+  const dispatch = useDispatch()
   const [showOrders, setShowOrders] = useState(false)
   const [playerName, setPlayerName] = useState('')
   const [nbOfPlayers, setNbOfPlayers] = useState(0)
 
   async function joinNewTeam() {
     if (playerName.length > 0) {
-      await MonPetitPronoContract.addPlayer(leagueId, team[0], playerName)
+      let tra = await MonPetitPronoContract.addPlayer(
+        leagueId,
+        team[0],
+        playerName,
+      )
+      dispatch({
+        type: 'teamLoading/updateElemLoading',
+        payload: [...tabCopy, 'oneMore'],
+      })
       onHide()
-      alert('Your Join new Team')
+      await tra.wait()
+      window.location.reload()
     } else {
       alert('You must enter a Player name')
     }

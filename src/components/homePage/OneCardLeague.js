@@ -31,7 +31,7 @@ export default function OneCardLeague({
   )
 
   useEffect(() => {
-    getMetadata()
+    //getMetadata()
   }, [metadata])
 
   async function getMetadata() {

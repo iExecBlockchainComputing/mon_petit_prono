@@ -16,17 +16,29 @@ const walletSlice = createSlice({
     },
     accountAddress: (state, action) => {
       state.accountAddress = action.payload
-    }
+    },
   },
 })
 
+const teamLoadingSlice = createSlice({
+  name: 'teamLoading',
+  initialState: {
+    elemLoading: [],
+  },
+  reducers: {
+    updateElemLoading: (state, action) => {
+      state.elemLoading = action.payload
+    },
+  },
+})
 
 export const store = configureStore({
   reducer: {
     wallet: walletSlice.reducer,
+    teamLoading: teamLoadingSlice.reducer,
   },
-  middleware: getDefaultMiddleware =>
-  getDefaultMiddleware({
-    serializableCheck: false,
-  })
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }),
 })

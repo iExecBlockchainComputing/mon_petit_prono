@@ -8,9 +8,13 @@ import { addLeagueIPFS } from '../../utils/Ipfs'
 import { v4 as uuidv4 } from 'uuid'
 import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
 
 export default function CreateTeamModal(props) {
   let { leagueId, teamId } = useParams()
+  let elemsLoading = useSelector((state) => state.teamLoading)
+  let tabCopy = [...elemsLoading.elemLoading]
+  const dispatch = useDispatch()
   const [ipfsImage, setIpfsImage] = useState(undefined)
   const [teamName, setTeamName] = useState(undefined)
   const [teamNameAlreadyExist, setTeamNameAlreadyExist] = useState(false)
@@ -20,8 +24,6 @@ export default function CreateTeamModal(props) {
   const [ListIdTeam, setListIdTeam] = useState([])
   const [teamInfo, setTeamInfo] = useState([])
   const [color, setColor] = useState('#ffffff')
-  let loadingContent = props.loadingValues[0]
-  let setLoadingContent = props.loadingValues[1]
 
   useEffect(() => {
     init()
@@ -115,18 +117,19 @@ export default function CreateTeamModal(props) {
         _TeamColor,
       )
       if (imgPath !== null) {
-        await MonPetitPronoContract.addTeam(
+        let tra = await MonPetitPronoContract.addTeam(
           leagueId,
           _TeamId,
           _teamName,
           _playerName,
           imgPath,
         )
-        props.setLoading(true)
-        setLoadingContent([
-          ...loadingContent,
-          <Skeleton id="teamCardCharging" variant="rectangular" />,
-        ])
+        dispatch({
+          type: 'teamLoading/updateElemLoading',
+          payload: [...tabCopy, 'oneMore'],
+        })
+        await tra.wait()
+        window.location.reload()
       } else {
         alert('Une Erreur est survenue avec le stockage offchain')
       }

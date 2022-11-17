@@ -4,6 +4,7 @@ import { getLeagueIPFSJson, getIPFSImage } from '../../utils/Ipfs'
 import { useNavigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { Card, Container } from 'react-bootstrap'
+import MyImage from '../../assets/logo.png'
 
 export default function OneCardTeam({ id, el, Name }) {
   const navigate = useNavigate()
@@ -18,7 +19,7 @@ export default function OneCardTeam({ id, el, Name }) {
     `https://gateway.pinata.cloud/ipfs/${metadata.image}`,
   )
   useEffect(() => {
-    getMetadata()
+    //getMetadata()
   }, [metadata])
 
   async function getMetadata() {
@@ -57,7 +58,7 @@ export default function OneCardTeam({ id, el, Name }) {
     <>
       <Card onClick={handleClick} id="TeamCard">
         <Container>
-          <Card.Img id="test2" variant="top" src={`${image}`} />
+          <Card.Img id="test2" variant="top" src={`${MyImage}`} />
         </Container>
         <Card.Body>
           <Card.Title>{Name}</Card.Title>
