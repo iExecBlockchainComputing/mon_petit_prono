@@ -82,11 +82,11 @@ export default function OneCardForecast({
             />
             <h2>{countryName1}</h2>
           </Col>
-          <Col id="scoreContent">
+          <Col id="pronoContent">
             <Row>
               <Col>
                 <Form.Control
-                  id="score"
+                  id="prono"
                   type="number"
                   defaultValue={prono[0].toNumber() === 100 ? null : prono[0]}
                   placeholder="..."
@@ -107,7 +107,7 @@ export default function OneCardForecast({
               </Col>
               <Col>
                 <Form.Control
-                  id="score"
+                  id="prono"
                   type="number"
                   defaultValue={prono[1].toNumber() === 100 ? null : prono[1]}
                   placeholder="..."

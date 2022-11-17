@@ -11,7 +11,6 @@
   padding-bottom: 20px;
 }
 
-
 #navMenu .card {
   margin: auto;
   display: flex;
@@ -63,13 +62,9 @@
   }
 }
 
-#badge .col {
-  margin: 0px;
-  padding-left: 9px;
-  padding-top: 0px;
-  padding-bottom: 0px;
-}
-
-#iconBadge {
-  margin-right: 10px;
+#navMenu .card-title.h5 {
+  font-family: 'Mulish', Sans-serif;
+  margin: auto;
+  text-align: center;
+  font-size: 25px;
 }

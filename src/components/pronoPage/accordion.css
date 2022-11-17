@@ -1,0 +1,58 @@
+#lineDate {
+  width: 70%;
+  margin: auto;
+}
+
+#lineDate .row {
+  border-style: dashed;
+  border-width: 0px;
+  border-top-width: 1px;
+  border-color: #fcd15a;
+  margin: auto;
+  color: white;
+}
+
+#date {
+  margin-top: 30px;
+  color: #fcd15a;
+  text-align: start;
+  font-size: 18px;
+  font-style: italic;
+}
+
+#arrowIcon {
+  margin-right: 10px;
+  margin-bottom: 5px;
+}
+
+#sendScore{
+  max-width: 40%;
+  margin-left: 40%;
+}
+
+#sendScoreButton{
+  background-color: #1d1d24;
+  border-width: 1px;
+  color: #fcd15a;
+  border-color: #fcd15a;
+  border-style: dashed;
+}
+
+#score {
+  margin-top: 6%;
+  height: 45px;
+  width: 40px;
+  border-style: dashed;
+  border-color:#fcd15a;
+  background-color: #1d1d24;
+  color: #fcd15a;
+}
+
+#sendScore .form-control {
+  margin: auto;
+}
+
+#sendScore .form-control::placeholder { 
+  color: #fcd15a; 
+  margin: auto;
+}

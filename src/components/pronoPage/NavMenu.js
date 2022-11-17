@@ -1,11 +1,6 @@
 import './navMenu.css'
 import React from 'react'
 import { Container, Row, Col, Card, Badge } from 'react-bootstrap'
-import {
-  BsFillTrophyFill,
-  BsArrowUpShort,
-  BsArrowDownShort,
-} from 'react-icons/bs'
 import { useNavigate } from 'react-router-dom'
 import { useEffect } from 'react'
 
@@ -34,31 +29,7 @@ export default function NavMenu() {
         <Col>
           <Card onClick={() => handler('ranking')}>
             <Card.Body>
-              <Card.Title>
-                <Row id="badge">
-                  <Col>Player Ranking</Col>
-                  <Col md={3}>
-                    <Badge>
-                      <BsFillTrophyFill
-                        id="iconBadge"
-                        size={15}
-                        color="white"
-                      />
-                      Nelly
-                    </Badge>
-                  </Col>
-                </Row>
-              </Card.Title>
-              <Card.Text>
-                <>
-                  <BsArrowUpShort color="green" size={25} /> Nelly Cornejo
-                </>
-                <br />
-                <>
-                  <BsArrowDownShort color="red" size={25} />
-                  Robin Le Caignec
-                </>
-              </Card.Text>
+              <Card.Title>Player Ranking</Card.Title>
             </Card.Body>
           </Card>
         </Col>
