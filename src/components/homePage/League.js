@@ -61,7 +61,7 @@ export default function League() {
             <OneCardLeague
               key={uuidv4()}
               id={e[0]}
-              years={'2012'}
+              years={'2022'}
               Name={e[1]}
               ipfs={e[2]}
               StartDate={'20/11/2022'}
