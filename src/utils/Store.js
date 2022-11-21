@@ -32,10 +32,23 @@ const teamLoadingSlice = createSlice({
   },
 })
 
+const forecastPronoSlice = createSlice({
+  name: 'forecastProno',
+  initialState: {
+    prono: [],
+  },
+  reducers: {
+    updateForecastProno: (state, action) => {
+      state.prono = action.payload
+    },
+  },
+})
+
 export const store = configureStore({
   reducer: {
     wallet: walletSlice.reducer,
     teamLoading: teamLoadingSlice.reducer,
+    forecastProno: forecastPronoSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

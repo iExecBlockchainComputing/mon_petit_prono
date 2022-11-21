@@ -2,8 +2,7 @@ import './oneCardForecast.css'
 import { useState, useEffect } from 'react'
 import { Row, Col, Card, Form } from 'react-bootstrap'
 import ReactCountryFlag from 'react-country-flag'
-import { MonPetitPronoContract, OracleContract } from '../../utils/WebProvider'
-import { useParams } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
 
 export default function OneCardForecast({
   id,
@@ -19,12 +18,11 @@ export default function OneCardForecast({
   nbPoints,
   checkFinaleScoreSet,
 }) {
-  let { leagueId, teamId } = useParams()
-  const [score1, setScore1] = useState(null)
-  const [score2, setScore2] = useState(null)
+  let [score1, setScore1] = useState(null)
+  let [score2, setScore2] = useState(null)
   const [notAvailableBet, setNotAvailableBet] = useState(false)
-  const playersBets = setCardInfo[0]
-  const setPlayersBets = setCardInfo[1]
+  const playersBets = useSelector((state) => state.forecastProno)
+  const dispatch = useDispatch()
 
   useEffect(() => {
     if (prono[0].toNumber() !== 100 && prono[1].toNumber() !== 100) {
@@ -47,19 +45,44 @@ export default function OneCardForecast({
         score2 >= 0
       ) {
         let test = false
-        for (let i = 0; i < playersBets.length; i++) {
-          if (playersBets[i].id === id) {
-            test = true
-            playersBets[i].score1 = score1
-            playersBets[i].score2 = score2
+        if (playersBets.prono.length > 0) {
+          console.log('no')
+          let CopieBets = playersBets.prono
+          for (let i = 0; i < CopieBets.length; i++) {
+            if (CopieBets[i].id === id) {
+              let copieEl = { ...CopieBets[i] }
+              CopieBets = CopieBets.filter((el) => el.id !== id)
+              test = true
+              copieEl.score1 = score1
+              copieEl.score2 = score2
+              CopieBets.push(copieEl)
+            }
           }
+          if (!test) {
+            console.log('yes')
+            dispatch({
+              type: 'forecastProno/updateForecastProno',
+              payload: [
+                ...CopieBets,
+                { id: id, score1: score1, score2: score2 },
+              ],
+            })
+          } else {
+            console.log('no')
+            dispatch({
+              type: 'forecastProno/updateForecastProno',
+              payload: [{ id: id, score1: score1, score2: score2 }],
+            })
+          }
+        } else {
+          console.log('test')
+          let test = { id: id, score1: score1, score2: score2 }
+          dispatch({
+            type: 'forecastProno/updateForecastProno',
+            payload: [{ id: id, score1: score1, score2: score2 }],
+          })
         }
-        if (!test) {
-          setPlayersBets([
-            ...playersBets,
-            { id: id, score1: score1, score2: score2, date: date },
-          ])
-        }
+        console.log('in useEfect', playersBets.prono)
       } else {
         alert('Please enter a valid score')
       }

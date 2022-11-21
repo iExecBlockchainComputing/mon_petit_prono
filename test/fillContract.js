@@ -1,6 +1,6 @@
 require('dotenv').config()
 const { ethers } = require('ethers')
-const MyContract = require('../artifacts/contracts/PetitProno.sol/MonPetitProno.json')
+const MyContract = require('../artifacts/contracts/PetitProno.sol/PetitProno.json')
 
 const contractAddress = process.env.REACT_APP_CONTRACT_ADDRESS
 const WALLET_ADDRESS_1 = '0xa1B1CAbE3FF10B0e08B95F74BF7A374A4A9f85d6'

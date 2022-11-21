@@ -12,7 +12,6 @@ export default function Accordion({
   date,
   diffDate,
   forecast,
-  playersBets,
   convertTimestampToDate,
 }) {
   let { leagueId, teamId } = useParams()
@@ -25,6 +24,7 @@ export default function Accordion({
   function OpenAccordion() {
     setIsOpen(!isOpen)
   }
+
   useEffect(() => {
     if (date === diffDate[diffDate.length - 1]) {
       setIsOpen(true)
@@ -52,6 +52,7 @@ export default function Accordion({
         score2,
       ])
       await tra.wait()
+
       window.location.reload()
     }
     console.log(id)
@@ -79,7 +80,6 @@ export default function Accordion({
                 <div key={elem[0]}>
                   <OneCardForecast
                     id={elem[0]}
-                    setCardInfo={[playersBets[0], playersBets[1]]}
                     countryCode1={() => countryList().getValue(elem[1][0])}
                     countryCode2={() => countryList().getValue(elem[1][1])}
                     countryName1={elem[1][0]}
@@ -106,7 +106,6 @@ export default function Accordion({
                           placeholder="..."
                           onChange={(e) => {
                             e.preventDefault()
-                            console.log(e.target.value)
                             if (e.target.value === '') {
                               setScore1(null)
                             } else {
@@ -138,7 +137,6 @@ export default function Accordion({
                           placeholder="..."
                           onChange={(e) => {
                             e.preventDefault()
-                            console.log(e.target.value)
                             if (e.target.value === '') {
                               setScore2(null)
                             } else {

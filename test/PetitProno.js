@@ -5,7 +5,7 @@ const { ethers } = require('hardhat')
 describe('Mon petit prono', function () {
   async function deployTokenFixture() {
     const [owner, otherAccount] = await ethers.getSigners()
-    const contract = await ethers.getContractFactory('MonPetitProno')
+    const contract = await ethers.getContractFactory('PetitProno')
     const deployedContract = await contract.deploy()
     return { deployedContract, owner, otherAccount }
   }
@@ -212,7 +212,15 @@ describe('Mon petit prono', function () {
         forecastId[0],
       )
       expect(forecastInfo.toString()).to.equal(
-        [['France', 'Allemagne'], [0, 0], [0, 0], 0, timestamp,0].toString(),
+        [
+          ['France', 'Allemagne'],
+          [100, 100],
+          [0, 0],
+          0,
+          timestamp,
+          0,
+          false,
+        ].toString(),
       )
     })
     it('Verify setForecastProno', async function () {
@@ -227,7 +235,7 @@ describe('Mon petit prono', function () {
         leaguesID[0],
         TeamsIdFromOneLeague,
         forecastId[0],
-        [parseFloat('1'), parseFloat('2')],
+        [1, 2],
       )
       const forecastInfo = await deployedContract.getForecast(
         leaguesID[0],
@@ -235,7 +243,15 @@ describe('Mon petit prono', function () {
         forecastId[0],
       )
       expect(forecastInfo.toString()).to.equal(
-        [['France', 'Allemagne'], [1, 2], [0, 0], 0, timestamp,0].toString(),
+        [
+          ['France', 'Allemagne'],
+          [1, 2],
+          [0, 0],
+          0,
+          timestamp,
+          0,
+          false,
+        ].toString(),
       )
     })
     it('Verify updateTime', async function () {
@@ -251,8 +267,41 @@ describe('Mon petit prono', function () {
         TeamsIdFromOneLeague,
         forecastId[0],
       )
-      expect(forecastInfo[5].toString()).to.equal(
-        [0].toString(),
+      expect(forecastInfo[5].toString()).to.equal([0].toString())
+    })
+    it('Verify setForecastResult', async function () {
+      const {
+        deployedContract,
+        leaguesID,
+        TeamsIdFromOneLeague,
+        forecastId,
+        timestamp,
+      } = await loadFixture(PlayerFeature)
+      await deployedContract.setForecastProno(
+        leaguesID[0],
+        TeamsIdFromOneLeague,
+        forecastId[0],
+        [2, 2],
+      )
+      await deployedContract.setForecastResult(leaguesID[0], forecastId[0], [
+        2,
+        2,
+      ])
+      const forecastInfo = await deployedContract.getForecast(
+        leaguesID[0],
+        TeamsIdFromOneLeague,
+        forecastId[0],
+      )
+      expect(forecastInfo.toString()).to.equal(
+        [
+          ['France', 'Allemagne'],
+          [2, 2],
+          [2, 2],
+          3,
+          timestamp,
+          0,
+          true,
+        ].toString(),
       )
     })
   })

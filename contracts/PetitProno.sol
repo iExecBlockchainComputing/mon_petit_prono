@@ -255,9 +255,32 @@ contract PetitProno is GetOracleInfo {
             string memory _TeamId = Leagues[_LeagueId].keyMappingTeam[i];
             for (uint k; k<Leagues[_LeagueId].Teams[_TeamId].keyMappingPlayer.length; k++){
                 address _walletId = Leagues[_LeagueId].Teams[_TeamId].keyMappingPlayer[k];
-                Leagues[_LeagueId].Teams[_TeamId].Players[_walletId].Forecasts[_matchId].result = _result;
-                Leagues[_LeagueId].Teams[_TeamId].Players[_walletId].Forecasts[_matchId].scoreIsSet = true;
+                if(block.timestamp > Leagues[_LeagueId].Teams[_TeamId].Players[_walletId].Forecasts[_matchId].matchDate){
+                    Leagues[_LeagueId].Teams[_TeamId].Players[_walletId].Forecasts[_matchId].result = _result;
+                    calculatePoint(_LeagueId, _TeamId, _walletId, _matchId);
+                    Leagues[_LeagueId].Teams[_TeamId].Players[_walletId].Forecasts[_matchId].scoreIsSet = true;
+                }
             }
+        }
+    }
+
+
+    //calculate point for a player
+    function calculatePoint(string memory _LeagueId, string memory _TeamId, address _walletId,string memory _matchId) public {
+        uint[2] memory _result = Leagues[_LeagueId].Teams[_TeamId].Players[_walletId].Forecasts[_matchId].result;
+        uint[2] memory _prono = Leagues[_LeagueId].Teams[_TeamId].Players[_walletId].Forecasts[_matchId].prono;
+        uint _PointNb = 0;
+        if (_prono[0]!=100 && _prono[1]!=100){
+            if(_result[0] == _prono[0] && _result[1] == _prono[1]){
+                _PointNb = 3;
+            }else if(_result[0] > _result[1] && _prono[0] > _prono[1]){
+                _PointNb = 1;
+            }else if(_result[0] < _result[1] && _prono[0] < _prono[1]){
+                _PointNb = 1;
+            }else if(_result[0] == _result[1] && _prono[0] == _prono[1]){
+                _PointNb = 1;
+            }
+            setForecastPointNb(_LeagueId, _TeamId, _walletId,_matchId, _PointNb);
         }
     }
 
@@ -272,8 +295,8 @@ contract PetitProno is GetOracleInfo {
     }
 
     //update forecast point for a player
-    function setForecastPointNb(string memory _LeagueId, string memory _TeamId, string memory _matchId, uint _PointNb) public {
-        Leagues[_LeagueId].Teams[_TeamId].Players[msg.sender].Forecasts[_matchId].PointNb = _PointNb;    
+    function setForecastPointNb(string memory _LeagueId, string memory _TeamId, address _walletId,string memory _matchId, uint _PointNb) public {
+        Leagues[_LeagueId].Teams[_TeamId].Players[_walletId].Forecasts[_matchId].PointNb = _PointNb;    
     }
 
     //get forecast point for a player

@@ -4,9 +4,9 @@ import { useEffect, useState } from 'react'
 import { Container, Button } from 'react-bootstrap'
 import AddForecast from './AddForecast'
 import { MonPetitPronoContract, OracleContract } from '../../utils/WebProvider'
-import { useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import Accordion from './Accordion'
+import { useSelector, useDispatch } from 'react-redux'
 
 export default function Forecast() {
   let { leagueId, teamId } = useParams()
@@ -15,12 +15,13 @@ export default function Forecast() {
   const [noForecast, setNoForecast] = useState(true)
   const [forecast, setForecast] = useState([])
   const wallet = useSelector((state) => state.wallet)
-  const [playersBets, setPlayersBets] = useState([])
   const [loading, setLoading] = useState(false)
   const [loadingContent, setLoadingContent] = useState([])
   const [loadingForecast, setLoadingForecast] = useState(false)
   const [diffDate, setDiffDate] = useState([])
   const [matchResultToLoad, setMatchResultToLoad] = useState(false)
+  const playersBets = useSelector((state) => state.forecastProno)
+  const dispatch = useDispatch()
 
   MonPetitPronoContract.on('NewForecast', (_LeagueId, _ForecastId) => {
     setNewForecast(_ForecastId)
@@ -28,6 +29,7 @@ export default function Forecast() {
     console.log('NewForecast event')
     MonPetitPronoContract.removeAllListeners()
   })
+
 
   useEffect(() => {
     isMatchResultToLoaded()
@@ -42,12 +44,16 @@ export default function Forecast() {
   }, [forecast])
 
   const SaveForecast = () => {
-    console.log(playersBets)
-    playersBets.forEach(async (bet) => {
+    console.log("playersBets", playersBets.prono)
+    playersBets.prono.forEach(async (bet) => {
       await MonPetitPronoContract.setForecastProno(leagueId, teamId, bet.id, [
         bet.score1,
         bet.score2,
       ])
+    })
+    dispatch({
+      type: 'forecastProno/updateForecastProno',
+      payload: [],
     })
   }
 
@@ -72,13 +78,13 @@ export default function Forecast() {
   }
 
   const SetForecastResult = async () => {
-    setLoadingForecast(true)
+    /*setLoadingForecast(true)
     let { forecastId, lastSend } = await isMatchResultToLoaded()
 
     forecastId.forEach(async (id, index) => {
       let tab = await MonPetitPronoContract.getForecast(leagueId, teamId, id)
       if (Math.floor(Date.now() / 1000) >= tab[4].toNumber() && !tab[6]) {
-        /*let OracleId = await MonPetitPronoContract.getOracleId(
+        let OracleId = await MonPetitPronoContract.getOracleId(
           leagueId,
           teamId,
           e,
@@ -90,20 +96,13 @@ export default function Forecast() {
           leagueId,
           id,
           score,
-        )*/
-        let myScore = CalculateNbPoints(tab[1], tab[2], id)
-        let tra = await MonPetitPronoContract.setForecastPointNb(
-          leagueId,
-          teamId,
-          id,
-          myScore,
         )
         if (index === lastSend) {
           await tra.wait()
           window.location.reload()
         }
       }
-    })
+    })*/
   }
 
   const forecastInfo = async () => {
@@ -177,7 +176,7 @@ export default function Forecast() {
   return (
     <Container id="forecast">
       {noForecast && <h1 id="noForecast">No Forecast</h1>}
-      {!noForecast && !loadingForecast && matchResultToLoad && (
+      {false && !noForecast && !loadingForecast && matchResultToLoad && (
         <Button id="setForecastResult" onClick={SetForecastResult}>
           <h1 id="linear-wide">Check Match Result</h1>
         </Button>
@@ -193,7 +192,6 @@ export default function Forecast() {
           date={elem}
           diffDate={diffDate}
           forecast={forecast}
-          playersBets={[playersBets, setPlayersBets]}
           convertTimestampToDate={convertTimestampToDate}
         />
       ))}
@@ -222,30 +220,4 @@ async function getOracleResult(oracleID) {
   console.log('oracle result : ', result[0].toNumber())
   //return result[0].toNumber()
   return [1, 1]
-}
-
-function CalculateNbPoints(prono, score, _matchId) {
-  let myScore = 0
-  if (prono[0].toNumber() !== 100 && prono[1].toNumber() !== 100) {
-    if (
-      prono[0].toNumber() === prono[1].toNumber() &&
-      score[0].toNumber() === score[1].toNumber() &&
-      prono[0].toNumber() !== score[0].toNumber()
-    ) {
-      myScore = 1
-    } else if (
-      prono[0].toNumber() === score[0].toNumber() &&
-      prono[1].toNumber() === score[1].toNumber()
-    ) {
-      myScore = 3
-    } else if (
-      (prono[0].toNumber() === score[0].toNumber() &&
-        prono[1].toNumber() !== score[1].toNumber()) ||
-      (prono[0].toNumber() !== score[0].toNumber() &&
-        prono[1].toNumber() === score[1].toNumber())
-    ) {
-      myScore = 1
-    }
-  }
-  return myScore
 }
