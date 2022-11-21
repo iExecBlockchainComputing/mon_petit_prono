@@ -6,7 +6,6 @@ import { useSelector, useDispatch } from 'react-redux'
 
 export default function OneCardForecast({
   id,
-  setCardInfo,
   countryCode1,
   countryCode2,
   countryName1,
@@ -35,7 +34,7 @@ export default function OneCardForecast({
   }, [])
 
   useEffect(() => {
-    if (score1 !== null && score2 !== null) {
+    if (score1 !== null && score2 !== null && available === 0) {
       if (
         Number.isInteger(score1) &&
         Number.isInteger(score2) &&
