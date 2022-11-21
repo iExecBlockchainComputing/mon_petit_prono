@@ -13,6 +13,7 @@ contract PetitProno is GetOracleInfo {
     event EndDate (string _LeagueId, uint _EndDate, uint _matchDate);
     event MatchAvailable(string _LeagueId, string _matchId);
     enum Time{ AVAILABLE, FINISHED }
+    enum NFT_Mint{ DISABLED, ENABLED, MINTED }
 
     struct Forecast{
         string [2] teams;
@@ -22,6 +23,7 @@ contract PetitProno is GetOracleInfo {
         uint matchDate;
         bytes32 _oracleId;
         bool scoreIsSet;
+        NFT_Mint nftMint;
         Time time;
     }
 
@@ -171,6 +173,7 @@ contract PetitProno is GetOracleInfo {
                 Leagues[_LeagueId].Teams[_TeamId].Players[msg.sender].Forecasts[_forecastId].matchDate = _forecast.matchDate;
                 Leagues[_LeagueId].Teams[_TeamId].Players[msg.sender].Forecasts[_forecastId]._oracleId = _forecast._oracleId;
                 Leagues[_LeagueId].Teams[_TeamId].Players[msg.sender].Forecasts[_forecastId].scoreIsSet = _forecast.scoreIsSet;   
+                Leagues[_LeagueId].Teams[_TeamId].Players[msg.sender].Forecasts[_forecastId].nftMint = _forecast.nftMint;   
                 Leagues[_LeagueId].Teams[_TeamId].Players[msg.sender].Forecasts[_forecastId].time = _forecast.time;   
             }
         }
@@ -215,6 +218,7 @@ contract PetitProno is GetOracleInfo {
                 Leagues[_LeagueId].Teams[_TeamId].Players[_walletId].Forecasts[_matchId].PointNb = 0;
                 Leagues[_LeagueId].Teams[_TeamId].Players[_walletId].Forecasts[_matchId].matchDate = _endDate;
                 Leagues[_LeagueId].Teams[_TeamId].Players[_walletId].Forecasts[_matchId].scoreIsSet = false;
+                Leagues[_LeagueId].Teams[_TeamId].Players[_walletId].Forecasts[_matchId].nftMint = NFT_Mint.DISABLED;
                 Leagues[_LeagueId].Teams[_TeamId].Players[_walletId].Forecasts[_matchId].time = Time.AVAILABLE;
                 
             }
@@ -272,6 +276,7 @@ contract PetitProno is GetOracleInfo {
         uint _PointNb = 0;
         if (_prono[0]!=100 && _prono[1]!=100){
             if(_result[0] == _prono[0] && _result[1] == _prono[1]){
+                Leagues[_LeagueId].Teams[_TeamId].Players[_walletId].Forecasts[_matchId].nftMint = NFT_Mint.ENABLED;
                 _PointNb = 3;
             }else if(_result[0] > _result[1] && _prono[0] > _prono[1]){
                 _PointNb = 1;
@@ -302,6 +307,16 @@ contract PetitProno is GetOracleInfo {
     //get forecast point for a player
     function getForecastPointNb(string memory _LeagueId, string memory _TeamId, string memory _matchId) public view returns(uint){
         return Leagues[_LeagueId].Teams[_TeamId].Players[msg.sender].Forecasts[_matchId].PointNb;
+    }
+    //set NFT mint for a player
+    function setNFTMint(string memory _LeagueId, string memory _TeamId, string memory _matchId) public {
+        require(Leagues[_LeagueId].Teams[_TeamId].Players[msg.sender].Forecasts[_matchId].nftMint == NFT_Mint.ENABLED, "NFT mint is not enabled");
+        Leagues[_LeagueId].Teams[_TeamId].Players[msg.sender].Forecasts[_matchId].nftMint = NFT_Mint.MINTED;
+    }
+
+    //get NFT mint for a player
+    function getNFTMint(string memory _LeagueId, string memory _TeamId, string memory _matchId) public view returns(NFT_Mint){
+        return Leagues[_LeagueId].Teams[_TeamId].Players[msg.sender].Forecasts[_matchId].nftMint;
     }
 
     //set forecast OracleId

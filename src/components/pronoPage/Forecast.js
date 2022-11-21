@@ -30,7 +30,6 @@ export default function Forecast() {
     MonPetitPronoContract.removeAllListeners()
   })
 
-
   useEffect(() => {
     isMatchResultToLoaded()
   }, [])

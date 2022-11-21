@@ -1,7 +1,7 @@
 {
-    "name": "Herbie Starbelly",
-    "description": "Friendly OpenSea Creature that enjoys long swims in the ocean.",
-    "image": "https://storage.googleapis.com/opensea-prod.appspot.com/creature/50.png",
+    "name": "test NFT iExec",
+    "description": "Friendly NFT for iexec dapp mon petit prono",
+    "image": "https://ipfs.io/ipfs/QmTJmhBoxqP5QwK5MHgPg6oWCXadPRacAzDW1oUYVjMSDE",
     "attributes": [
     {
       "trait_type": "Base", 
@@ -44,5 +44,4 @@
     }
   ]
 }
-
-//https://docs.opensea.io/docs/metadata-standards
+https://ipfs.io/ipfs/QmdRuLHgWaNaMQninx2Pp928kgyHDzpL4ZdERiBWrz1qHP

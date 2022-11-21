@@ -8,6 +8,7 @@ import PronoPage from './pages/PronoPage.js'
 import TeamPage from './pages/TeamPage.js'
 import Forecast from './components/pronoPage/Forecast.js'
 import Ranking from './components/pronoPage/Ranking.js'
+import NftViewer from './pages/NftViewer'
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
       <ToolBar />
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/account/nft" element={<NftViewer />} />
         <Route path="/:leagueId/teamPage" element={<TeamPage />} />
         <Route path="/:leagueId/teamPage/:teamId/pronoPage" element={<PronoPage />}>
           <Route

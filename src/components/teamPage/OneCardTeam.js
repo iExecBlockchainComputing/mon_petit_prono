@@ -58,7 +58,7 @@ export default function OneCardTeam({ id, el, Name }) {
     <>
       <Card onClick={handleClick} id="TeamCard">
         <Container>
-          <Card.Img id="test2" variant="top" src={`${MyImage}`} />
+          <Card.Img variant="top" src={`${MyImage}`} />
         </Container>
         <Card.Body>
           <Card.Title>{Name}</Card.Title>

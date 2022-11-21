@@ -1,6 +1,6 @@
-#TeamCard {
-  height: 300px;
-  width: 270px;
+#NftCard {
+  height: 540px;
+  width: 322.5px;
   margin: auto;
   margin-bottom: 100px;
   background-color: white;
@@ -13,17 +13,20 @@
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
 }
 
-#TeamCard .container {
-  height: 250px;
+#NftCard .container {
+  height: 470px;
   display: flex;
+  padding: 0px;
 }
 
-#TeamCard .container img {
-  width: 80%;
-  margin: auto;
+#NftCard .container img {
+  width: auto;
+  height: 470px;
+  border-top-left-radius: 22px;
+  border-top-right-radius: 22px;
 }
 
-#TeamCard .card-body {
+#NftCard .card-body {
   color: #1d1d24;
   background: linear-gradient(
     60deg,
@@ -36,13 +39,13 @@
     #07b39b,
     #6fba82
   );
-  animation: animatedgradient 10s ease alternate infinite;
+  animation: animatedgradientNft 10s ease alternate infinite;
   background-size: 300% 300%;
   border-bottom-left-radius: 22px;
   border-bottom-right-radius: 22px;
 }
 
-@keyframes animatedgradient {
+@keyframes animatedgradientNft {
   to {
     background-position: 300% center;
   }

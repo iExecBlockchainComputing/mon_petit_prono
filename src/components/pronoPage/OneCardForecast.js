@@ -1,8 +1,10 @@
 import './oneCardForecast.css'
 import { useState, useEffect } from 'react'
-import { Row, Col, Card, Form } from 'react-bootstrap'
+import { Row, Col, Card, Form, Button } from 'react-bootstrap'
 import ReactCountryFlag from 'react-country-flag'
 import { useSelector, useDispatch } from 'react-redux'
+import { useParams } from 'react-router-dom'
+import { MonPetitPronoContract, NftContract } from '../../utils/WebProvider'
 
 export default function OneCardForecast({
   id,
@@ -17,8 +19,11 @@ export default function OneCardForecast({
   nbPoints,
   checkFinaleScoreSet,
 }) {
+  let { leagueId, teamId } = useParams()
   let [score1, setScore1] = useState(null)
   let [score2, setScore2] = useState(null)
+  const [mintable, setMintable] = useState(false)
+  const [mintableText, setMintableText] = useState(false)
   const [notAvailableBet, setNotAvailableBet] = useState(false)
   const playersBets = useSelector((state) => state.forecastProno)
   const dispatch = useDispatch()
@@ -31,7 +36,29 @@ export default function OneCardForecast({
     if (available === 1) {
       setNotAvailableBet(true)
     }
+    getNftMinable()
   }, [])
+
+  async function Mint() {
+    const tra = await MonPetitPronoContract.setNFTMint(leagueId, teamId, id)
+    setMintable(false)
+    await tra.wait()
+    window.location.reload()
+  }
+
+  async function getNftMinable() {
+    const nftMinable = await MonPetitPronoContract.getNFTMint(
+      leagueId,
+      teamId,
+      id,
+    )
+    if (nftMinable === 1) {
+      setMintable(true)
+    }
+    if (nftMinable === 2) {
+      setMintableText(true)
+    }
+  }
 
   useEffect(() => {
     if (score1 !== null && score2 !== null && available === 0) {
@@ -152,6 +179,9 @@ export default function OneCardForecast({
                   Score : {score[0].toNumber()} - {score[1].toNumber()}
                 </h3>
                 <h3>Point : {nbPoints.toNumber()}</h3>
+                {mintableText && (
+                  <h3 style={{ color: 'green' }}>You Win an NFT</h3>
+                )}
               </Row>
             )}
           </Col>
@@ -165,6 +195,11 @@ export default function OneCardForecast({
             <h2>{countryName2}</h2>
           </Col>
         </Row>
+        {mintable && (
+          <Button id="mintButton" onClick={Mint}>
+            Mint Your NFT
+          </Button>
+        )}
       </Card>
     </>
   )

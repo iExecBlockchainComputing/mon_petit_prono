@@ -3,10 +3,15 @@ import { useState } from 'react'
 import { Card, ListGroup, Container } from 'react-bootstrap'
 import { BsPersonCircle } from 'react-icons/bs'
 import ConnectionModal from '../modal/ConnectionModal'
+import { useNavigate } from 'react-router-dom'
 
 function WalletConnection() {
   const [style, setStyle] = useState({ display: 'none' })
   const [modalShow, setModalShow] = useState(false)
+  const naviguate = useNavigate()
+  const handle = () => {
+    naviguate(`./account/nft`)
+  }
 
   return (
     <div id="father">
@@ -14,9 +19,9 @@ function WalletConnection() {
         id="iconConnect"
         color="white"
         size={35}
-        /**onMouseEnter={(e) => {
+        onMouseEnter={(e) => {
           setStyle({ display: 'block' })
-        }}*/
+        }}
       />
       <div
         onMouseLeave={(e) => {
@@ -37,6 +42,9 @@ function WalletConnection() {
             </ListGroup.Item>
             <ListGroup.Item id="walletItems" action>
               Deconnexion
+            </ListGroup.Item>
+            <ListGroup.Item id="walletItems" action onClick={handle}>
+              NFT Portfolio
             </ListGroup.Item>
           </ListGroup>
         </Card>

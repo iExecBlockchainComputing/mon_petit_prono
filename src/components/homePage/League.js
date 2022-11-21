@@ -1,6 +1,6 @@
 import './league.css'
 import { Skeleton } from '@mui/material'
-import { Container, Row, Col, Spinner } from 'react-bootstrap'
+import { Container, Row, Col } from 'react-bootstrap'
 import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { MonPetitPronoContract } from '../../utils/WebProvider'

@@ -29,6 +29,7 @@ export default function Accordion({
     if (date === diffDate[diffDate.length - 1]) {
       setIsOpen(true)
     }
+
   }, [])
 
   useEffect(() => {

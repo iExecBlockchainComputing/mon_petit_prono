@@ -5,6 +5,10 @@ async function main() {
 
   console.log('Account balance:', (await deployer.getBalance()).toString())
 
+  /*const NFT_Smart_contract = await ethers.getContractFactory('PetitProno')
+  const contractNFT = await NFT_Smart_contract.deploy()
+  await contractNFT.deployed()*/
+
   const MonPetitProno = await ethers.getContractFactory('PetitProno')
   const contract = await MonPetitProno.deploy()
   await contract.deployed()
@@ -14,6 +18,7 @@ async function main() {
   await Oraclecontract.deployed()
 
   console.log('Contract Oracle address:', Oraclecontract.address)*/
+  //console.log('Contract NFT address:', contractNFT.address)
   console.log('Contract MonPetitProno address:', contract.address)
 }
 

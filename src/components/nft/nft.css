@@ -1,0 +1,23 @@
+#nft {
+  margin-bottom: 100px;
+  width: 70%;
+  margin-top: 10%;
+}
+
+#nft .spinner-border {
+  vertical-align: middle;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  margin: auto;
+  width: 6rem;
+  height: 6rem;
+}
+
+#nft .col {
+  margin: auto;
+}
+
+#nft .text-primary {
+  color: #fcd15a !important;
+}
