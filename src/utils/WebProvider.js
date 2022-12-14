@@ -5,7 +5,7 @@ import MyContractOracle from './abiOracle.json'
 import MyContractNft from './abiOracle.json'
 import { useSelector, useDispatch } from 'react-redux'
 
-const AllNetwork = [
+export const AllNetwork = [
   {
     chainId: '0x' + parseInt(134).toString(16),
     chainName: 'iExec Sidechain',

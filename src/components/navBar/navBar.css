@@ -54,7 +54,10 @@
 }
 
 @keyframes animatedgradient {
+  from {
+    background-position: 100% 0%;
+  }
   to {
-    background-position: 300% center;
+    background-position: 0% 0%;
   }
 }

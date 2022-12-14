@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react'
 import { Container, Card, Button } from 'react-bootstrap'
 import { getLeagueIPFSJson, getIPFSImage } from '../../utils/Ipfs'
 import { MonPetitPronoContract } from '../../utils/WebProvider'
-import  MyImage from '../../assets/iexecWorldCup.png'
+import MyImage from '../../assets/iexecWorldCup.png'
 
 export default function OneCardLeague({
   id,
@@ -31,13 +31,14 @@ export default function OneCardLeague({
   )
 
   useEffect(() => {
-    //getMetadata()
+    getMetadata()
   }, [metadata])
 
   async function getMetadata() {
     let JsonMetadata = null
     try {
       JsonMetadata = await getLeagueIPFSJson(ipfs)
+      console.log('JsonMetadata', JsonMetadata)
     } catch (err) {
       console.log(err)
     }
@@ -51,11 +52,10 @@ export default function OneCardLeague({
     }
 
     let img = null
+    console.log('chose cid image', metadata.image)
     try {
       img = await getIPFSImage(metadata.image)
-      const blob = new Blob([img], { type: 'image/png' })
-      const urlCreator = window.URL || window.webkitURL
-      img = urlCreator.createObjectURL(blob)
+      console.log('blob img', img)
     } catch (err) {
       console.log(err)
     }
@@ -83,7 +83,7 @@ export default function OneCardLeague({
         onClick={() => setFlip(!flip)}
         style={{ backgroundColor: metadata.backgroundColor }}
       >
-        <img src={`${MyImage}`} alt="League image" />
+        <img src={`${image}`} alt="League image" />
       </Card>
       <Card
         id="cardLeagueBack"

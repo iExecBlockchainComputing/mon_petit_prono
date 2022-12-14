@@ -3,7 +3,7 @@
   background-color: var(--backgroundColor);
   margin: auto;
   width: 55%;
-  height: 150px;
+  height: 160px;
   margin-top: 50px;
   border-radius: 15px;
 }
@@ -66,6 +66,7 @@ input[type='number'] {
   margin-bottom: 10px;
   border-radius: var(--borderWidth);
 }
+
 #mintButton:after {
   content: '';
   position: absolute;

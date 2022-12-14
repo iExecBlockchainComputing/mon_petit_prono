@@ -19,13 +19,14 @@ export default function OneCardTeam({ id, el, Name }) {
     `https://gateway.pinata.cloud/ipfs/${metadata.image}`,
   )
   useEffect(() => {
-    //getMetadata()
+    getMetadata()
   }, [metadata])
 
   async function getMetadata() {
     let JsonMetadata = null
     try {
       JsonMetadata = await getLeagueIPFSJson(el)
+      console.log('JsonMetadata', JsonMetadata)
     } catch (err) {
       console.log(err)
     }
@@ -39,11 +40,10 @@ export default function OneCardTeam({ id, el, Name }) {
     }
 
     let img = null
+    console.log('chose cid image', metadata.image)
     try {
       img = await getIPFSImage(metadata.image)
-      const blob = new Blob([img], { type: 'image/png' })
-      const urlCreator = window.URL || window.webkitURL
-      img = urlCreator.createObjectURL(blob)
+      console.log('blob img', img)
     } catch (err) {
       console.log(err)
     }
@@ -54,11 +54,16 @@ export default function OneCardTeam({ id, el, Name }) {
       setImage(img)
     }
   }
+  
   return (
     <>
-      <Card onClick={handleClick} id="TeamCard">
+      <Card
+        onClick={handleClick}
+        id="TeamCard"
+        style={{ backgroundColor: metadata.backgroundColor }}
+      >
         <Container>
-          <Card.Img variant="top" src={`${MyImage}`} />
+          <Card.Img variant="top" src={`${image}`} />
         </Container>
         <Card.Body>
           <Card.Title>{Name}</Card.Title>

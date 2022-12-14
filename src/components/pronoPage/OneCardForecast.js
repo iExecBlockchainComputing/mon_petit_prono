@@ -5,6 +5,7 @@ import ReactCountryFlag from 'react-country-flag'
 import { useSelector, useDispatch } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { MonPetitPronoContract, NftContract } from '../../utils/WebProvider'
+import { getLeagueIPFSJson } from '../../utils/Ipfs'
 
 export default function OneCardForecast({
   id,
@@ -37,6 +38,10 @@ export default function OneCardForecast({
       setNotAvailableBet(true)
     }
     getNftMinable()
+    console.log(
+      'TEST',
+      getLeagueIPFSJson('QmdRuLHgWaNaMQninx2Pp928kgyHDzpL4ZdERiBWrz1qHP'),
+    )
   }, [])
 
   async function Mint() {
@@ -132,6 +137,11 @@ export default function OneCardForecast({
             <h2>{countryName1}</h2>
           </Col>
           <Col id="pronoContent">
+            {checkFinaleScoreSet && mintableText && (
+              <Row>
+                <h3 style={{ color: 'green' }}>You Win an NFT</h3>
+              </Row>
+            )}
             <Row>
               <Col>
                 <Form.Control
@@ -175,13 +185,10 @@ export default function OneCardForecast({
             </Row>
             {checkFinaleScoreSet && (
               <Row>
-                <h3>
+                <h3 style={{ color: 'green' }}>
                   Score : {score[0].toNumber()} - {score[1].toNumber()}
                 </h3>
                 <h3>Point : {nbPoints.toNumber()}</h3>
-                {mintableText && (
-                  <h3 style={{ color: 'green' }}>You Win an NFT</h3>
-                )}
               </Row>
             )}
           </Col>

@@ -14,12 +14,13 @@
 }
 
 #TeamCard .container {
+  padding: 0px;
   height: 250px;
   display: flex;
 }
 
 #TeamCard .container img {
-  width: 80%;
+  height: auto;
   margin: auto;
 }
 

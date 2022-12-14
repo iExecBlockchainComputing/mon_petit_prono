@@ -113,8 +113,8 @@ export default function CreateTeamModal(props) {
         _TeamId,
         _teamName,
         _ipfs,
-        _playerName,
         _TeamColor,
+        _playerName,
       )
       if (imgPath !== null) {
         let tra = await MonPetitPronoContract.addTeam(
@@ -141,7 +141,7 @@ export default function CreateTeamModal(props) {
   useEffect(() => {
     setIpfsImage(undefined)
     setTeamName(undefined)
-    setColor(undefined)
+    setColor('#ffffff')
   }, [props.show === false])
 
   return (

@@ -44,8 +44,8 @@ export async function addLeagueIPFS(
   _LeagueId,
   _LeagueName,
   file,
-  _playerName,
   color,
+  _playerName,
 ) {
   //Upload the image on OFF-CHAIN storage
   let formData = new FormData()
@@ -77,44 +77,32 @@ export async function addLeagueIPFS(
 }
 
 export async function getLeagueIPFSJson(cid) {
-  console.log('cid Json :', cid)
+  let url = `https://ipfs.io/ipfs/${cid}`
   let response = null
   if (cid !== '') {
     try {
-      response = await axios({
-        method: 'get',
-        url: `https://ipfs.io/ipfs/${cid}`,
-        headers: {
-          //Authorization: `Bearer ${process.env.REACT_APP_PINIATA_JWT}`,
-          'Access-Control-Allow-Origin': '*',
-        },
-      })
-      console.log('get Json/response', response)
+      let res = await fetch(url)
+      response = await res.json()
     } catch (error) {
       console.log(error)
     }
   }
-  return response.data
+  return response
 }
 
 export async function getIPFSImage(cid) {
-  console.log('cid Image', cid)
+  let url = `https://ipfs.io/ipfs/${cid}`
   let response = null
   if (cid !== '') {
     try {
-      response = await axios({
-        method: 'get',
-        url: `https://ipfs.io/ipfs/${cid}`,
-        headers: {
-          //Authorization: `Bearer ${process.env.REACT_APP_PINIATA_JWT}`,
-          'Access-Control-Allow-Origin': '*',
-        },
-        responseType: 'blob',
-      })
+      response = fetch(url)
+        .then((response) => response.blob())
+        .then((myBlob) => {
+          return URL.createObjectURL(myBlob)
+        })
     } catch (error) {
       console.log(error)
     }
   }
-  console.log('get Image/response', response.data)
-  return response.data
+  return response
 }

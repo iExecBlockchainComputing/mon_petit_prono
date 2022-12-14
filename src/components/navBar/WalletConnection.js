@@ -2,15 +2,18 @@ import './walletConnection.css'
 import { useState } from 'react'
 import { Card, ListGroup, Container } from 'react-bootstrap'
 import { BsPersonCircle } from 'react-icons/bs'
-import ConnectionModal from '../modal/ConnectionModal'
 import { useNavigate } from 'react-router-dom'
+import { ConnectButton, Web3Modal } from '@web3modal/react'
 
 function WalletConnection() {
   const [style, setStyle] = useState({ display: 'none' })
-  const [modalShow, setModalShow] = useState(false)
   const naviguate = useNavigate()
   const handle = () => {
     naviguate(`./account/nft`)
+  }
+
+  const test = () => {
+    console.log('test')
   }
 
   return (
@@ -31,13 +34,8 @@ function WalletConnection() {
       >
         <Card id="walletCard">
           <ListGroup id="walletItems">
-            <ListGroup.Item
-              id="walletItems"
-              onClick={() => {
-                setModalShow(true)
-              }}
-              action
-            >
+            <ConnectButton id="walletItems" />
+            <ListGroup.Item id="walletItems" onClick={test} action>
               Connexion
             </ListGroup.Item>
             <ListGroup.Item id="walletItems" action>
@@ -49,12 +47,6 @@ function WalletConnection() {
           </ListGroup>
         </Card>
       </div>
-      <Container
-        fluid
-        id="blurBackground"
-        style={{ display: modalShow ? 'block' : 'none' }}
-      />
-      <ConnectionModal show={modalShow} onHide={() => setModalShow(false)} />
     </div>
   )
 }

@@ -1,52 +1,37 @@
 #NftCard {
-  height: 540px;
-  width: 322.5px;
+  height: 305px;
+  width: 305px;
   margin: auto;
   margin-bottom: 100px;
-  background-color: white;
+  background-color: #1d1d24;
   border-width: 3px;
-  border-color: #1d1d24;
-  border-radius: 25px;
-  --bs-card-border-width: 2px;
   text-align: center;
   cursor: pointer;
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
 }
 
 #NftCard .container {
-  height: 470px;
+  height: 350px;
   display: flex;
   padding: 0px;
 }
 
 #NftCard .container img {
   width: auto;
-  height: 470px;
-  border-top-left-radius: 22px;
-  border-top-right-radius: 22px;
+  height: 300px;
 }
 
 #NftCard .card-body {
   color: #1d1d24;
-  background: linear-gradient(
-    60deg,
-    #f79533,
-    #f37055,
-    #ef4e7b,
-    #a166ab,
-    #5073b8,
-    #1098ad,
-    #07b39b,
-    #6fba82
-  );
-  animation: animatedgradientNft 10s ease alternate infinite;
-  background-size: 300% 300%;
-  border-bottom-left-radius: 22px;
-  border-bottom-right-radius: 22px;
+  background-color: white;
+  text-align: start;
 }
 
-@keyframes animatedgradientNft {
-  to {
-    background-position: 300% center;
-  }
+#TxtethAddress {
+  color: #1d1d24;
+  font-style: italic;
+  font-size: 15px;
+  display: inline;
+  text-align: start;
+  margin-right: 0px;
 }

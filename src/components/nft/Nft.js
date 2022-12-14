@@ -1,31 +1,41 @@
 import './nft.css'
 import { Container, Row, Col } from 'react-bootstrap'
-import { useEffect, useState } from 'react'
 import OneNft from './OneNft'
-import MyImage from '../../assets/iexecWorldCup.png'
-import { v4 as uuidv4 } from 'uuid'
+import { useQuery, gql } from '@apollo/client'
+import { useSelector } from 'react-redux'
 
 export default function Nft() {
-  const [nfts, setNfts] = useState([{ id: 1, MyImage: MyImage, Name: 'test' }])
-  useEffect(() => {
-    //fetchNfts()
-  }, [])
+  const wallet = useSelector((state) => state.wallet)
+  let walletAddress = wallet.accountAddress
+  const GET_NFT = gql`
+    query MyNFT($walletAddress: String!) {
+      owner(id: $walletAddress) {
+        id
+        tokens {
+          id
+          tokenURI
+        }
+      }
+    }
+  `
+  const { loading, error, data } = useQuery(GET_NFT, {
+    variables: { walletAddress },
+  })
 
-  async function fetchNfts() {
-    fetch('http://localhost:3000/nfts')
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data)
-        setNfts(data)
-      })
-  }
+  if (loading) return <p>Loading...</p>
+  if (error) return <p>Error : {error.message}</p>
 
   return (
     <Container id="nft">
       <Row>
-        {nfts.map((e) => (
-          <Col key={e.id}>
-            <OneNft key={e.id} MyImage={e.MyImage} Name={e.Name} />
+        {data.owner.tokens?.map(({ id, tokenURI }) => (
+          <Col key={id}>
+            <OneNft
+              key={id}
+              tokenID={id}
+              owner={data.owner.id}
+              tokenURI={tokenURI.split('/')[4]}
+            />
           </Col>
         ))}
       </Row>

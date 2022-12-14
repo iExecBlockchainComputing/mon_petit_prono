@@ -30,7 +30,7 @@ export default function CreateLeagueModal(props) {
         _LeagueId,
         _LeagueName,
         _ipfs,
-        _LeagueColor,
+        _LeagueColor
       )
       if (imgPath !== null) {
         await MonPetitPronoContract.addLeague(_LeagueId, _LeagueName, imgPath)
@@ -50,7 +50,7 @@ export default function CreateLeagueModal(props) {
   useEffect(() => {
     setIpfsImage(undefined)
     setLeagueName(undefined)
-    setColor(undefined)
+    setColor('#ffffff')
   }, [props.show === false])
 
   return (

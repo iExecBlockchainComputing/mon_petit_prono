@@ -1,12 +1,11 @@
 import './league.css'
-import { Skeleton } from '@mui/material'
 import { Container, Row, Col } from 'react-bootstrap'
 import { useState, useEffect } from 'react'
-import { useSelector } from 'react-redux'
 import { MonPetitPronoContract } from '../../utils/WebProvider'
 import { v4 as uuidv4 } from 'uuid'
 import OneCardLeague from './OneCardLeague'
 import AddLeague from './AddLeague'
+import { useSelector } from 'react-redux'
 const { ethereum } = window
 
 export default function League() {
