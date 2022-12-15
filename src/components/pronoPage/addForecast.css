@@ -2,9 +2,9 @@
   --backgroundColor: #1d1d24;
   background-color: var(--backgroundColor);
   margin: auto;
+  margin-top: 90px;
   width: 55%;
   height: 150px;
-  margin-top: 50px;
   border-radius: 15px;
   border-style: dashed;
   border-width: 2px;

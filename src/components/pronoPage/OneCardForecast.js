@@ -27,6 +27,7 @@ export default function OneCardForecast({
   const [mintableText, setMintableText] = useState(false)
   const [notAvailableBet, setNotAvailableBet] = useState(false)
   const playersBets = useSelector((state) => state.forecastProno)
+  const wallet = useSelector((state) => state.wallet)
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -38,16 +39,16 @@ export default function OneCardForecast({
       setNotAvailableBet(true)
     }
     getNftMinable()
-    console.log(
-      'TEST',
-      getLeagueIPFSJson('QmdRuLHgWaNaMQninx2Pp928kgyHDzpL4ZdERiBWrz1qHP'),
-    )
   }, [])
 
   async function Mint() {
     const tra = await MonPetitPronoContract.setNFTMint(leagueId, teamId, id)
     setMintable(false)
     await tra.wait()
+    await NftContract.safeMint(
+      wallet.accountAddress,
+      'https://ipfs.io/ipfs/QmdRuLHgWaNaMQninx2Pp928kgyHDzpL4ZdERiBWrz1qHP',
+    )
     window.location.reload()
   }
 
