@@ -1,5 +1,4 @@
 import './createTeamModal.css'
-import { Skeleton } from '@mui/material'
 import { Modal, Row, Col, Container, Form, Button } from 'react-bootstrap'
 import { BsPersonCircle } from 'react-icons/bs'
 import FileInput from '../../utils/FileInput'
@@ -11,7 +10,7 @@ import { useParams } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 
 export default function CreateTeamModal(props) {
-  let { leagueId, teamId } = useParams()
+  let { leagueId } = useParams()
   let elemsLoading = useSelector((state) => state.teamLoading)
   let tabCopy = [...elemsLoading.elemLoading]
   const dispatch = useDispatch()
@@ -95,7 +94,7 @@ export default function CreateTeamModal(props) {
   }
 
   async function CreateTeamSM() {
-    const _TeamId = uuidv4()
+    let _TeamId = uuidv4()
     while (ListIdTeam.includes(_TeamId)) {
       _TeamId = uuidv4()
     }

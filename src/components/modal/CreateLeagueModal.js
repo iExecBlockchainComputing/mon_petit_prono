@@ -16,7 +16,7 @@ export default function CreateLeagueModal(props) {
   let setLoadingContent = props.loadingValues[1]
 
   async function CreateLeagueSM() {
-    const _LeagueId = uuidv4()
+    let _LeagueId = uuidv4()
     const ListIdLeague = await MonPetitPronoContract.getLeaguesID()
     while (ListIdLeague.includes(_LeagueId)) {
       _LeagueId = uuidv4()

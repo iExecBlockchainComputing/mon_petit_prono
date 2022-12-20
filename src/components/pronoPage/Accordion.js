@@ -14,7 +14,7 @@ export default function Accordion({
   forecast,
   convertTimestampToDate,
 }) {
-  let { leagueId, teamId } = useParams()
+  let { leagueId } = useParams()
   const wallet = useSelector((state) => state.wallet)
   const [isOpen, setIsOpen] = useState(false)
   const [owner, setOwner] = useState(false)

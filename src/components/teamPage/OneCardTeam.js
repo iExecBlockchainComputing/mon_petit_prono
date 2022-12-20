@@ -4,8 +4,7 @@ import { getLeagueIPFSJson, getIPFSImage } from '../../utils/Ipfs'
 import { useNavigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { Card, Container } from 'react-bootstrap'
-import MyImage from '../../assets/logo.png'
-
+    
 export default function OneCardTeam({ id, el, Name }) {
   const navigate = useNavigate()
   const handleClick = () => {
@@ -63,7 +62,7 @@ export default function OneCardTeam({ id, el, Name }) {
         style={{ backgroundColor: metadata.backgroundColor }}
       >
         <Container>
-          <Card.Img variant="top" src={`${image}`} />
+          <Card.Img variant="top" src={image} />
         </Container>
         <Card.Body>
           <Card.Title>{Name}</Card.Title>

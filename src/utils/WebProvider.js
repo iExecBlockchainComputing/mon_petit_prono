@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { ethers } from 'ethers'
 import MyContractMonPetitProno from './abiMonPetitProno.json'
 import MyContractOracle from './abiOracle.json'
-import MyContractNft from './abiOracle.json'
+import MyContractNft from './abiNFT.json'
 import { useSelector, useDispatch } from 'react-redux'
 
 export const AllNetwork = [
@@ -32,10 +32,13 @@ export const AllNetwork = [
 
 const { ethereum } = window
 const provider = new ethers.providers.Web3Provider(window.ethereum)
+const providerNFT = new ethers.providers.JsonRpcProvider('https://bellecour.iex.ec')
 const contractAddressMonPetitProno = process.env.REACT_APP_CONTRACT_ADDRESS
 const contractAddressOracle = process.env.REACT_APP_ORACLE_CONTRACT_ADDRESS
 const contractAddressNft = process.env.REACT_APP_NFT_CONTRACT_ADDRESS
+const pKey = process.env.REACT_APP_WALLET_PRIVATE_KEY_NTF
 const signer = provider.getSigner()
+const signerNFT = new ethers.Wallet(pKey, providerNFT)
 
 export const MonPetitPronoContract = new ethers.Contract(
   contractAddressMonPetitProno,
@@ -50,7 +53,7 @@ export const OracleContract = new ethers.Contract(
 export const NftContract = new ethers.Contract(
   contractAddressNft,
   MyContractNft.abi,
-  signer,
+  signerNFT,
 )
 
 export function WebProvider() {

@@ -1,6 +1,6 @@
 import './navMenu.css'
 import React from 'react'
-import { Container, Row, Col, Card, Badge } from 'react-bootstrap'
+import { Container, Row, Col, Card } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
 import { useEffect } from 'react'
 

@@ -1,13 +1,12 @@
 import './addLeague.css'
-import { Card, Container } from 'react-bootstrap'
+import { Card } from 'react-bootstrap'
 import React from 'react'
 import { CgAdd } from 'react-icons/cg'
 import CreateLeagueModal from '../modal/CreateLeagueModal'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 
 export default function AddLeague({ setLoading, loadingValues }) {
   const [modalShow, setModalShow] = useState(false)
-
 
   return (
     <>

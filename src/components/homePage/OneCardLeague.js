@@ -5,7 +5,6 @@ import { useState, useEffect } from 'react'
 import { Container, Card, Button } from 'react-bootstrap'
 import { getLeagueIPFSJson, getIPFSImage } from '../../utils/Ipfs'
 import { MonPetitPronoContract } from '../../utils/WebProvider'
-import MyImage from '../../assets/iexecWorldCup.png'
 
 export default function OneCardLeague({
   id,
@@ -83,7 +82,7 @@ export default function OneCardLeague({
         onClick={() => setFlip(!flip)}
         style={{ backgroundColor: metadata.backgroundColor }}
       >
-        <img src={`${image}`} alt="League image" />
+        <img src={image} alt="League" />
       </Card>
       <Card
         id="cardLeagueBack"

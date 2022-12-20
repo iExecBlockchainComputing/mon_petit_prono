@@ -6,7 +6,6 @@ import { v4 as uuidv4 } from 'uuid'
 import OneCardLeague from './OneCardLeague'
 import AddLeague from './AddLeague'
 import { useSelector } from 'react-redux'
-const { ethereum } = window
 
 export default function League() {
   const [leaguesInfo, setLeaguesInfo] = useState([])

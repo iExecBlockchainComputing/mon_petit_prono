@@ -1,6 +1,5 @@
 import './oneNft.css'
 import { Card, Container } from 'react-bootstrap'
-import MyImage from '../../assets/nft.png'
 import { getLeagueIPFSJson, getIPFSImage } from '../../utils/Ipfs'
 import EtherumAdress from '../../utils/EthAddress'
 import { useState, useEffect } from 'react'
@@ -15,7 +14,6 @@ export default function OneNft({ tokenID, owner, tokenURI }) {
   )
   useEffect(() => {
     getMetadata()
-
   }, [metadata])
 
   async function getMetadata() {
@@ -36,7 +34,7 @@ export default function OneNft({ tokenID, owner, tokenURI }) {
 
     let img = null
     try {
-      img = await getIPFSImage((metadata.image).split('/')[4])
+      img = await getIPFSImage(metadata.image.split('/')[4])
       console.log('blob img', img)
     } catch (err) {
       console.log(err)
@@ -53,7 +51,7 @@ export default function OneNft({ tokenID, owner, tokenURI }) {
     <>
       <Card id="NftCard">
         <Container>
-          <Card.Img variant="top" src={`${image}`} />
+          <Card.Img variant="top" src={image} />
         </Container>
         <Card.Body>
           <Card.Title id="nftTitle">Collection Qatar # {tokenID}</Card.Title>

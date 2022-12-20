@@ -5,7 +5,6 @@ import ReactCountryFlag from 'react-country-flag'
 import { useSelector, useDispatch } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { MonPetitPronoContract, NftContract } from '../../utils/WebProvider'
-import { getLeagueIPFSJson } from '../../utils/Ipfs'
 
 export default function OneCardForecast({
   id,
@@ -42,13 +41,22 @@ export default function OneCardForecast({
   }, [])
 
   async function Mint() {
-    const tra = await MonPetitPronoContract.setNFTMint(leagueId, teamId, id)
+    const tra = await MonPetitPronoContract.setNFTMint(
+      leagueId,
+      teamId,
+      id,
+    )
     setMintable(false)
-    await tra.wait()
-    await NftContract.safeMint(
+    NftContract.safeMint(
       wallet.accountAddress,
       'https://ipfs.io/ipfs/QmdRuLHgWaNaMQninx2Pp928kgyHDzpL4ZdERiBWrz1qHP',
+      {
+        from: '0x36Bff5B7877dcD2F80cB333987ABA0D9882f0aC3',
+        gasLimit: 1000000,
+      },
     )
+    console.log('mint NFT by user', wallet.accountAddress)
+    await tra.wait()
     window.location.reload()
   }
 
@@ -107,8 +115,6 @@ export default function OneCardForecast({
             })
           }
         } else {
-          console.log('test')
-          let test = { id: id, score1: score1, score2: score2 }
           dispatch({
             type: 'forecastProno/updateForecastProno',
             payload: [{ id: id, score1: score1, score2: score2 }],
@@ -203,12 +209,12 @@ export default function OneCardForecast({
             <h2>{countryName2}</h2>
           </Col>
         </Row>
-        {mintable && (
-          <Button id="mintButton" onClick={Mint}>
-            Mint Your NFT
-          </Button>
-        )}
       </Card>
+      {mintable && (
+        <Button id="mintButton" onClick={Mint}>
+          Mint Your NFT
+        </Button>
+      )}
     </>
   )
 }

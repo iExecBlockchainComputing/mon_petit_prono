@@ -43,7 +43,7 @@ export default function Forecast() {
   }, [forecast])
 
   const SaveForecast = () => {
-    console.log("playersBets", playersBets.prono)
+    console.log('playersBets', playersBets.prono)
     playersBets.prono.forEach(async (bet) => {
       await MonPetitPronoContract.setForecastProno(leagueId, teamId, bet.id, [
         bet.score1,
@@ -196,17 +196,17 @@ export default function Forecast() {
       ))}
       {loading &&
         loadingContent.map((elem, index) => <div key={index}>{elem}</div>)}
+      {!noForecast && (
+        <Button id="saveButton" onClick={SaveForecast}>
+          <h1 id="linear-wide">Save Your Forecast</h1>
+        </Button>
+      )}
       {owner && (
         <AddForecast
           setLoading={setLoading}
           loadingValues={[loadingContent, setLoadingContent]}
           setNoForecast={setNoForecast}
         />
-      )}
-      {!noForecast && (
-        <Button id="saveButton" onClick={SaveForecast}>
-          <h1 id="linear-wide">Save Your Forecast</h1>
-        </Button>
       )}
     </Container>
   )

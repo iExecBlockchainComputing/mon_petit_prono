@@ -35,7 +35,7 @@ export default function AddForecast({ setLoading, loadingValues,setNoForecast })
   let setLoadingContent = loadingValues[1]
 
   const addForecast = async () => {
-    const _matchId = uuidv4()
+    let _matchId = uuidv4()
     const ListIdMatch = await MonPetitPronoContract.getForecastId(
       leagueId,
       teamId,

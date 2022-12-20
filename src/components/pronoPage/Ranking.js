@@ -5,13 +5,11 @@ import Table from 'react-bootstrap/Table'
 import { useEffect, useState } from 'react'
 import { MonPetitPronoContract } from '../../utils/WebProvider'
 import { useParams } from 'react-router-dom'
-import { useNavigate } from 'react-router-dom'
 
 export default function Ranking() {
   let { leagueId, teamId } = useParams()
   const [ranking, setRanking] = useState([])
   const [loadingRanking, setLoadingRanking] = useState(false)
-  const naviguate = useNavigate()
 
   useEffect(() => {
     getRanking()

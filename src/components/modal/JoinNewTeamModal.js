@@ -1,6 +1,6 @@
 import React from 'react'
 import './joinNewTeamModal.css'
-import { Skeleton, TextField, Typography, Box, Button } from '@mui/material'
+import { TextField, Typography, Box, Button } from '@mui/material'
 import { Col, Modal, Row, Table, Form, Container } from 'react-bootstrap'
 import { useState, useEffect } from 'react'
 import { MonPetitPronoContract } from '../../utils/WebProvider'

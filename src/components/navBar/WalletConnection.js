@@ -1,9 +1,9 @@
 import './walletConnection.css'
 import { useState } from 'react'
-import { Card, ListGroup, Container } from 'react-bootstrap'
+import { Card, ListGroup } from 'react-bootstrap'
 import { BsPersonCircle } from 'react-icons/bs'
 import { useNavigate } from 'react-router-dom'
-import { ConnectButton, Web3Modal } from '@web3modal/react'
+import { ConnectButton } from '@web3modal/react'
 
 function WalletConnection() {
   const [style, setStyle] = useState({ display: 'none' })

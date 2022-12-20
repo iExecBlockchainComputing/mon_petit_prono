@@ -8,17 +8,8 @@ import { store } from './utils/Store.js'
 import { Provider } from 'react-redux'
 import { WebProvider } from './utils/WebProvider.js'
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client'
-import {
-  EthereumClient,
-  modalConnectors,
-  walletConnectProvider,
-} from '@web3modal/ethereum'
-import { Web3Modal } from '@web3modal/react'
-import { configureChains, createClient, WagmiConfig } from 'wagmi'
-import { mainnet } from 'wagmi/chains'
-import { jsonRpcProvider } from 'wagmi/providers/jsonRpc'
 
-const chains = [
+/**const chains = [
   {
     chainId: '0x' + parseInt(134).toString(16),
     chainName: 'iExec Sidechain',
@@ -31,7 +22,7 @@ const chains = [
     blockExplorerUrls: ['https://blockscout-bellecour.iex.ec'],
   },
 ]
-/** Wagmi client
+ Wagmi client
 const { provider } = configureChains(chains, [
   jsonRpcProvider({
     rpc: () => ({
