@@ -1,4 +1,61 @@
 #researchBar {
-  margin-bottom: 150px;
+  margin-bottom: 100px;
+  width: 90%;
+}
+
+#researchBar form{
+  margin: auto;
   width: 35%;
+}
+
+#bestTeam {
+  text-align: center;
+  margin: auto;
+  margin-bottom: 60px;
+}
+
+#bestTeam h3{
+  font-family: 'Mulish', Sans-serif;
+  font-size: 20px;
+  color: white;
+  display: inline-block;
+  margin-bottom: 20px;
+}
+
+#mintButtonTeam {
+  color: white;
+  width: 80px;
+  font-family: 'Mulish', Sans-serif;
+  font-size: 16px;
+  border-width: 0px;
+  --borderWidth: 2px;
+  background-color: #1d1d24;
+  position: relative;
+  margin: auto;
+  margin-left: 20px;
+  border-radius: var(--borderWidth);
+}
+
+#mintButtonTeam:after {
+  content: '';
+  position: absolute;
+  top: calc(-1 * var(--borderWidth));
+  left: calc(-1 * var(--borderWidth));
+  height: calc(100% + var(--borderWidth) * 2);
+  width: calc(100% + var(--borderWidth) * 2);
+  background: linear-gradient(
+    60deg,
+    #f79533,
+    #f37055,
+    #ef4e7b,
+    #a166ab,
+    #5073b8,
+    #1098ad,
+    #07b39b,
+    #6fba82
+  );
+  border-radius: calc(2 * var(--borderWidth));
+  z-index: -10;
+  animation: goldEffect 10s ease alternate infinite;
+  background-size: 300% 300%;
 }

@@ -6,25 +6,24 @@ import { Container, Card, Button } from 'react-bootstrap'
 import { getLeagueIPFSJson, getIPFSImage } from '../../utils/Ipfs'
 import { MonPetitPronoContract } from '../../utils/WebProvider'
 
-export default function OneCardLeague({
-  id,
-  ipfs,
-  StartDate,
-  EndDate,
-  NbNFT,
-  years,
-  Name,
-}) {
-  const naviguate = useNavigate()
-  const handle = () => {
-    naviguate(`./${id}/teamPage`)
-  }
+export default function OneCardLeague({ id, ipfs, NbNFT, Name }) {
   const [nbTeam, setNbTeam] = useState(0)
   const [flip, setFlip] = useState(false)
   const [metadata, setMetadata] = useState({
     backgroundColor: '#FFFFFF',
     image: 'QmVERfcU8E4TBCMTk2cK6fVvqRbRoGkWRYPdkwGwQ8CFbW',
+    years: '20XX',
+    startDate: 'XX/XX/XXXX',
+    endDate: 'XX/XX/XXXX',
   })
+  const naviguate = useNavigate()
+  const handle = () => {
+    /*console.log('date event',Math.trunc(test.getTime() / 1000))
+    if (metadata.endDate < Date.now()/1000){
+      MonPetitPronoContract.setEndCompetition()
+    }*/
+    naviguate(`/${id}/${Name}`)
+  }
   const [image, setImage] = useState(
     `https://gateway.pinata.cloud/ipfs/${metadata.image}`,
   )
@@ -75,6 +74,12 @@ export default function OneCardLeague({
     setNbTeam(teamId.length)
   }
 
+  function convertToDate(date) {
+    var date = new Date(date)
+    return (
+      date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear()
+    )
+  }
   return (
     <ReactCardFlip id={id} isFlipped={flip} flipDirection="horizontal">
       <Card
@@ -90,13 +95,13 @@ export default function OneCardLeague({
         style={{ backgroundColor: metadata.backgroundColor }}
       >
         <h1>{Name}</h1>
-        <h3>- {years} -</h3>
+        <h3>- {convertToDate(metadata.startDate).split('/')[2]} -</h3>
         <Container id="infos">
           <h2>Start Date: </h2>
-          <h3>{StartDate}</h3>
+          <h3>{convertToDate(metadata.startDate)}</h3>
           <br />
           <h2>End Date: </h2>
-          <h3>{EndDate}</h3>
+          <h3>{convertToDate(metadata.endDate)}</h3>
           <br />
           <h2>Nb of Team: </h2>
           <h3>{nbTeam}</h3>

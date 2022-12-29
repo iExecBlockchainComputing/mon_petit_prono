@@ -5,11 +5,16 @@ import Table from 'react-bootstrap/Table'
 import { useEffect, useState } from 'react'
 import { MonPetitPronoContract } from '../../utils/WebProvider'
 import { useParams } from 'react-router-dom'
+import { GiTrophyCup } from 'react-icons/gi'
+import { useSelector } from 'react-redux'
+import { NftContract } from '../../utils/WebProvider'
 
 export default function Ranking() {
   let { leagueId, teamId } = useParams()
   const [ranking, setRanking] = useState([])
   const [loadingRanking, setLoadingRanking] = useState(false)
+  const [hide, setHide] = useState(false)
+  const wallet = useSelector((state) => state.wallet)
 
   useEffect(() => {
     getRanking()
@@ -34,6 +39,11 @@ export default function Ranking() {
     )
     playersInfo.sort((a, b) => b[1] - a[1])
     setRanking(playersInfo)
+    playersInfo.slice(0, 3).map((e) => {
+      if (e[2].toLowerCase() === wallet.accountAddress.toLowerCase()) {
+        setHide(true)
+      }
+    })
   }
 
   const UpdateScore = async () => {
@@ -42,7 +52,18 @@ export default function Ranking() {
     await tr.wait()
     window.location.reload()
   }
-
+  const mintNFTBestPlayer = async () => {
+    NftContract.safeMint(
+      wallet.accountAddress,
+      'https://ipfs.io/ipfs/QmXhnr9thFjBY3BrKZChwUEmcKs5t1k4AFZqPYaQvBoaXD',
+      {
+        from: '0x36Bff5B7877dcD2F80cB333987ABA0D9882f0aC3',
+        gasLimit: 1000000,
+      },
+    )
+    console.log('mint NFT by user', wallet.accountAddress)
+    setHide(false)
+  }
   return (
     <Container id="ranking">
       {!loadingRanking && (
@@ -51,9 +72,28 @@ export default function Ranking() {
         </Button>
       )}
       {loadingRanking && (
-        <Stack sx={{ width: '100%', color: 'grey.500', margin: 'auto', marginBottom: '5%' }}>
+        <Stack
+          sx={{
+            width: '100%',
+            color: 'grey.500',
+            margin: 'auto',
+            marginBottom: '5%',
+          }}
+        >
           <LinearProgress color="secondary" />
         </Stack>
+      )}
+      {hide && (
+        <div id="bestTeam">
+          <GiTrophyCup size={40} />
+          <h3>
+            Félicitaion you win a Player NFT as you be a part of the top three
+            players on the team :
+          </h3>
+          <Button id="mintButtonTeam" onClick={mintNFTBestPlayer}>
+            Mint
+          </Button>
+        </div>
       )}
       <Table striped>
         <thead>

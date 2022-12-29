@@ -17,14 +17,17 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/account/nft" element={<NftViewer />} />
-        <Route path="/:leagueId/teamPage" element={<TeamPage />} />
-        <Route path="/:leagueId/teamPage/:teamId/pronoPage" element={<PronoPage />}>
+        <Route path="/:leagueId/:leagueName" element={<TeamPage />} />
+        <Route
+          path="/:leagueId/:leagueName/:teamId/:teamName"
+          element={<PronoPage />}
+        >
           <Route
-            path="/:leagueId/teamPage/:teamId/pronoPage/forecast"
+            path="/:leagueId/:leagueName/:teamId/:teamName/forecast"
             element={<Forecast />}
           />
           <Route
-            path="/:leagueId/teamPage/:teamId/pronoPage/ranking"
+            path="/:leagueId/:leagueName/:teamId/:teamName/ranking"
             element={<Ranking />}
           />
         </Route>

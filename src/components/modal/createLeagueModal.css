@@ -56,3 +56,26 @@
   text-align: center;
   margin: auto;
 }
+
+#createLeagueDatePicker {
+  text-align: center;
+  background-color: #1d1d24;
+  color: #fcd15a;
+  display: inline;
+  border-style: hidden;
+  width: 100px;
+}
+
+#colDatePicker{
+  padding: 0px;
+}
+
+#colDateTitle{
+  padding-right: 0px;
+  max-width: 95px;
+}
+
+#colDateTitle2{
+  padding-right: 0px;
+  max-width: 87px;
+}

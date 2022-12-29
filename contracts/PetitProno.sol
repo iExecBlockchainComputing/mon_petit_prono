@@ -46,6 +46,7 @@ contract PetitProno is GetOracleInfo {
         string League_name;
         string ipfs;
         string [] keyMappingTeam;
+        Time time;  
         mapping(string => Team) Teams;
     }
     
@@ -76,6 +77,7 @@ contract PetitProno is GetOracleInfo {
     function addLeague(string memory _LeagueId, string memory _League_name,string memory _ipfs) public OnlyOwner{
         Leagues[_LeagueId].League_name = _League_name;
         Leagues[_LeagueId].ipfs = _ipfs;
+        Leagues[_LeagueId].time = Time.AVAILABLE;
         keyMappingLeague.push(_LeagueId);
         emit NewLeague(_LeagueId, _League_name);
     }  
@@ -91,6 +93,13 @@ contract PetitProno is GetOracleInfo {
         string memory ipfs = Leagues[_LeagueId].ipfs;
         return [_LeagueId, League_name, ipfs];
     } 
+
+    //time up for the league
+    function endLeague(string memory _LeagueId) public OnlyOwner{
+        Leagues[_LeagueId].time = Time.FINISHED;
+    }
+
+    
 
     /** TEAM */
     //add a team

@@ -9,3 +9,8 @@ p{
   font-size: 18px;
   font-weight: 400;
 }
+
+
+.breadcrumb-item a{
+  color: #fcd15a;
+}

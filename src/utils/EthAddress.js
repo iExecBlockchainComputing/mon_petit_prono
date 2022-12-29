@@ -28,7 +28,7 @@ export default function EtherumAdress({ address, nb, color }) {
       onClick={copied}
       style={{ color: color }}
     >
-      {' ' + first + '...' + last+'   '}
+      {' ' + first + '...' + last + '   '}
       {copyToClipboard && <MdOutlineContentCopy color={{ color: color }} />}
       {showingCopied && <div className="sm-message">Copied!</div>}
     </span>

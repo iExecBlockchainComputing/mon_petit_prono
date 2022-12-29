@@ -99,7 +99,6 @@ export default function OneCardForecast({
             }
           }
           if (!test) {
-            console.log('yes')
             dispatch({
               type: 'forecastProno/updateForecastProno',
               payload: [

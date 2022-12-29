@@ -18,17 +18,22 @@ export default function Nft() {
       }
     }
   `
-  const { loading, error, data } = useQuery(GET_NFT, {
+  let { loading, error, data } = useQuery(GET_NFT, {
     variables: { walletAddress },
   })
+  let tokens = [...data.owner.tokens]
 
   if (loading) return <p>Loading...</p>
   if (error) return <p>Error : {error.message}</p>
 
+  if (!error) {
+    tokens?.sort((b, a) => parseInt(b.id) - parseInt(a.id))
+  }
+
   return (
     <Container id="nft">
       <Row>
-        {data.owner.tokens?.map(({ id, tokenURI }) => (
+        {tokens?.map(({ id, tokenURI }) => (
           <Col key={id}>
             <OneNft
               key={id}

@@ -1,0 +1,31 @@
+// when someone have the exact score for a match
+image : https://ipfs.io/ipfs/QmTJmhBoxqP5QwK5MHgPg6oWCXadPRacAzDW1oUYVjMSDE
+json : https://ipfs.io/ipfs/QmdRuLHgWaNaMQninx2Pp928kgyHDzpL4ZdERiBWrz1qHP
+
+Team
+//Fist Team
+image : https://ipfs.io/ipfs/QmRfnPj8N64MukxExFgJEVnSaj1vH1FXppBkeL9NTdfXoz
+json : https://ipfs.io/ipfs/QmcGksLEcietBTfCmqsY41D5ACuxYBikuNiw99Lmm9R1qj
+
+//Second Team
+image : https://ipfs.io/ipfs/QmVF9o9ofvrpRvtrmdMvCeWD11i6Qbxah9VFedCEHHzxyB
+json : https://ipfs.io/ipfs/QmXU9678qwSMVgbTsFi3NufVBHjCmvFGrmN7uEjrJLyNqz
+
+//Third Team
+image : https://ipfs.io/ipfs/QmfEQUSTWCn1Ejp5CvpeVGRXvgro7CLdW8kJy7gFnUd4ag
+json : https://ipfs.io/ipfs/QmeFcZ3asAUobpcG4A62FawXAkdiRNBSwgS3LgVFkTPW5W
+
+
+Player
+//Fist Player
+image : https://ipfs.io/ipfs/QmUXmK27Vr78oFPHunNKwK4GC1ZYKzmk3WDETjiTwz2Bsf
+json : https://ipfs.io/ipfs/QmXhnr9thFjBY3BrKZChwUEmcKs5t1k4AFZqPYaQvBoaXD
+
+//Second Player
+image : https://ipfs.io/ipfs/Qmatx7f3N54eLmpEbHX9UHgUD8u4mrBmbnLJ36WUTe7wf9
+json : https://ipfs.io/ipfs/QmcWRi9yXEuZyS6qoGuyUXzT8uiYxewPJdKhFUNbWXigQi
+
+//Third Player
+image : https://ipfs.io/ipfs/QmWxNZqw8EiHhSibqdCv5TT2sGYpHNzEPW9YGVokC1EgD9
+json : https://ipfs.io/ipfs/QmWSyC7ASFFsZXqmc77JGbHMkMugK7GiqcCWY49pVE3WWX
+

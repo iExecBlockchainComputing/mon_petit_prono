@@ -8,7 +8,7 @@ import { Card, Container } from 'react-bootstrap'
 export default function OneCardTeam({ id, el, Name }) {
   const navigate = useNavigate()
   const handleClick = () => {
-    navigate(`./${id}/pronoPage`)
+    navigate(`./${id}/${Name}`)
   }
   const [metadata, setMetadata] = useState({
     backgroundColor: '#FFFFFF',

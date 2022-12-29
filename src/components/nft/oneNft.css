@@ -2,26 +2,26 @@
   height: 305px;
   width: 305px;
   margin: auto;
-  margin-bottom: 100px;
+  margin-bottom: 150px;
   background-color: #1d1d24;
   border-width: 3px;
-  text-align: center;
   cursor: pointer;
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
 }
 
 #NftCard .container {
-  height: 350px;
-  display: flex;
   padding: 0px;
+  min-height: 300px;
+  display: flex;
 }
 
 #NftCard .container img {
-  width: auto;
-  height: 300px;
+  max-height: 300px;
+  margin: auto;
 }
 
 #NftCard .card-body {
+  height: 100px;
   color: #1d1d24;
   background-color: white;
   text-align: start;

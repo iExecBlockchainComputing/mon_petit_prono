@@ -7,10 +7,13 @@ import { addLeagueIPFS } from '../../utils/Ipfs'
 import { v4 as uuidv4 } from 'uuid'
 import { useState, useEffect } from 'react'
 import { Skeleton } from '@mui/material'
+import DatePicker from 'react-datepicker'
 
 export default function CreateLeagueModal(props) {
   const [ipfsImage, setIpfsImage] = useState(undefined)
   const [leagueName, setLeagueName] = useState(undefined)
+  const [startDate, setStartDate] = useState(new Date())
+  const [endDate, setEndDate] = useState(new Date())
   const [color, setColor] = useState('#ffffff')
   let loadingContent = props.loadingValues[0]
   let setLoadingContent = props.loadingValues[1]
@@ -21,19 +24,18 @@ export default function CreateLeagueModal(props) {
     while (ListIdLeague.includes(_LeagueId)) {
       _LeagueId = uuidv4()
     }
-    const _LeagueName = leagueName
-    const _LeagueColor = color
-    const _ipfs = ipfsImage
-    if (_ipfs !== undefined && _LeagueName !== undefined) {
+    if (ipfsImage !== undefined && leagueName !== undefined) {
       props.onHide()
       const imgPath = await addLeagueIPFS(
         _LeagueId,
-        _LeagueName,
-        _ipfs,
-        _LeagueColor
+        leagueName,
+        ipfsImage,
+        color,
+        startDate,
+        endDate,
       )
       if (imgPath !== null) {
-        await MonPetitPronoContract.addLeague(_LeagueId, _LeagueName, imgPath)
+        await MonPetitPronoContract.addLeague(_LeagueId, leagueName, imgPath)
         props.setLoading(true)
         setLoadingContent([
           ...loadingContent,
@@ -82,6 +84,37 @@ export default function CreateLeagueModal(props) {
               />
             </Form.Group>
           </Form>
+          <Row style={{ marginBottom: '10px', marginTop: '25px' }}>
+            <Col id="colDateTitle">
+              <Form.Label>Start Date : </Form.Label>
+            </Col>
+            <Col id="colDatePicker">
+              <DatePicker
+                id="createLeagueDatePicker"
+                selected={startDate}
+                onChange={(date) => setStartDate(date)}
+                selectsStart
+                startDate={startDate}
+                endDate={endDate}
+                dateFormat="dd/MM/yyyy"
+              />
+            </Col>
+            <Col id="colDateTitle2">
+              <Form.Label>End Date : </Form.Label>
+            </Col>
+            <Col id="colDatePicker">
+              <DatePicker
+                id="createLeagueDatePicker"
+                selected={endDate}
+                onChange={(date) => setEndDate(date)}
+                selectsEnd
+                startDate={startDate}
+                endDate={endDate}
+                minDate={startDate}
+                dateFormat="dd/MM/yyyy"
+              />
+            </Col>
+          </Row>
           <FileInput title={'Choose your Image'} setIpfsImage={setIpfsImage} />
           <Form.Label htmlFor="exampleColorInput">Color picker</Form.Label>
           <Form.Control

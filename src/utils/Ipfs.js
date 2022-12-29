@@ -45,7 +45,8 @@ export async function addLeagueIPFS(
   _LeagueName,
   file,
   color,
-  _playerName,
+  startDate,
+  endDate,
 ) {
   //Upload the image on OFF-CHAIN storage
   let formData = new FormData()
@@ -61,7 +62,8 @@ export async function addLeagueIPFS(
   var data = JSON.stringify({
     LeagueId: `${_LeagueId}`,
     LeagueName: `${_LeagueName}`,
-    CreatorName: `${_playerName}`,
+    startDate: `${startDate}`,
+    endDate: `${endDate}`,
     backgroundColor: `${color}`,
     description: 'League metadata',
     image: `${imagePath}`,
@@ -72,7 +74,6 @@ export async function addLeagueIPFS(
   } catch (err) {
     console.log(err)
   }
-
   return Metadata
 }
 
