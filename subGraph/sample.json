@@ -1,0 +1,10 @@
+{
+  "output": "",
+  "chain": "bellecour",
+  "datasources": [
+    {
+      "startBlock": 19464211,
+      "module": "erc721"
+    }
+  ]
+}

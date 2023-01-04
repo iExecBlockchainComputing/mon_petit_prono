@@ -4,6 +4,8 @@
 /node_modules
 /.pnp
 .pnp.js
+/subgraph/node_modules
+/subgraph/build
 
 # testing
 /coverage
