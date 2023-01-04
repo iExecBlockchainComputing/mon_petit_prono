@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "create-local": "graph create --node http://localhost:8020/ NFT_Viewer",
     "remove-local": "graph remove --node http://localhost:8020/ NFT_Viewer",
-    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 NFT_Viewer",
+    "deploy-local": "cd generated && graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 NFT_Viewer",
     "build": "graph-compiler --config sample.json --include node_modules/@openzeppelin/subgraphs/src/datasources --export-schema --export-subgraph"
   },
   "keywords": [],

@@ -60,3 +60,5 @@ cache
 artifacts
 
 .vercel
+
+/subGraph/generated

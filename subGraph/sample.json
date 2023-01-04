@@ -1,5 +1,5 @@
 {
-  "output": "",
+  "output": "generated/",
   "chain": "bellecour",
   "datasources": [
     {
