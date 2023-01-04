@@ -41,7 +41,7 @@ const ethereumClient = new EthereumClient(wagmiClient, chains)*/
 
 // Apollo Client
 const client = new ApolloClient({
-  uri: ' http://localhost:8000/subgraphs/name/ERC721',
+  uri: 'http://localhost:8000/subgraphs/name/NFT_Viewer',
   cache: new InMemoryCache(),
 })
 
